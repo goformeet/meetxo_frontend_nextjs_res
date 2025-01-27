@@ -25,10 +25,10 @@ export default {
   				DEFAULT: 'hsl(var(--popover))',
   				foreground: 'hsl(var(--popover-foreground))'
   			},
-  			primary: {
-  				DEFAULT: 'hsl(var(--primary))',
-  				foreground: 'hsl(var(--primary-foreground))'
-  			},
+			primary: {
+				DEFAULT: 'hsl(var(--primary))', 
+				foreground: 'hsl(var(--primary-foreground))',
+			},
   			secondary: {
   				DEFAULT: 'hsl(var(--secondary))',
   				foreground: 'hsl(var(--secondary-foreground))'
@@ -55,6 +55,7 @@ export default {
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
 				},
+			warning: 'hsl(var(--warning))',
 			gray: {
 				200: '#F1F2F4',
 				500: '#A0AEC0',

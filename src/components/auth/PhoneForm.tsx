@@ -23,7 +23,7 @@ const FormSchema = z.object({
         .refine(isValidPhoneNumber, { message: "Invalid phone number" }),
 });
 
-export default function PhoneForm() {
+export default function PhoneForm({ handleSubmit }: { handleSubmit: (phone: string) => void}) {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -32,7 +32,7 @@ export default function PhoneForm() {
     });
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
-        console.log(data);
+        handleSubmit(data.phone);
     }
 
     const isButtonDisabled = !form.watch("phone") || !isValidPhoneNumber(form.watch("phone"));
@@ -49,7 +49,7 @@ export default function PhoneForm() {
                         name="phone"
                         render={({ field }) => (
                             <FormItem className="flex flex-col items-start w-full">
-                                <FormLabel className="text-left">Mobile <span className="text-[#E03137]">*</span></FormLabel>
+                                <FormLabel className="text-left text-sm font-plus-jakarta-sans">Mobile <span className="text-[#E03137]">*</span></FormLabel>
                                 <FormControl className="w-full">
                                     <PhoneInput defaultCountry="IN" className="gap-2" placeholder="Enter a phone number" {...field} />
                                 </FormControl>
