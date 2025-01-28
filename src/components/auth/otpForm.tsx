@@ -51,11 +51,11 @@ export const OtpForm = ({ handleSubmit }: { handleSubmit: (otp: string) => void}
                   render={({ field }) => (
                       <FormItem className='flex flex-col items-start w-full'>
                           <FormLabel className='text-left text-sm font-plus-jakarta-sans'>Enter OTP <span className='text-[#E03137]'>*</span></FormLabel>
-                          <FormControl className='focus-visible:ring-transparent'>
-                              <InputOTP pattern={REGEXP_ONLY_DIGITS} className='focus-visible:ring-transparent' maxLength={6} {...field}>
+                          <FormControl>
+                              <InputOTP pattern={REGEXP_ONLY_DIGITS} maxLength={6} {...field}>
                                   {Array.from({ length: 6 }).map((_, index) => (
-                                      <InputOTPGroup className='focus-visible:ring-transparent'  key={index}>
-                                          <InputOTPSlot inputMode='numeric' className='py-4 px-5 h-11 md:h-14 w-12 md:w-[68px] focus-visible:ring-transparent' index={index} />
+                                      <InputOTPGroup  key={index}>
+                                          <InputOTPSlot inputMode='numeric' className='py-4 px-5 h-11 md:h-14 w-12 md:w-[68px]' index={index} />
                                       </InputOTPGroup>
                                   ))}
                               </InputOTP>
