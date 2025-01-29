@@ -24,7 +24,7 @@ export default function Navigation() {
         </div>
         <Avatar className='max-w-[48px]'>
           <AvatarImage src="" />
-          <AvatarFallback className='bg-[#E3E6EA]'>CN</AvatarFallback>
+          <AvatarFallback className='bg-[#E3E6EA] dark:bg-muted-foreground'>CN</AvatarFallback>
         </Avatar>
 
       </aside>
