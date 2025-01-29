@@ -1,8 +1,8 @@
 
 export default function Home() {
   return (
-    <div className="bg-primary">
-      home page
-    </div>
+    <main>
+      <section className="bg-[url('/images/home-banner-bg.png')] bg-cover bg-center"></section>
+    </main>
   );
 }

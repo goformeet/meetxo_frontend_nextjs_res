@@ -6,13 +6,15 @@ import { useRouter } from 'next/navigation'
 import PhoneForm from '@/components/auth/phoneForm';
 import { OtpForm } from '@/components/auth/otpForm';
 import DetailsForm from '@/components/auth/detailsForm';
+import SucessPopup from '@/components/auth/successPopup';
 
 const Page = () => {
     const router = useRouter();
     const [step, setStep] = useState<'phone' | 'otp' | 'details'>('phone');
     const [phone, setPhone] = useState<string>('');
     const [otp, setOtp] = useState<string>('');
-    const [details, setDetails] = useState<{ userName: string;  email: string}>({ userName: '', email: '' });
+    const [details, setDetails] = useState<{ userName: string; email: string }>({ userName: '', email: '' });
+    const [open, setOpen] = useState<boolean>(false);
 
     const handlePhoneSubmit = (phone: string) => {
         setPhone(phone);
@@ -26,8 +28,11 @@ const Page = () => {
 
     const handleDetailsSubmit = (detals: { userName: string; email: string }) => {
         setDetails(detals);
-        console.log(phone, otp, details)
-        router.push('/');
+        console.log(phone, otp, details);
+        setOpen(true);
+        setTimeout(() => {
+            router.push('/');
+        }, 1500);
     }
 
     const renderForm = (step: string) => {
@@ -56,6 +61,7 @@ const Page = () => {
                 {step === 'otp' && <p className='text-center text-muted-foreground my-7 font-plus-jakarta-sans text-sm font-medium leading-[22px] tracking-[0.07px]'>We have just sent you 4 digit code via your Mobile 9****989</p>}
                 {renderForm(step)}
             </div>
+            <SucessPopup open={open} setOpen={setOpen} />
         </div>
     )
 }
