@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${plusJakartaSans.variable} ${inter.variable} antialiased`}
+        className={`${plusJakartaSans.variable} ${inter.variable} antialiased font-plus-jakarta-sans`}
       >
         <ThemeProvider
           attribute="class"
