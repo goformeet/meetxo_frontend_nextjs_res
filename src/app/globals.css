@@ -34,6 +34,12 @@ body {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
     --warning: 5 82% 56%;
+    --surface: 240 9% 96%;
+    --surface-foreground: 215 19% 35%;
+    --subtle-foreground: 0 0% 93%;
+    --maroon: 0 11% 22%;
+    --review-card: 228 100% 99%;
+    --primary-light: 210 100% 98%;
   }
   .dark {
     --background: 240 10% 3.9%;
@@ -51,7 +57,7 @@ body {
     --accent: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 0 0% 12%;
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
@@ -61,14 +67,38 @@ body {
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
     --warning: 5 82% 56%;
+    --surface: 240 9% 20%;
+    --surface-foreground: 215 28% 85%;
+    --subtle-foreground: 0 0% 93%;
+    --maroon: 0 11% 80%;
+    --review-card: 228 50% 12%;
+    --primary-light: 210 20% 10%;
   }
 }
+/* Image resolution -> 1:1 */
 
 @layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
   }
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Inter } from "next/font/google";
+import { Plus_Jakarta_Sans, Inter, Roboto, Poppins } from "next/font/google";
 import { ThemeProvider } from "@/providers/theme-provider";
 import "./globals.css";
 
@@ -12,6 +12,18 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
 });
+
+const roboto = Roboto({
+  weight: ['400', '500', '700'],
+  variable: '--font-roboto',
+  subsets: ['latin']
+});
+
+const poppins = Poppins({
+  weight: ['400', '500', '600', '700', '800', '900'],
+  variable: '--font-poppins',
+  subsets: ['latin']
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${plusJakartaSans.variable} ${inter.variable} antialiased font-plus-jakarta-sans`}
+        className={`${plusJakartaSans.variable} ${inter.variable} ${roboto.variable} ${poppins.variable}  antialiased font-plus-jakarta-sans 2xl:container mx-auto`}
       >
         <ThemeProvider
           attribute="class"
