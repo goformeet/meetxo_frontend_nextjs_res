@@ -261,7 +261,7 @@ export default function Home() {
       <ProfessionalsSection />
       <section className="px-4 md:px-7 lg:px-10 pt-[50px] pb-10 bg-[#F9FCFF] dark:bg-[#181C28] bg-[url('/images/upcomming-events-bg.png')] bg-cover bg-center">
         <h5 className="text-2xl/[51px] font-bold capitalize">Upcoming Webinars</h5>
-        <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-5">
+        <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-5">
           {events.map((event) => (
             <div key={event.id} className="rounded-[18px] shadow-[0px_8px_30px_0px_rgba(80_85_136_0.06)] py-2 px-3 bg-background">
               <div className="relative">
@@ -401,7 +401,7 @@ export default function Home() {
         <p className="text-center text-base font-medium leading-[32px] mb-[78px]">Lorem ipsu Lorem ipsu Lorem ipsu Lorem ipsu Lorem ipsu Lorem ipsu Lorem ipsu </p>
         <div className="flex flex-wrap justify-between gap-6">
           {platforms.map((platform) => (
-            <div key={platform.title} className="flex flex-col items-center w-full max-w-[290px]">
+            <div key={platform.title} className="flex flex-col items-center w-full md:max-w-[290px]">
               <Image src={platform.image} width={100} height={100} alt={platform.title} />
               <p className="text-center font-poppins font-semibold text-[140%] text-xl mt-6">{platform.title}</p>
               <p className="text-[#7E8492] dark:text-[#BFC8D1] text-center font-medium text-base/[32px] mt-12">{platform.description}</p>
@@ -430,12 +430,12 @@ export default function Home() {
       </section>
       <section className="py-28 px-4 md:px-7 lg:px-10 pt-[50px] pb-[103px]">
         <h6 className="text-4xl/[46px] font-semibold tracking-[-2%]">Connect with Top Experts for Personalised Advice</h6>
-        <div className="flex gap-8 flex-wrap items-center mt-12">
+        <div className="flex gap-4 md:gap-8 flex-wrap items-center mt-12">
           <Button className="text-white text-xs md:text-sm lg:text-base/[26px] py-3 px-4 h-fit rounded-full">Find an Expert</Button>
           <Button variant='outline' className="text-xs md:text-sm lg:text-base/[26px] py-3 px-4 h-fit rounded-full border-foreground">Book a Video Call</Button>
           <Button variant='outline' className="text-xs md:text-sm lg:text-base/[26px] py-3 px-4 h-fit rounded-full border-foreground">Virtual Consultation</Button>
         </div>
-        <div className="flex gap-[108px] items-center mt-[104px]">
+        <div className="flex flex-col md:flex-row gap-14 md:gap-[108px] items-center mt-[104px]">
           <div className="max-w-[515px]">
             <h6 className="font-semibold text-[32px]/10 tracking-[-1%]">Find an Expert</h6>
             <p className="mt-4 text-[#7E8492] dark:text-[#BFC8D1]">

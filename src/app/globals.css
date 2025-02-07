@@ -2,8 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
 }
 
 @layer base {
@@ -40,6 +47,7 @@ body {
     --maroon: 0 11% 22%;
     --review-card: 228 100% 99%;
     --primary-light: 210 100% 98%;
+    --sidebar-icon-bg: 210 86% 93%;
   }
   .dark {
     --background: 240 10% 3.9%;
@@ -73,6 +81,7 @@ body {
     --maroon: 0 11% 80%;
     --review-card: 228 50% 12%;
     --primary-light: 210 20% 10%;
+    --sidebar-icon-bg: 210 86% 93%;
   }
 }
 /* Image resolution -> 1:1 */

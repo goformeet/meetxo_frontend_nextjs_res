@@ -78,7 +78,8 @@ export default {
   				'500': '#A0AEC0',
   				'600': '#687588',
   				DEFAULT: '#FAFAFA'
-  			}
+				},
+			'sidebar-icon-bg': 'hsl(var(--sidebar-icon-bg))'
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

@@ -5,9 +5,8 @@ import Image from 'next/image'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import Link from 'next/link'
-import { AspectRatio } from '../ui/aspect-ratio'
-import { Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import ExpertCard from '../expert-card'
 
 export default function ProfessionalsSection() {
   const [category, setCategory] = useState('All');
@@ -98,27 +97,7 @@ export default function ProfessionalsSection() {
         </div>
         <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-x-5 md:gap-y-8">
           {professionals.map((prof) => (
-            <div key={prof.id} className="relative">
-              <div className="w-full">
-                <AspectRatio ratio={1 / 1}>
-                  <Image
-                    src={prof.image}
-                    alt={prof.name}
-                    fill
-                    className="rounded-lg object-cover"
-                  />
-                </AspectRatio>
-              </div>
-              <p className="text-sm font-bold">{prof.name}</p>
-              <div className="flex justify-between items-center">
-                <p className="text-xs font-semibold">${prof.price}</p>
-                <div className="flex items-center gap-0.5">
-                  <Star className="h-4 w-auto fill-[#FBBC05] text-[#FBBC05]" />
-                  <span className="text-sm">{prof.rating}</span>
-                </div>
-              </div>
-              <p className="text-xs text-muted-foreground line-clamp-3 mt-1">{prof.bio}</p>
-            </div>
+            <ExpertCard key={prof.id} prof={prof} />
           ))}
         </div>
         <div className="flex justify-center mt-16">
