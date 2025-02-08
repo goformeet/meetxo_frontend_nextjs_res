@@ -1,11 +1,13 @@
+'use client'
 import React from 'react'
 import { AspectRatio } from './ui/aspect-ratio'
 import Image from 'next/image'
 import { Star } from 'lucide-react'
+import Link from 'next/link'
 
 export default function ExpertCard({ prof }: { prof: { image: string; name: string; price: string; rating: number; bio: string; }}) {
   return (
-      <div className="relative">
+      <Link href={'/expert/1'} className="relative">
           <div className="w-full">
               <AspectRatio ratio={1 / 1}>
                   <Image
@@ -25,6 +27,6 @@ export default function ExpertCard({ prof }: { prof: { image: string; name: stri
               </div>
           </div>
           <p className="text-xs text-muted-foreground line-clamp-3 mt-1">{prof.bio}</p>
-      </div>
+      </Link>
   )
 }

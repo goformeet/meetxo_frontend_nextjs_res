@@ -8,7 +8,7 @@ import Image from 'next/image'
 import Link from 'next/link';
 import React, { useState } from 'react'
 
-export default function Experts() {
+export default function Explore() {
 
   const [filters, setFilters] = useState<string[]>([]);
   const toggleFilter = (name: string) => {
@@ -26,6 +26,7 @@ export default function Experts() {
     { id: 6, name: "👽‍‍ 3D Design" },
     { id: 7, name: "🎼 Music" },
   ];
+  
   const professionals = [
     {
       id: 1,

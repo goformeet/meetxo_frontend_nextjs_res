@@ -12,7 +12,7 @@ export default function Sidebar() {
             icon: '/icons/sidebar-icons/home-icon.svg',
             activeIcon: '/icons/sidebar-icons/home-active.svg',
             title: 'Home',
-            url: '/home'
+            url: '/'
         },
         {
             icon: '/icons/sidebar-icons/explore-icon.svg',

@@ -5,6 +5,7 @@ import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { Plus, Minus } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 const Accordion = AccordionPrimitive.Root;
 
@@ -18,8 +19,8 @@ AccordionItem.displayName = "AccordionItem";
 
 const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
-  >(({ className, children, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> & {icon ?: string}
+  >(({ className, children, icon, ...props }, ref) => {
     const [isOpen, setIsOpen] = React.useState(false);
 
     const handleToggle = () => {
@@ -37,11 +38,19 @@ const AccordionTrigger = React.forwardRef<
         onClick={handleToggle}
       >
         {children}
-        {
+        {icon ? (
+          <Image
+            src={icon}
+            width={18}
+            height={18}
+            alt="Details Icon"
+            className={cn('', { 'rotate-180 transition-all': isOpen })}
+          />
+        ) : (
           isOpen
             ? <Minus className="h-4 w-4 shrink-0 transition-transform duration-200" />
             : <Plus className="h-4 w-4 shrink-0 transition-transform duration-200" />
-        }
+        )}
       </AccordionPrimitive.Trigger>
 
     </AccordionPrimitive.Header>

@@ -101,7 +101,9 @@ export default function ProfessionalsSection() {
           ))}
         </div>
         <div className="flex justify-center mt-16">
-          <Button className="text-white text-lg/[150%] font-semibold py-[18px] px-7 rounded-[14px] h-fit">Explore Experts</Button>
+          <Button className="text-white text-lg/[150%] font-semibold py-[18px] px-7 rounded-[14px] h-fit">
+            <Link href={'/explore'}>Explore Experts</Link>
+          </Button>
         </div>
       </div>
     </section>
