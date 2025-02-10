@@ -1,4 +1,3 @@
-import ExpertCard from '@/components/expert-card';
 import { Input } from '@/components/ui/input'
 import Image from 'next/image'
 import React from 'react'
@@ -56,9 +55,9 @@ export default function Page() {
                 <Input type="text" placeholder="Search by name, company, role" className="border-none focus-visible:ring-0 h-fit py-4 shadow-none placeholder:text-muted-foreground" />
             </div>
             <div className='my-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-x-5 md:gap-y-8'>
-                {professionals.map((prof) => (
+                {/* {professionals.map((prof) => (
                     <ExpertCard key={prof.id} prof={prof} />
-                ))}
+                ))} */}
             </div>
         </div>
     )

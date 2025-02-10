@@ -8,7 +8,6 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import ExpertCard from "../expert-card";
 import { Hosts, Professions } from "@/services/api";
-import { boolean } from "zod";
 
 interface Professional {
   _id: string;
@@ -65,6 +64,7 @@ export default function ProfessionalsSection() {
         console.error("Invalid response structure:", res);
         setProfessionals([]);
       }
+        console.log("🚀 ~ getProfessionals ~ res.hosts.hosts:", res.hosts.hosts)
     } catch (error) {
       console.error("Error fetching professionals:", error);
       setProfessionals([]);

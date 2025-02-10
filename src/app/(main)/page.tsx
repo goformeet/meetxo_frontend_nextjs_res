@@ -1,6 +1,5 @@
 'use client';
 import Image from "next/image";
-
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Star } from "lucide-react";
@@ -15,6 +14,8 @@ import HomeBanner from "@/components/home/home-banner";
 import SupportSection from "@/components/home/support-section";
 import ProfessionalsSection from "@/components/home/professionals-section";
 import EventCard from "@/components/event-card";
+import ReviewCard from "@/components/review-card";
+import Footer from "@/components/global/layout/footer";
 
 
 
@@ -248,6 +249,7 @@ export default function Home() {
   ];
 
   return (
+    <>
     <main className="font-plus-jakarta-sans">
       {/* Desktop */}
       <HomeBanner />
@@ -275,24 +277,7 @@ export default function Home() {
         <Marquee>
         <div className="flex gap-12 ml-12">
           {reviews.map((review, index) => (
-            <div key={index} className="p-10 bg-review-card flex-shrink-0 rounded-[20px] flex flex-col gap-7">
-              <div className="flex gap-5">
-                <Avatar className='h-10 w-10'>
-                  <AvatarImage src={review.avatar} />
-                  <AvatarFallback className='bg-[#E3E6EA] dark:bg-muted-foreground'>CN</AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="text-xl/[130%] font-roboto font-bold tracking-[-1px]">{review.name}</p>
-                  <p className="text-sm text-[#7E8492]">{review.name}</p>
-                </div>
-              </div>
-              <p className="max-w-[391px] font-inter text-base/[26px] font-medium">{review.message}</p>
-              <div className="flex gap-1.5">
-                {Array.from({ length: 5 }, (_, index) => (
-                  <Star key={index} className="h-5 w-5 fill-[#FBBC05] text-[#FBBC05]" />
-                ))}
-              </div>
-            </div>
+            <ReviewCard key={index} review={review} />
           ))}
           </div>
         </Marquee>
@@ -305,7 +290,7 @@ export default function Home() {
               <div key={index} className="p-10 bg-review-card flex-shrink-0 rounded-[20px] flex flex-col gap-7">
                 <div className="flex gap-5">
                   <Avatar className='h-10 w-10'>
-                    <AvatarImage src={review.avatar} />
+                    <AvatarImage src={review.avatar}  className="object-cover object-center"/>
                     <AvatarFallback className='bg-[#E3E6EA] dark:bg-muted-foreground'>CN</AvatarFallback>
                   </Avatar>
                   <div>
@@ -396,5 +381,8 @@ export default function Home() {
         </div>
       </section>
     </main>
+      <Footer />
+    </>
+
   );
 }
