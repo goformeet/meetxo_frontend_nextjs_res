@@ -7,9 +7,11 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button';
 import DateAndSlotSelection from '@/components/booking/date-and-slotp-selection';
 import BookingForm, { BookingFormRef } from '@/components/booking/booking-form';
-import {  getSingleService, getTiming, Hosts } from '@/services/api';
+import {  bookMeeting, getSingleService, getTiming, Hosts } from '@/services/api';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { convertToISOString, formatSlots, getNext30Days } from '@/app/utils/booking';
+import axios from 'axios';
+import Script from 'next/script';
 type ServiceType = {
   _id: string;
   user_id: string;
@@ -27,8 +29,13 @@ type ServiceType = {
   updated_at: string;
   __v: number;
 };
-
+// declare global{
+//   interface window{
+//     Razorpay:any
+//   }
+// }
 export default function Page() {
+ 
   const formRef = useRef<BookingFormRef>(null);
   const searchParams = useSearchParams();
   const id = searchParams.get("id") || "";
@@ -41,6 +48,7 @@ export default function Page() {
   );
   
   const [user, setUser] = useState({ name: "", profile_image: "" });
+  const[isProcessing,setIsProcessing]=useState(false)
   const [service, setService] = useState<ServiceType>({
     _id: "",
     user_id: "",
@@ -85,29 +93,14 @@ export default function Page() {
     phone: string;
     recive_details?: boolean;
   }) => {
-   
-
     try {
-      const mtTime =
-        selectedDate && selectedSlot
-          ? convertToISOString(selectedDate, selectedSlot)
-          : "";
-      const postData = {
-        host_id: service.user_id,
-        meeting_time: mtTime,
-        meeting_type: "online",
-        meeting_description: "",
-        service_id: service._id,
-        razorpay_payment_id: "hjsda",
+      await handlePayment({
         email: data.email,
         phone_number: data.phone,
-      };
-      console.log(postData);
-
-      // const res=await bookMeeting(postData)
+        name: data.name,
+      });
     } catch (error) {
       console.error(error);
-      
     }
   };
   const getService = async () => {
@@ -123,18 +116,96 @@ export default function Page() {
   };
   const getUser = async () => {
     try {
+
       const dat = await Hosts({ search: username });
 
-      setUser(dat.hosts.hosts[0]);
+      setUser(dat?.hosts?.hosts[0]);
     } catch (error) {
       console.error(error);
-      
     }
   };
   const handleChangeClick=()=>{
     setSelectedDate("")
     setSelectedSlot("")
   }
+  const continueToBooking = async (
+    data: { email: string; name: string; phone_number: string },
+    response: { razorpay_order_id: string }
+  ) => {
+    try {
+      const mtTime =
+        selectedDate && selectedSlot
+          ? convertToISOString(selectedDate, selectedSlot)
+          : "";
+      const postData = {
+        host_id: service.user_id,
+        meeting_time: mtTime,
+        meeting_type: "Online",
+        meeting_description: service.name,
+        service_id: service._id,
+        razorpay_payment_id: response.razorpay_order_id,
+        email: data.email,
+        phone_number: data.phone_number,
+      };
+      const res = await bookMeeting(postData);
+      console.log(res);
+
+      if (res.success) {
+        alert(res.message);
+        router.push(`/${username}`);
+      }
+    } catch (error: any) {
+      console.error(error);
+      const errorMessage =
+        error.response?.data?.message ||
+        "Something went wrong. Please try again.";
+      alert(errorMessage);
+    }
+  };
+  const handlePayment = async (dat: {
+   
+    email: string;
+    phone_number: string;
+    name:string
+  }) => {
+    setIsProcessing(true);
+   
+    const Amount = Number(service.online_pricing)*100; ;
+   
+    try {
+      const response = await axios.post("/api/create-order", {
+        amount: Amount,
+      });
+      
+      
+      const data = response.data;
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: Amount,
+        currency: "INR",
+        name: "meetxo",
+        description: service.name,
+        order_id: data.orderId,
+        handler: function (response: any) {
+          continueToBooking(dat, response);
+        },
+        prefill: {
+          name: dat?.name,
+          email: dat?.email,
+          contact: Number(dat?.phone_number),
+        },
+        theme: {
+          color: "#3b50c4",
+        },
+      };
+      const rzp1 = new (window as any).Razorpay(options);
+      rzp1.open();
+    } catch (error) {
+      console.error("Payment failed", error);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
   useEffect(() => {
     getService();
     getUser();
@@ -142,6 +213,7 @@ export default function Page() {
 
   return (
     <div className="pl-5 pr-[35px] max-w-[calc(100%-105px)] w-full relative lg:h-[calc(100svh-80px)] flex flex-col justify-between">
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" />
       <div>
         <Link href={"/"} className="flex gap-1.5 items-center py-5">
           <Image
@@ -269,9 +341,10 @@ export default function Page() {
           </Button>
           <Button
             onClick={() => formRef.current?.submitForm()}
+            disabled={isProcessing}
             className="text-white w-full max-w-[202px] h-[58px]"
           >
-            Continue
+            {isProcessing ? "Processing..." : "Continuess"}
           </Button>
         </div>
       </div>
