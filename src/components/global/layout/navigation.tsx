@@ -1,5 +1,5 @@
 import React from 'react'
-import { ModeToggle } from '../toggle-mode'
+// import { ModeToggle } from '../toggle-mode'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
@@ -11,11 +11,10 @@ export default function Navigation() {
     <>
       <div className='px-10 py-4 hidden md:flex justify-between items-center shadow-[0px_1px_0px_0px_rgba(0,0,0,0.05)]'>
         <aside className='flex items-center gap-2'>
-          <Image src='/images/meetxo-logo.png' width={42} height={42} alt='logo' />
-          <span className='text-3xl md:text-[39px] leading-normal tracking-[0.144px] font-extrabold font-inter text-primary'>MeetXO</span>
+          <Image src='/images/meetxo-logo.png' width={1000} height={300} alt='logo' className='max-h-12 w-auto' />
         </aside>
-        <aside className='flex items-center gap-7'>
-          <ModeToggle />
+        <aside className='flex items-center gap-7 relative'>
+          {/* <ModeToggle /> */}
           <Button className="w-full py-2 px-4 h-[42px]">
             <Image width={25} height={24} src="/images/expert-button-icon.svg" alt="Google" />
             <Link href={'/'} className="font-inter text-base font-medium leading-[160%] text-white">Become a Expert</Link>
