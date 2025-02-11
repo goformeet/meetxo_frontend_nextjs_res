@@ -14,12 +14,12 @@ export default function ExpertCard({
     min_session_price: string;
     average_rating: number;
     about_me: string;
-    _id:string
+    _id: string;
+    username:string
   };
 }) {
-
   return (
-    <Link href={`/expert/${prof.name}`} className="relative">
+    <Link href={`/expert/${prof.username}`} className="relative">
       <div className="w-full">
         <AspectRatio ratio={1 / 1}>
           <Image

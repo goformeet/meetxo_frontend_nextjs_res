@@ -8,7 +8,8 @@ export const api = axios.create({
     "Content-Type": "application/json",
   },
 });
-
+const token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjc0MTk2OGI4MDUxNGY1NGNlY2Q1NTcxIiwicGhvbmVfbnVtYmVyIjoiKzkxNzkwNzc1MzE2MyIsImlhdCI6MTczMjM1NDQ2OH0.g-Z5LfT_6LCXO2stpH18jMm6B2ifbEusRUsyhbrbAvY";
 // export const Hosts = async (query: string | boolean, key: string) => {
 //   try {
 //     const response = await axios.post(`${API_BASE_URL}/hosts`, {
@@ -48,5 +49,20 @@ export const ProfessionSubCategories = async (id: string) => {
   } catch (error) {
     console.error("Error searching data:", error);
     throw error;
+  }
+}
+export const getServicesById = async (id: string) => {
+
+  
+  try {
+    const response = await axios.get(`${API_BASE_URL}/services/host/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching service by ID:", error);
+    throw error; 
   }
 };

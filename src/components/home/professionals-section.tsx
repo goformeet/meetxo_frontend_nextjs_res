@@ -9,13 +9,14 @@ import { cn } from "@/lib/utils";
 import ExpertCard from "../expert-card";
 import { Hosts, Professions } from "@/services/api";
 
-interface Professional {
+type Professional= {
   _id: string;
   name: string;
   profile_image: string;
   min_session_price: string;
   average_rating: number;
   about_me: string;
+  username:string
   profession_id: {
     title: string;
   };
@@ -172,7 +173,7 @@ getProfessionals()
           <h3 className="text-2xl/[215%] capitalize font-bold">
             Discover to the world’s Top Experts
           </h3>
-          <Link className="text-primary font-medium text-sm" href={""}>
+          <Link className="text-primary font-medium text-sm" href={"/explore"}>
             View All
           </Link>
         </div>

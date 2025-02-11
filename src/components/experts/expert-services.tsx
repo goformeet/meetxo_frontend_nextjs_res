@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
 import { Clock3, Star } from 'lucide-react';
@@ -8,9 +8,28 @@ import Image from 'next/image';
 import OneOneCard from '../one-one-card';
 import EventCard from '../event-card';
 import Dot from '../dot';
+import { getServicesById } from '@/services/api';
+type Service = {
+  _id: string;
+  user_id: string;
+  name: string;
+  short_description: string;
+  long_description: string;
+  duration: number;
+  online_pricing: number;
+  offline_pricing: number;
+  is_offline_available: boolean;
+  keywords: string[];
+  location: [number, number]; // Tuple for latitude & longitude
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+  __v: number;
+};
 
-export default function ExpertServices() {
-    const [category, setCategory] = useState('All');
+export default function ExpertServices({id}:{id:string}) {
+    const [category, setCategory] = useState("1:1 Call");
+    const [services,setServices]=useState<Service[]>([])
     const categories = [
         { id: 2, name: "1:1 Call" },
         { id: 3, name: "Events" },
@@ -160,18 +179,35 @@ export default function ExpertServices() {
             ]
         },
     ];
+const getServices=async()=>{
+    try {
+        const res=await getServicesById(id)
+        console.log(res,"sdsd");
+        
+        if(res.success){
+            setServices(res.services)
+        }
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+console.log(services);
 
+useEffect(()=>{
+getServices()
+},[])
     return (
         <>
             <div className='my-5 px-5 py-3 bg-primary-light rounded-[14px] flex gap-3 overflow-x-scroll no-scrollbar'>
-                <Button variant={'outline'} onClick={() => setCategory('All')} className={cn("bg-transparent text-base/6 font-normal capitalize py-4 px-6 leading-normal rounded-[12px] h-fit shadow-none border-foreground hover:bg-foreground hover:text-background transition-all", { 'bg-foreground text-white dark:text-background font-bold': category === 'All' })}>All</Button>
+                {/* <Button variant={'outline'} onClick={() => setCategory('All')} className={cn("bg-transparent text-base/6 font-normal capitalize py-4 px-6 leading-normal rounded-[12px] h-fit shadow-none border-foreground hover:bg-foreground hover:text-background transition-all", { 'bg-foreground text-white dark:text-background font-bold': category === 'All' })}>All</Button> */}
                 {
                     categories.map((categ) => (
                         <Button variant={'outline'} key={categ.id} onClick={() => setCategory(categ.name)} className={cn("bg-transparent text-base/6 font-normal capitalize py-4 px-6 leading-normal rounded-[12px] h-fit shadow-none border-foreground hover:bg-foreground hover:text-background transition-all", { 'bg-foreground text-white dark:text-background font-bold': categ.name === category })}>{categ.name}</Button>
                     ))
                 }
             </div>
-            <div className='space-y-[18px] mb-[169px]'>
+            {/* <div className='space-y-[18px] mb-[169px]'>
                 <div className='p-4 border border-[#E0E0E0] rounded-[16px] flex justify-between'>
                     <div>
                         <p className='text-xl/[130%] font-medium mb-2'>Building a successful business - 1:1 Mentoring</p>
@@ -208,9 +244,9 @@ export default function ExpertServices() {
                         </Button>
                     </div>
                 </div>
-                <div className='p-4 border border-[#E0E0E0] rounded-[16px] flex justify-between'>
+                <div className='p-4 border border-[#E0E0E0] rounded-[16px] flex justify-between '>
                     <div className='flex gap-[34px]'>
-                        <Image src={'/images/event-item.png'} alt='Event Image' width={177} height={134} className='rounded-[8px] h-[134px] w-[177px] object-cover object-center' />
+                        <Image src={'/images/event-item.png'} alt='Event Image' width={177} height={134} className='rounded-[8px] h-full w-[177px] my-auto object-cover object-center' />
                         <div>
                             <p className='text-xl/[130%] font-medium mb-2'>Building a successful business - 1:1 Mentoring</p>
                             <div className='flex items-center gap-2'>
@@ -250,17 +286,17 @@ export default function ExpertServices() {
                         </Button>
                     </div>
                 </div>
-            </div>
+            </div> */}
             <div className="mt-[22px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-5">
-                {events.map((event) => (
-                   <OneOneCard key={event.id} event={event} />
+                {services.map((event) => (
+                   <OneOneCard key={event._id} event={event} />
                 ))}
             </div>
-            <div className="mt-[22px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-5">
+            {/* <div className="mt-[22px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-5">
                 {events.map((event) => (
                     <EventCard key={event.id} event={event} />
                 ))}
-            </div>
+            </div> */}
         </>
     )
 }
