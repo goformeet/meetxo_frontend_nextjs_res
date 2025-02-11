@@ -11,13 +11,13 @@ export default function Page() {
 
 
     return (
-        <div className='pl-5 pr-[35px] max-w-[calc(100%-105px)] w-full relative h-[calc(100svh-110px)] flex flex-col justify-between'>
+        <div className='pl-5 pr-[35px] max-w-[calc(100%-105px)] w-full relative lg:h-[calc(100svh-80px)] flex flex-col justify-between'>
             <div>
                 <Link href={'/'} className='flex gap-1.5 items-center py-5'>
                     <Image src={'/images/back-icon.svg'} alt='Back Icon' width={22} height={22} />
                     <p className='text-[22px]/7 font-bold'>Booking Session </p>
                 </Link>
-                <div className='max-h-[calc(100vh-255px)] overflow-y-auto no-scrollbar'>
+                <div className='lg:max-h-[calc(100vh-270px)] overflow-y-auto no-scrollbar'>
                     <div className='my-5 flex flex-col lg:flex-row gap-10 '>
                         <div className='rounded-[16px] border border-[#E3E6EA] overflow-hidden lg:w-3/5'>
                             <div className='bg-[rgba(10,102,194,0.15)] py-7 px-10 w-full'>
@@ -55,7 +55,7 @@ export default function Page() {
                 </div>
             </div>
             <div className='py-[25px] px-[42px] flex flex-col lg:flex-row justify-between items-center gap-10 bg-background'>
-                <div className='whitespace-nowrap w-full'>
+                <div className='whitespace-nowrap w-full flex flex-col items-center lg:items-start'>
                     <p className='text-xl/[130%] font-medium'>Confirm Your booking</p>
                     <div className='flex gap-3.5 items-center mt-2 opacity-70'>
                         <div className='flex gap-2 items-center'>
