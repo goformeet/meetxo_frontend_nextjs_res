@@ -39,7 +39,7 @@ export default function Sidebar() {
               {items.map((item) => (
                   <Link href={item.url} key={item.title} className="flex flex-col gap-0.5 items-center p-2 px-3.5">
                       <div className={cn("p-2 flex-shrink-0 rounded-[8px]  transition-all duration-300 ", {'bg-sidebar-icon-bg': pathName === item.url})}>
-                          <Image src={pathName == item.url ? item.activeIcon : item.icon} width={24} height={24} alt={`${item.title} Icon`} />
+                          <Image className="h-auto w-auto" src={pathName == item.url ? item.activeIcon : item.icon} width={24} height={24} alt={`${item.title} Icon`} />
                       </div>
                       <p className="text-[#384853] dark:text-[#A8B4C0]/90 font-inter text-[9px]/4">{item.title}</p>
                   </Link>

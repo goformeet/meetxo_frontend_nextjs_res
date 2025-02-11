@@ -208,9 +208,9 @@ export default function ExpertServices() {
                         </Button>
                     </div>
                 </div>
-                <div className='p-4 border border-[#E0E0E0] rounded-[16px] flex justify-between '>
+                <div className='p-4 border border-[#E0E0E0] rounded-[16px] flex justify-between'>
                     <div className='flex gap-[34px]'>
-                        <Image src={'/images/event-item.png'} alt='Event Image' width={177} height={134} className='rounded-[8px] h-full w-[177px] my-auto object-cover object-center' />
+                        <Image src={'/images/event-item.png'} alt='Event Image' width={177} height={134} className='rounded-[8px] h-[134px] w-[177px] object-cover object-center' />
                         <div>
                             <p className='text-xl/[130%] font-medium mb-2'>Building a successful business - 1:1 Mentoring</p>
                             <div className='flex items-center gap-2'>
