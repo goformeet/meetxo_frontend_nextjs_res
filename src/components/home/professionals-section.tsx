@@ -29,23 +29,12 @@ export default function ProfessionalsSection() {
   const [category, setCategory] = useState<string|boolean>(true);
   const [professionals, setProfessionals] = useState<Professional[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [searchValue, setSearchValue] = useState<string>("");
-
-  const categoriesd = [
-    { id: 1, name: "Programmers" },
-    { id: 2, name: "Engineers" },
-    { id: 3, name: "Doctors" },
-    { id: 4, name: "Strategists" },
-    { id: 5, name: "Founders" },
-    { id: 6, name: "Science & Tech" },
-    { id: 7, name: "Marketing" },
-    { id: 8, name: "Photography" },
-  ];
 
   const getProfessionals = async () => {
     try {
-      setLoading(true);
+      // setLoading(true);
       const filters: Record<string, string | boolean> = {};
       if (searchValue) filters.search = searchValue;
       if (category) {
@@ -69,7 +58,7 @@ export default function ProfessionalsSection() {
       console.error("Error fetching professionals:", error);
       setProfessionals([]);
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
@@ -100,7 +89,7 @@ export default function ProfessionalsSection() {
   useEffect(() => {
     // getProfessionals("","search");
     getProfessions();
-  }, []);
+  });
   useEffect(()=>{
 getProfessionals()
   },[searchValue,category])
