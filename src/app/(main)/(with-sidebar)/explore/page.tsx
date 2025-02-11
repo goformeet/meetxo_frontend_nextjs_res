@@ -152,7 +152,7 @@ export default function Explore() {
                   setProfession(da._id);
                 }}
               >
-                <Avatar className="h-[119px] w-[119px]">
+                <Avatar className="h-16 w-[119px]">
                   <AvatarImage width={50} src={da.image} className="object-cover object-center" />
                   <AvatarFallback className="bg-[#E3E6EA] dark:bg-muted-foreground">
                     {da.title}

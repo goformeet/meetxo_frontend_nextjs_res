@@ -97,7 +97,10 @@ getProfessionals()
   return (
     <section className="px-4 md:px-7 lg:px-10 pt-[91px] pb-[55px]">
       <h5 className="text-center text-[28px]/[51px] font-bold capitalize">
-        Search among <span className="text-primary">1.5k+</span> sp Experts and
+        
+        {/* <span className="text-primary">1.5k+</span> sp */}
+        Search among Our
+        Experts and
         find your favorite Expert
       </h5>
       <div className="flex gap-4 items-center justify-center mt-4">
@@ -107,7 +110,7 @@ getProfessionals()
           </Button>
           <Input
             type="text"
-            placeholder="Search Anything"
+            placeholder="Search Experts"
             className="border-none focus-visible:ring-0 shadow-none placeholder:text-muted-foreground"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
