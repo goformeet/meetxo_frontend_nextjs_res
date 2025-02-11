@@ -19,8 +19,8 @@ export default function AuthLayout({children}: {children: React.ReactNode}) {
               <div className='absolute bottom-4 flex flex-col md:flex-row md:gap-2.5 items-center justify-center w-full'>
                   <p className='text-gray-500 font-plus-jakarta-sans text-base font-medium leading-[160%]'>© 2025 Meetxo . Alrights reserved.</p>
                   <div className='font-plus-jakarta-sans text-sm font-medium leading-[160%] flex gap-2.5'>
-                      <Link className="" href={'/'}>Terms & Conditions</Link>
-                      <Link className="" href={'/'}>Privacy Policy</Link>
+                      <Link className="" href={'/terms-of-service'}>Terms & Conditions</Link>
+                      <Link className="" href={'/privacy-policy'}>Privacy Policy</Link>
                 </div>
               </div>
           </div>

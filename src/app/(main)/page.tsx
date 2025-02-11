@@ -13,7 +13,7 @@ import {
 import HomeBanner from "@/components/home/home-banner";
 import SupportSection from "@/components/home/support-section";
 import ProfessionalsSection from "@/components/home/professionals-section";
-import EventCard from "@/components/event-card";
+// import EventCard from "@/components/event-card";
 import ReviewCard from "@/components/review-card";
 import Footer from "@/components/global/layout/footer";
 
@@ -55,148 +55,148 @@ export default function Home() {
     },
   ];
 
-  const events = [
-    {
-      id: 1,
-      title: 'Masterclass for empowering with AI for 2025',
-      description: 'Masterclass for empowering with AI for job securing',
-      image: '/images/event-item.png',
-      location: '36 Guild Street London, UK ',
-      date: 'Wed, 1 Jan`25',
-      time: '20:30 - 21:30 GMT+05:30',
-      host: 'Pratiksha Chavhan',
-      url: '/',
-      participants: [
-        {
-          id: 1,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-        {
-          id: 2,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-        {
-          id: 3,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-      ]
-    },
-    {
-      id: 2,
-      title: 'Masterclass for empowering with AI for 2025',
-      description: 'Masterclass for empowering with AI for job securing',
-      image: '/images/event-item.png',
-      location: '36 Guild Street London, UK ',
-      date: 'Wed, 1 Jan`25',
-      time: '20:30 - 21:30 GMT+05:30',
-      host: 'Pratiksha Chavhan',
-      url: '/',
-      participants: [
-        {
-          id: 1,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-        {
-          id: 2,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-        {
-          id: 3,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-      ]
-    },
-    {
-      id: 3,
-      title: 'Masterclass for empowering with AI for 2025',
-      description: 'Masterclass for empowering with AI for job securing',
-      image: '/images/event-item.png',
-      location: '36 Guild Street London, UK ',
-      date: 'Wed, 1 Jan`25',
-      time: '20:30 - 21:30 GMT+05:30',
-      host: 'Pratiksha Chavhan',
-      url: '/',
-      participants: [
-        {
-          id: 1,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-        {
-          id: 2,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-        {
-          id: 3,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-      ]
-    },
-    {
-      id: 4,
-      title: 'Masterclass for empowering with AI for 2025',
-      description: 'Masterclass for empowering with AI for job securing',
-      image: '/images/event-item.png',
-      location: '36 Guild Street London, UK ',
-      date: 'Wed, 1 Jan`25',
-      time: '20:30 - 21:30 GMT+05:30',
-      host: 'Pratiksha Chavhan',
-      url: '/',
-      participants: [
-        {
-          id: 1,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-        {
-          id: 2,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-        {
-          id: 3,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-      ]
-    },
-    {
-      id: 5,
-      title: 'Masterclass for empowering with AI for 2025',
-      description: 'Masterclass for empowering with AI for job securing',
-      image: '/images/event-item.png',
-      location: '36 Guild Street London, UK ',
-      date: 'Wed, 1 Jan`25',
-      time: '20:30 - 21:30 GMT+05:30',
-      host: 'Pratiksha Chavhan',
-      url: '/',
-      participants: [
-        {
-          id: 1,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-        {
-          id: 2,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-        {
-          id: 3,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-      ]
-    },
-  ];
+  // const events = [
+  //   {
+  //     id: 1,
+  //     title: 'Masterclass for empowering with AI for 2025',
+  //     description: 'Masterclass for empowering with AI for job securing',
+  //     image: '/images/event-item.png',
+  //     location: '36 Guild Street London, UK ',
+  //     date: 'Wed, 1 Jan`25',
+  //     time: '20:30 - 21:30 GMT+05:30',
+  //     host: 'Pratiksha Chavhan',
+  //     url: '/',
+  //     participants: [
+  //       {
+  //         id: 1,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //       {
+  //         id: 2,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //       {
+  //         id: 3,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //     ]
+  //   },
+  //   {
+  //     id: 2,
+  //     title: 'Masterclass for empowering with AI for 2025',
+  //     description: 'Masterclass for empowering with AI for job securing',
+  //     image: '/images/event-item.png',
+  //     location: '36 Guild Street London, UK ',
+  //     date: 'Wed, 1 Jan`25',
+  //     time: '20:30 - 21:30 GMT+05:30',
+  //     host: 'Pratiksha Chavhan',
+  //     url: '/',
+  //     participants: [
+  //       {
+  //         id: 1,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //       {
+  //         id: 2,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //       {
+  //         id: 3,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //     ]
+  //   },
+  //   {
+  //     id: 3,
+  //     title: 'Masterclass for empowering with AI for 2025',
+  //     description: 'Masterclass for empowering with AI for job securing',
+  //     image: '/images/event-item.png',
+  //     location: '36 Guild Street London, UK ',
+  //     date: 'Wed, 1 Jan`25',
+  //     time: '20:30 - 21:30 GMT+05:30',
+  //     host: 'Pratiksha Chavhan',
+  //     url: '/',
+  //     participants: [
+  //       {
+  //         id: 1,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //       {
+  //         id: 2,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //       {
+  //         id: 3,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //     ]
+  //   },
+  //   {
+  //     id: 4,
+  //     title: 'Masterclass for empowering with AI for 2025',
+  //     description: 'Masterclass for empowering with AI for job securing',
+  //     image: '/images/event-item.png',
+  //     location: '36 Guild Street London, UK ',
+  //     date: 'Wed, 1 Jan`25',
+  //     time: '20:30 - 21:30 GMT+05:30',
+  //     host: 'Pratiksha Chavhan',
+  //     url: '/',
+  //     participants: [
+  //       {
+  //         id: 1,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //       {
+  //         id: 2,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //       {
+  //         id: 3,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //     ]
+  //   },
+  //   {
+  //     id: 5,
+  //     title: 'Masterclass for empowering with AI for 2025',
+  //     description: 'Masterclass for empowering with AI for job securing',
+  //     image: '/images/event-item.png',
+  //     location: '36 Guild Street London, UK ',
+  //     date: 'Wed, 1 Jan`25',
+  //     time: '20:30 - 21:30 GMT+05:30',
+  //     host: 'Pratiksha Chavhan',
+  //     url: '/',
+  //     participants: [
+  //       {
+  //         id: 1,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //       {
+  //         id: 2,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //       {
+  //         id: 3,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //     ]
+  //   },
+  // ];
 
   const platforms = [
     {
