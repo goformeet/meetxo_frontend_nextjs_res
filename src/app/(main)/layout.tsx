@@ -1,4 +1,3 @@
-import Footer from '@/components/global/layout/footer'
 import Navigation from '@/components/global/layout/navigation'
 import React from 'react'
 

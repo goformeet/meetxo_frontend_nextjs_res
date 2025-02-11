@@ -4,49 +4,6 @@ import React from 'react'
 
 export default function Page() {
 
-    const professionals = [
-        {
-            id: 1,
-            name: 'Laura Sarmiento',
-            image: '/images/card-image.png',
-            price: 'SeasonPrice',
-            rating: 5.0,
-            bio: 'Figma ipsum component variant main layer. Editor variant overflow draft list vector follower arrow.'
-        },
-        {
-            id: 2,
-            name: 'Laura Sarmiento',
-            image: '/images/card-image-s.png',
-            price: 'SeasonPrice',
-            rating: 5.0,
-            bio: 'Figma ipsum component variant main layer. Editor variant overflow draft list vector follower arrow.'
-        },
-        {
-            id: 3,
-            name: 'Laura Sarmiento',
-            image: '/images/card-image.png',
-            price: 'SeasonPrice',
-            rating: 5.0,
-            bio: 'Figma ipsum component variant main layer. Editor variant overflow draft list vector follower arrow.'
-        },
-        {
-            id: 4,
-            name: 'Laura Sarmiento',
-            image: '/images/card-image.png',
-            price: 'SeasonPrice',
-            rating: 5.0,
-            bio: 'Figma ipsum component variant main layer. Editor variant overflow draft list vector follower arrow.'
-        },
-        {
-            id: 5,
-            name: 'Laura Sarmiento',
-            image: '/images/card-image-s.png',
-            price: 'SeasonPrice',
-            rating: 5.0,
-            bio: 'Figma ipsum component variant main layer. Editor variant overflow draft list vector follower arrow.'
-        }
-    ];
-
     return (
         <div className='pl-5 py-5 pr-[35px] max-w-[calc(100%-105px)]'>
             <h1 className='text-[22px]/[28px] font-bold'>Mentors</h1>
