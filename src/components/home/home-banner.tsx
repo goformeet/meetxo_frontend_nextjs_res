@@ -22,18 +22,18 @@ export default function HomeBanner() {
                       <div className="p-[14px] bg-[#EBF5FF] rounded-[6px]">
                           <Image src={'/images/thunder.svg'} width={34} height={34} alt="thunder" />
                       </div>
-                      <h1 className="text-xl md:text-4xl lg:text-5xl font-semibold leading-normal font-plus-jakarta-sans"><span className="text-primary">Unlock</span> Your Creative Potential</h1>
+                      <h1 className="text-xl md:text-4xl lg:text-5xl font-semibold leading-normal font-plus-jakarta-sans"><span className="text-primary">Unlock</span> Expertise. Anytime, Anywhere</h1>
                   </div>
-                  <div className="mt-7">
-                      <h2 className="text-center text-[30px] font-medium leading-[150%]">
-                          Accelerate your success with expert mentorship.
-                      </h2>
-                      <p className="mt-2.5 text-center text-lg leading-normal">
-                          Learn from Industry Experts and Enhance Your Skills.
-                      </p>
-                  </div>
-                  <TabsContent className="mt-16" value="tab-1">
-                      <div className="flex items-center border-[#F1F1F3] border rounded-[14px] p-1">
+                  <TabsContent value="tab-1">
+                      <div className="mt-7">
+                          <h2 className="text-center text-[30px] font-medium leading-[150%]">
+                              Monetize your expertise, build your brand, and engage with a global audience.
+                          </h2>
+                          <p className="mt-2.5 text-center text-lg leading-normal">
+                              All in one seamless platform
+                          </p>
+                      </div>
+                      <div className="flex items-center border-[#F1F1F3] border rounded-[14px] p-1 mt-16">
                           <div className="py-4 px-7 bg-surface rounded-[10px]">
                               <span className="text-surface-foreground font-bold">meetxo.com/</span>
                           </div>
@@ -42,8 +42,16 @@ export default function HomeBanner() {
                       </div>
                       <p className="text-surface-foreground text-center mt-4">Don’t wait—claim your domain today!</p>
                   </TabsContent>
-                  <TabsContent className="mt-16" value="tab-2">
-                      <div className="h-[111px] ">
+                  <TabsContent value="tab-2">
+                      <div className="mt-7">
+                          <h2 className="text-center text-[30px] font-medium leading-[150%]">
+                              Whether you need career advice, business strategies, or expert consultations.
+                          </h2>
+                          <p className="mt-2.5 text-center text-lg leading-normal">
+                              MeetXO connects you with top professionals worldwide
+                          </p>
+                      </div>
+                      <div className="h-[111px] mt-16">
                           <div className="flex items-center border-[#F1F1F3] border rounded-[14px] p-1">
                               <Input type="text" placeholder="Enter your name" className="border-none focus-visible:ring-0 shadow-none placeholder:text-muted-foreground" />
                               <Button className="text-white text-lg/[27px] py-[18px] px-7 h-fit rounded-[12px]">Search</Button>
