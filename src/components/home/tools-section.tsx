@@ -11,7 +11,6 @@ import Autoplay from 'embla-carousel-autoplay'
 
 
 export default function ToolsSection() {
-
       const platforms = [
         {
           image: '/images/affiliates.png',
