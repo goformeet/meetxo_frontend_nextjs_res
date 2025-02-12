@@ -13,7 +13,7 @@ import {
 import HomeBanner from "@/components/home/home-banner";
 import SupportSection from "@/components/home/support-section";
 import ProfessionalsSection from "@/components/home/professionals-section";
-import EventCard from "@/components/event-card";
+// import EventCard from "@/components/event-card";
 import ReviewCard from "@/components/review-card";
 import Footer from "@/components/global/layout/footer";
 
@@ -55,196 +55,207 @@ export default function Home() {
     },
   ];
 
-  const events = [
-    {
-      id: 1,
-      title: 'Masterclass for empowering with AI for 2025',
-      description: 'Masterclass for empowering with AI for job securing',
-      image: '/images/event-item.png',
-      location: '36 Guild Street London, UK ',
-      date: 'Wed, 1 Jan`25',
-      time: '20:30 - 21:30 GMT+05:30',
-      host: 'Pratiksha Chavhan',
-      url: '/',
-      participants: [
-        {
-          id: 1,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-        {
-          id: 2,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-        {
-          id: 3,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-      ]
-    },
-    {
-      id: 2,
-      title: 'Masterclass for empowering with AI for 2025',
-      description: 'Masterclass for empowering with AI for job securing',
-      image: '/images/event-item.png',
-      location: '36 Guild Street London, UK ',
-      date: 'Wed, 1 Jan`25',
-      time: '20:30 - 21:30 GMT+05:30',
-      host: 'Pratiksha Chavhan',
-      url: '/',
-      participants: [
-        {
-          id: 1,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-        {
-          id: 2,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-        {
-          id: 3,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-      ]
-    },
-    {
-      id: 3,
-      title: 'Masterclass for empowering with AI for 2025',
-      description: 'Masterclass for empowering with AI for job securing',
-      image: '/images/event-item.png',
-      location: '36 Guild Street London, UK ',
-      date: 'Wed, 1 Jan`25',
-      time: '20:30 - 21:30 GMT+05:30',
-      host: 'Pratiksha Chavhan',
-      url: '/',
-      participants: [
-        {
-          id: 1,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-        {
-          id: 2,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-        {
-          id: 3,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-      ]
-    },
-    {
-      id: 4,
-      title: 'Masterclass for empowering with AI for 2025',
-      description: 'Masterclass for empowering with AI for job securing',
-      image: '/images/event-item.png',
-      location: '36 Guild Street London, UK ',
-      date: 'Wed, 1 Jan`25',
-      time: '20:30 - 21:30 GMT+05:30',
-      host: 'Pratiksha Chavhan',
-      url: '/',
-      participants: [
-        {
-          id: 1,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-        {
-          id: 2,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-        {
-          id: 3,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-      ]
-    },
-    {
-      id: 5,
-      title: 'Masterclass for empowering with AI for 2025',
-      description: 'Masterclass for empowering with AI for job securing',
-      image: '/images/event-item.png',
-      location: '36 Guild Street London, UK ',
-      date: 'Wed, 1 Jan`25',
-      time: '20:30 - 21:30 GMT+05:30',
-      host: 'Pratiksha Chavhan',
-      url: '/',
-      participants: [
-        {
-          id: 1,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-        {
-          id: 2,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-        {
-          id: 3,
-          name: 'Savannah Nguyen',
-          avatar: '/images/avatar.svg'
-        },
-      ]
-    },
-  ];
+  // const events = [
+  //   {
+  //     id: 1,
+  //     title: 'Masterclass for empowering with AI for 2025',
+  //     description: 'Masterclass for empowering with AI for job securing',
+  //     image: '/images/event-item.png',
+  //     location: '36 Guild Street London, UK ',
+  //     date: 'Wed, 1 Jan`25',
+  //     time: '20:30 - 21:30 GMT+05:30',
+  //     host: 'Pratiksha Chavhan',
+  //     url: '/',
+  //     participants: [
+  //       {
+  //         id: 1,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //       {
+  //         id: 2,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //       {
+  //         id: 3,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //     ]
+  //   },
+  //   {
+  //     id: 2,
+  //     title: 'Masterclass for empowering with AI for 2025',
+  //     description: 'Masterclass for empowering with AI for job securing',
+  //     image: '/images/event-item.png',
+  //     location: '36 Guild Street London, UK ',
+  //     date: 'Wed, 1 Jan`25',
+  //     time: '20:30 - 21:30 GMT+05:30',
+  //     host: 'Pratiksha Chavhan',
+  //     url: '/',
+  //     participants: [
+  //       {
+  //         id: 1,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //       {
+  //         id: 2,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //       {
+  //         id: 3,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //     ]
+  //   },
+  //   {
+  //     id: 3,
+  //     title: 'Masterclass for empowering with AI for 2025',
+  //     description: 'Masterclass for empowering with AI for job securing',
+  //     image: '/images/event-item.png',
+  //     location: '36 Guild Street London, UK ',
+  //     date: 'Wed, 1 Jan`25',
+  //     time: '20:30 - 21:30 GMT+05:30',
+  //     host: 'Pratiksha Chavhan',
+  //     url: '/',
+  //     participants: [
+  //       {
+  //         id: 1,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //       {
+  //         id: 2,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //       {
+  //         id: 3,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //     ]
+  //   },
+  //   {
+  //     id: 4,
+  //     title: 'Masterclass for empowering with AI for 2025',
+  //     description: 'Masterclass for empowering with AI for job securing',
+  //     image: '/images/event-item.png',
+  //     location: '36 Guild Street London, UK ',
+  //     date: 'Wed, 1 Jan`25',
+  //     time: '20:30 - 21:30 GMT+05:30',
+  //     host: 'Pratiksha Chavhan',
+  //     url: '/',
+  //     participants: [
+  //       {
+  //         id: 1,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //       {
+  //         id: 2,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //       {
+  //         id: 3,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //     ]
+  //   },
+  //   {
+  //     id: 5,
+  //     title: 'Masterclass for empowering with AI for 2025',
+  //     description: 'Masterclass for empowering with AI for job securing',
+  //     image: '/images/event-item.png',
+  //     location: '36 Guild Street London, UK ',
+  //     date: 'Wed, 1 Jan`25',
+  //     time: '20:30 - 21:30 GMT+05:30',
+  //     host: 'Pratiksha Chavhan',
+  //     url: '/',
+  //     participants: [
+  //       {
+  //         id: 1,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //       {
+  //         id: 2,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //       {
+  //         id: 3,
+  //         name: 'Savannah Nguyen',
+  //         avatar: '/images/avatar.svg'
+  //       },
+  //     ]
+  //   },
+  // ];
 
   const platforms = [
     {
       image: '/images/affiliates.png',
-      title: 'Affiliates',
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. '
+      title: 'Live Sessions & Workshops',
+      description: 'Host real-time webinars, workshops, and group coaching sessions, enabling you to connect and interact with your audience while sharing your expertise.'
     },
     {
       image: '/images/whats-app.png',
-      title: 'WhatsApp Integrations',
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. '
+      title: 'Integrated Payments',
+      description: 'Easily handle payments for subscriptions, one-time purchases, and tips through secure and seamless payment processing, so you can focus on delivering value.'
     },
     {
       image: '/images/courses.png',
-      title: 'Courses',
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. '
+      title: 'Personal Branding',
+      description: 'Fully customize your profile and storefront on MeetXO to reflect your personal brand, making it easier for your audience to recognize and connect with you.'
     },
     {
       image: '/images/challenges.png',
-      title: 'Challenges',
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. '
-    }
+      title: 'Expert Profile Creation',
+      description: 'Create a professional profile to showcase your expertise, experience, and unique offerings, attracting potential clients and building your reputation.'
+    },
+    {
+      image: '/images/challenges.png',
+      title: 'On-Demand Consultations',
+      description: 'Set your availability and let users book one-on-one consultations with you, empowering you to deliver personalized guidance to those who need it.'
+    },
+    {
+      image: '/images/challenges.png',
+      title: '1:1 Consultations',
+      description: 'Offer personalized, one-on-one consultations to your audience, where they can receive tailored advice and insights directly from you.'
+    },
+    {
+      image: '/images/challenges.png',
+      title: 'Event Hosting & Meetups',
+      description: 'Organize and host virtual events, meetups, and networking sessions for your audience, fostering connections and expanding your reach.'
+    },
   ];
 
   const faqs = [
     {
-      title: 'Offer 1:1 Sessions',
-      descritption: 'Mentorship sessions, consultations, discovery calls - do what you do best. We take care of everything else'
+      title: 'How do I become an expert on MeetXO?',
+      descritption: "To become an expert, simply sign up through the 'Join as Expert' button on the homepage, create your profile, and start offering services such as 1:1 consultations, webinars, and mentorship. It's quick and easy!"
     },
     {
-      title: 'Host Webinar',
-      descritption: 'Mentorship sessions, consultations, discovery calls - do what you do best. We take care of everything else'
+      title: 'What types of services can I offer on MeetXO?',
+      descritption: "As an expert, you can offer a range of services, including one-on-one consultations, workshops, webinars, courses, and even sell digital products. Whether you’re a mentor, consultant, or educator, MeetXO has everything you need to share your knowledge"
     },
     {
-      title: 'Sell Courses & Products',
-      descritption: 'Mentorship sessions, consultations, discovery calls - do what you do best. We take care of everything else'
+      title: 'How do users book sessions with experts?',
+      descritption: 'Users can browse through expert profiles, choose the service they need, and book sessions directly through the platform. The booking process is simple and secure, ensuring both experts and users have a smooth experience.'
     },
     {
-      title: 'Earn money with Meetings',
-      descritption: 'Mentorship sessions, consultations, discovery calls - do what you do best. We take care of everything else'
+      title: 'What payment methods are supported?',
+      descritption: 'MeetXO provides integrated payment solutions, supporting secure payments for 1:1 sessions, courses, and other services. We accept multiple payment methods for your convenience, and payments are processed automatically.'
     },
     {
-      title: 'Lorem Ipsum sit amet dollar',
-      descritption: 'Mentorship sessions, consultations, discovery calls - do what you do best. We take care of everything else'
-    },
-    {
-      title: 'PAS Lorem Ipsum sit amet dollar ',
-      descritption: 'Mentorship sessions, consultations, discovery calls - do what you do best. We take care of everything else'
+      title: 'What makes MeetXO different from other platforms?',
+      descritption: 'MeetXO is designed to bring experts and users together in one place. We offer everything from easy profile setup, seamless booking systems, secure payments, to live sessions—all in a single platform. It’s made to help both experts grow their businesses and users find the right guidance efficiently.'
     }
   ];
 
@@ -255,7 +266,7 @@ export default function Home() {
       <HomeBanner />
       <SupportSection />
       <ProfessionalsSection />
-      <section className="px-4 md:px-7 lg:px-10 pt-[50px] pb-10 bg-[#F9FCFF] dark:bg-[#181C28] bg-[url('/images/upcomming-events-bg.png')] bg-cover bg-center">
+      {/* <section className="px-4 md:px-7 lg:px-10 pt-[50px] pb-10 bg-[#F9FCFF] dark:bg-[#181C28] bg-[url('/images/upcomming-events-bg.png')] bg-cover bg-center">
         <h5 className="text-2xl/[51px] font-bold capitalize">Upcoming Webinars</h5>
         <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-5">
           {events.map((event) => (
@@ -270,10 +281,10 @@ export default function Home() {
             <EventCard key={event.id} event={event} />
           ))}
         </div>
-      </section>
+      </section> */}
       <section className="pt-16">
-        <h4 className="px-4 md:px-7 lg:px-10 text-center text-[56px]/[130%] font-semibold tracking-[-1.12px]">Our clients knows the value we provide</h4>
-        <p className="max-w-[624px] mx-auto mt-4 mb-[70px]  text-center text-lg/[150%]">We take great pride in the satisfaction of our clients, as evidenced by their glowing feedback about our exceptional service.</p>
+          <h4 className="px-4 md:px-7 lg:px-10 text-center text-[56px]/[130%] font-semibold tracking-[-1.12px]">Our Clients Know the Value We Deliver</h4>
+          <p className="max-w-[624px] mx-auto mt-4 mb-[70px] text-center text-lg/[150%]">We don’t just meet expectations—we redefine them. Here’s what industry leaders say about working with us.</p>
         <Marquee>
         <div className="flex gap-12 ml-12">
           {reviews.map((review, index) => (

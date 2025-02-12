@@ -30,23 +30,12 @@ export default function ProfessionalsSection() {
   const [category, setCategory] = useState<string|boolean>(true);
   const [professionals, setProfessionals] = useState<Professional[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [searchValue, setSearchValue] = useState<string>("");
-
-  const categoriesd = [
-    { id: 1, name: "Programmers" },
-    { id: 2, name: "Engineers" },
-    { id: 3, name: "Doctors" },
-    { id: 4, name: "Strategists" },
-    { id: 5, name: "Founders" },
-    { id: 6, name: "Science & Tech" },
-    { id: 7, name: "Marketing" },
-    { id: 8, name: "Photography" },
-  ];
 
   const getProfessionals = async () => {
     try {
-      setLoading(true);
+      // setLoading(true);
       const filters: Record<string, string | boolean> = {};
       if (searchValue) filters.search = searchValue;
       if (category) {
@@ -65,12 +54,12 @@ export default function ProfessionalsSection() {
         console.error("Invalid response structure:", res);
         setProfessionals([]);
       }
-        console.log("🚀 ~ getProfessionals ~ res.hosts.hosts:", res.hosts.hosts)
+       
     } catch (error) {
       console.error("Error fetching professionals:", error);
       setProfessionals([]);
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
@@ -101,7 +90,7 @@ export default function ProfessionalsSection() {
   useEffect(() => {
     // getProfessionals("","search");
     getProfessions();
-  }, []);
+  });
   useEffect(()=>{
 getProfessionals()
   },[searchValue,category])
@@ -109,7 +98,10 @@ getProfessionals()
   return (
     <section className="px-4 md:px-7 lg:px-10 pt-[91px] pb-[55px]">
       <h5 className="text-center text-[28px]/[51px] font-bold capitalize">
-        Search among <span className="text-primary">1.5k+</span> sp Experts and
+        
+        {/* <span className="text-primary">1.5k+</span> sp */}
+        Search among Our
+        Experts and
         find your favorite Expert
       </h5>
       <div className="flex gap-4 items-center justify-center mt-4">
@@ -119,7 +111,7 @@ getProfessionals()
           </Button>
           <Input
             type="text"
-            placeholder="Search Anything"
+            placeholder="Search Experts"
             className="border-none focus-visible:ring-0 shadow-none placeholder:text-muted-foreground"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}

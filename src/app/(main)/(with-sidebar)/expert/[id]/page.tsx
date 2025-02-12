@@ -1,5 +1,4 @@
 "use client";
-import Dot from "@/components/dot";
 import ExpertProtfolio from "@/components/experts/expert-protfolio";
 import ExpertReviews from "@/components/experts/expert-reviews";
 import ExpertServices from "@/components/experts/expert-services";
@@ -7,8 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { Hosts } from "@/services/api";
 import { TabsTrigger } from "@radix-ui/react-tabs";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 interface Expert {
     _id: string;
     name: string;
@@ -30,7 +28,7 @@ export default function Page({
 }: {
     params: Promise<{ id: string }>;
 }) {
-    //   const id = (await params).id;
+    const { id } = use(params);
     const [data, setData] = useState<Expert | null>(null);
     const tabHeaders = [
         {
@@ -47,24 +45,11 @@ export default function Page({
         },
     ];
 
-    const skills = [
-        "UI/UX Design",
-        "UI/UX Design",
-        "UI/UX Design",
-        "UI/UX Design",
-        "UI/UX Design",
-        "UI/UX Design",
-        "UI/UX Design",
-        "UI/UX Design",
-        "UI/UX Design",
-        "UI/UX Design",
-        "UI/UX Design",
-    ];
-
     const fetchingData = async () => {
         try {
             const id = (await params).id;
-            const name = id?id:"";
+           
+            const name = id.replace(/%20/g, " ");
             const res = await Hosts({ search: name });
 
             if (res.success) {

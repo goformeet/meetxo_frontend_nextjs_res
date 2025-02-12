@@ -5,18 +5,18 @@ export default function SupportSection() {
     const supportItem = [
         {
             icon: '/images/chat-icon.png',
-            title: 'Seamless entry to the world’s best.',
-            paragraph: 'Lorem ipsum dolor sit amet consectetur. Aenean fermentum lorem sagittis duis consequat. In phasellus.'
+            title: 'Personalized Expert Profile.',
+            paragraph: 'Your name, your brand. Get a unique MeetXO profile that showcases your expertise, experience, and availability—all in one place.'
         },
         {
             icon: '/images/head-phone-icon.png',
-            title: 'Tailored advice to accelerate your success.',
-            paragraph: 'Lorem ipsum dolor sit amet consectetur. Aenean fermentum lorem sagittis duis consequat. In phasellus.'
+            title: 'Seamless Booking & Payments',
+            paragraph: 'No hassle, no back-and-forth. Clients can book sessions instantly, and payments are securely processed through MeetXO.'
         },
         {
             icon: '/images/send-icon.png',
-            title: 'Reach your long-term goals with ease.',
-            paragraph: 'Lorem ipsum dolor sit amet consectetur. Aenean fermentum lorem sagittis duis consequat. In phasellus.'
+            title: 'Global Visibility & Growth.',
+            paragraph: 'Expand your reach beyond borders. Connect with individuals and businesses worldwide looking for your expertise.'
         }
     ];
   return (

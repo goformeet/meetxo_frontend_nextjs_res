@@ -8,7 +8,7 @@ import { Hosts, Professions, ProfessionSubCategories } from "@/services/api";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { lowerCase, debounce } from "lodash";
+import debounce from "lodash/debounce";
 
 type Professional= {
   _id: string;
@@ -35,7 +35,7 @@ export default function Explore() {
   const [filters, setFilters] = useState<string[]>([]);
   const [professionals, setProfessionals] = useState<Professional[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [filterItems, setFilterItems] = useState<FilterItem[]>([]);
   const [searchValue,setSearchValue]=useState<string>("")
   const [profession, setProfession]=useState<string|boolean>("")
@@ -85,7 +85,7 @@ export default function Explore() {
 
   const getProfessionals = debounce(async () => {
     try {
-      setLoading(true);
+      // setLoading(true);
        const filters: Record<string, string | boolean> = {};
        if (searchValue) filters.search = searchValue;
        if (profession) {
@@ -109,13 +109,13 @@ export default function Explore() {
       console.error("Error fetching professionals:", error);
       setProfessionals([]);
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   }, 300); 
+
   const getProfessions = async () => {
     try {
       const res = await Professions();
-      console.log(res);
       if (res?.success && Array.isArray(res.professions)) {
         setCategories(res.professions);
       } else {
@@ -141,10 +141,12 @@ export default function Explore() {
     // getProfessionals("","search");
     getProfessions();
     getMentorsAndInfluencers()
-  }, []);
-  useEffect(()=>{
-getProfessionals()
-  },[searchValue,profession,sub_profession])
+  },[]);
+
+  useEffect(() => {
+    getProfessionals()
+  }, [searchValue, profession, sub_profession]);
+
   return (
     <div className="pl-5 pt-5 pr-[35px] max-w-[calc(100%-105px)]">
       <h1 className="text-[22px]/[28px] font-bold">
@@ -179,7 +181,7 @@ getProfessionals()
               setProfession(true);
             }}
           >
-            <Avatar className="h-[119px] w-[119px]">
+            <Avatar className="h-16 w-[119px]">
               <AvatarImage
                 width={50}
                 src={
@@ -205,7 +207,7 @@ getProfessionals()
                   setProfession(da._id);
                 }}
               >
-                <Avatar className="h-[119px] w-[119px]">
+                <Avatar className="h-16 w-[119px]">
                   <AvatarImage
                     width={50}
                     src={da.image}
@@ -247,7 +249,7 @@ getProfessionals()
             <ExpertCard key={prof._id} prof={prof} />
           ))}
         </div>
-        {!(profession || sub_profession ||searchValue) ? (
+        {!(profession || sub_profession || searchValue) ? (
           <>
             <div>
               <div className="flex justify-between items-center">
