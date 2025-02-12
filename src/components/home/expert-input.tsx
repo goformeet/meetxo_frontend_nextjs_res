@@ -13,7 +13,7 @@ export default function ExpertInput() {
   return (
       <div className="flex items-center bg-background border-[#F1F1F3] border rounded-[14px] p-1 mt-16 relative max-w-[638px] mx-auto">
           <div className="py-4 px-7 bg-surface rounded-[10px]">
-              <span className="text-surface-foreground font-bold">meetxo.com/</span>
+              <span className="text-surface-foreground font-bold">www.meetxo.ai/</span>
           </div>
           <Input onChange={(e)=> setName(e.target.value)} type="text" placeholder="Enter your name" className="border-none focus-visible:ring-0 shadow-none placeholder:text-muted-foreground" />
           <Button onClick={()=> setOpen(true)} className="text-white text-lg/[27px] py-[18px] px-7 h-fit rounded-[12px]">Create</Button>
