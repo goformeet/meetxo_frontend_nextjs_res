@@ -51,7 +51,7 @@ export default function ToolsSection() {
   return (
       <section className="px-4 md:px-7 lg:px-10 bg-primary-light pt-[130px] pb-[99px]">
           <h5 className="text-center font-poppins text-[40px] font-semibold leading-[140%]">All the tools. One platform.</h5>
-          <p className="text-center text-base font-medium leading-[32px] mb-[78px]">Lorem ipsu Lorem ipsu Lorem ipsu Lorem ipsu Lorem ipsu Lorem ipsu Lorem ipsu </p>
+          <p className="text-center text-base font-medium leading-[32px] mb-[78px]">Your Gateway to Expert Guidance & Growth.</p>
               <Carousel
                   plugins={[
                       Autoplay({
