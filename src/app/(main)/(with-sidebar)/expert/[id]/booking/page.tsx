@@ -2,13 +2,65 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useRef, useState } from 'react'
 
 import { Button } from '@/components/ui/button';
 import DateAndSlotSelection from '@/components/booking/date-and-slotp-selection';
+import BookingForm, { BookingFormRef } from '@/components/booking/booking-form';
 
 export default function Page() {
 
+    const formRef = useRef<BookingFormRef>(null);
+
+    const [selectedDate, setSelectedDate] = useState<string | null>(null);
+    const [selectedSlots, setSelectedSlots] = useState<string[]>([]);
+    const [selectedSlot, setSelectedSlot] = useState<string>('');
+
+        const dates = [
+            {
+                date: '22/01/2025',
+                slots: ['09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:00 PM', '12:30 PM']
+            },
+            {
+                date: '23/01/2025',
+                slots: ['10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:00 PM', '12:30 PM', '01:00 PM', '01:30 PM']
+            },
+            {
+                date: '24/01/2025',
+                slots: ['08:00 AM', '08:30 AM', '09:00 AM', '09:30 AM', '10:00 AM']
+            },
+            {
+                date: '25/01/2025',
+                slots: ['02:00 PM', '02:30 PM', '03:00 PM', '03:30 PM', '04:00 PM', '04:30 PM']
+            },
+            {
+                date: '26/01/2025',
+                slots: ['07:00 AM', '07:30 AM', '08:00 AM']
+            },
+            {
+                date: '27/01/2025',
+                slots: ['09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:00 PM']
+            },
+            {
+                date: '28/01/2025',
+                slots: ['01:00 PM', '01:30 PM', '02:00 PM', '02:30 PM', '03:00 PM', '03:30 PM']
+            }
+        ];
+
+    const handleDateClick = (date: string) => {
+        setSelectedDate(date);
+        const selectedDateObject = dates.find(d => d.date === date);
+        setSelectedSlots(selectedDateObject ? selectedDateObject.slots : []);
+    };
+
+    const handleSlotClick = (slot: string) => {
+        setSelectedSlot(slot);
+    }
+
+
+    const handleFormSubmit = () => {
+        console.log("Form successfully submitted!");
+    };
 
     return (
         <div className='pl-5 pr-[35px] max-w-[calc(100%-105px)] w-full relative lg:h-[calc(100svh-80px)] flex flex-col justify-between'>
@@ -50,7 +102,21 @@ export default function Page() {
                             <p className='text-base/7 py-7 px-10'>Lorem ipsum dolor sit amet consectetur. At nunc sit dui auctor. Ornare in aliquet volutpat felis. Mollis dapibus sem morbi diam. Sollicitudin semper et cras faucibus massa lorem. A vitae gravida tempus arcu gravida euismod massa nunc.
                                 Non non ut purus ut gravida nibh lectus sagittis. Nibh sagittis imperdiet orci neque neque viverra eu. Nulla gravida gravida suspendisse sagittis nascetur. Justo sagittis.</p>
                         </div>
-                        <DateAndSlotSelection />
+                        {
+                            !selectedDate || !selectedSlot ? (
+                                <DateAndSlotSelection
+                                    dates={dates}
+                                    handleDateClick={handleDateClick}
+                                    handleSlotClick={handleSlotClick}
+                                    selectedDate={selectedDate}
+                                    selectedSlot={selectedSlot}
+                                    selectedSlots={selectedSlots}
+                                />
+                            ) : (
+                                    <BookingForm ref={formRef} handleFormSubmit={handleFormSubmit} />
+
+                            )
+                        }
                     </div>
                 </div>
             </div>
@@ -72,7 +138,7 @@ export default function Page() {
                     <Button variant={'outline'} className='border-[#6B7B8A] text-[#6B7B8A] w-full max-w-[202px] h-[58px]'>
                         <Link href={'/explore'}>Back to Experts</Link>
                     </Button>
-                    <Button className='text-white w-full max-w-[202px] h-[58px]'>
+                    <Button onClick={() => formRef.current?.submitForm()} className='text-white w-full max-w-[202px] h-[58px]'>
                         Continue
                     </Button>
                 </div>

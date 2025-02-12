@@ -16,6 +16,7 @@ import ProfessionalsSection from "@/components/home/professionals-section";
 // import EventCard from "@/components/event-card";
 import ReviewCard from "@/components/review-card";
 import Footer from "@/components/global/layout/footer";
+import ConnectWithTopExpertsSection from "@/components/home/connect-with-top-experts-section";
 
 
 
@@ -352,23 +353,7 @@ export default function Home() {
            }
           </Accordion>
       </section>
-      <section className="py-28 px-4 md:px-7 lg:px-10 pt-[50px] pb-[103px]">
-        <h6 className="text-4xl/[46px] font-semibold tracking-[-2%]">Connect with Top Experts for Personalised Advice</h6>
-        <div className="flex gap-4 md:gap-8 flex-wrap items-center mt-12">
-          <Button className="text-white text-xs md:text-sm lg:text-base/[26px] py-3 px-4 h-fit rounded-full">Find an Expert</Button>
-          <Button variant='outline' className="text-xs md:text-sm lg:text-base/[26px] py-3 px-4 h-fit rounded-full border-foreground">Book a Video Call</Button>
-          <Button variant='outline' className="text-xs md:text-sm lg:text-base/[26px] py-3 px-4 h-fit rounded-full border-foreground">Virtual Consultation</Button>
-        </div>
-        <div className="flex flex-col md:flex-row gap-14 md:gap-[108px] items-center mt-[104px]">
-          <div className="max-w-[515px]">
-            <h6 className="font-semibold text-[32px]/10 tracking-[-1%]">Find an Expert</h6>
-            <p className="mt-4 text-[#7E8492] dark:text-[#BFC8D1]">
-              Explore and choose from a curated selection of the world’s most sought-after experts, each renowned for their specialized skills. Connect with the top professionals to gain valuable insights and drive success in your projects.
-            </p>
-          </div>
-          <Image src={'/images/connect-section.png'} alt="" width={584} height={366} />
-        </div>
-      </section>
+      <ConnectWithTopExpertsSection />
 
 
 

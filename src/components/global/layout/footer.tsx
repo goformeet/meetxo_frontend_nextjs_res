@@ -11,10 +11,10 @@ export default function Footer() {
         { text: 'Help', url: '/help' },
     ]
     return (
-        <footer className="bg-[url('/images/footer-bg.png')] text-white bg-cover bg-center pt-28 px-28">
-            <div className='grid grid-cols-1 md:grid-cols-6 gap-10'>
+        <footer className="bg-[url('/images/footer-bg.png')] text-white bg-cover bg-center pt-14 lg:pt-28 px-6 md:px-16 lg:px-28">
+            <div className='grid grid-cols-1 lg:grid-cols-6 gap-5 md:gap-6 lg:gap-10'>
                 <div className='md:col-span-4'>
-                    <p className='md:text-3xl lg:text-[56px] font-semibold leading-[115%] tracking-[-0.56px] max-w-[762px]'>Join MeetXO—where every conversation opens a new door.</p>
+                    <p className='text-xl md:text-3xl lg:text-[56px]/[100%] font-semibold tracking-[-0.56px] max-w-[762px]'>Join MeetXO—where every conversation opens a new door.</p>
                 </div>
                 <div className='md:col-span-2 flex flex-col'>
                     <div className='flex gap-3.5 items-center'>
@@ -40,12 +40,14 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-            <div className='py-5 border-b-2 border-[#FAFBFF] flex items-center justify-between relative'>
+            <div className='py-5 border-b-2 border-[#FAFBFF] flex flex-col md:flex-row md:items-center gap-5 md:gap-4 justify-between relative'>
                 <aside className='flex items-center gap-2'>
-                    <Image src='/images/meetxo-logo.png' width={1000} height={300} alt='logo' className='h-12 w-auto bg-white rounded-md' />
+                    <Link href={'/'}>
+                        <Image src='/images/meetxo-logo.png' width={1000} height={300} alt='logo' className='h-12 w-auto bg-white rounded-md' />
+                    </Link>
                 </aside>
-                <nav className='absolute left-[50%] top-[50%] transform translate-x-[-50%] translate-y-[-50%]'>
-                    <ul className='flex items-center justify-center gap-8'>
+                <nav>
+                    <ul className='flex flex-wrap md:items-center md:justify-center gap-8'>
                         {
                             links.map((link) => (
                                 <li key={link.url}>
@@ -66,8 +68,8 @@ export default function Footer() {
             <div className='py-10 flex justify-between'>
                 <p className="text-base/normal font-inter">© MeetXO {new Date().getFullYear()}</p>
                 <div className='flex gap-[45px] items-center'>
-                    <p>Terms & Conditions</p>
-                    <p>Privacy Policy</p>
+                    <Link href={'/terms-of-service'}>Terms & Conditions</Link>
+                    <Link href={'/privacy-policy'}>Privacy Policy</Link>
                 </div>
             </div>
         </footer>

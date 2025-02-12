@@ -90,7 +90,7 @@ export default function ProfessionalsSection() {
   useEffect(() => {
     // getProfessionals("","search");
     getProfessions();
-  });
+  }, [false]);
   useEffect(()=>{
 getProfessionals()
   },[searchValue,category])

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react'
+import React from 'react'
 import {
     Select,
     SelectContent,
@@ -13,41 +13,24 @@ import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import Image from 'next/image';
 
-export default function DateAndSlotSelection() {
-    const [selectedDate, setSelectedDate] = useState<string | null>(null);
-    const [selectedSlots, setSelectedSlots] = useState<string[]>([]);
-    const [selectedSlot, setSelectedSlot] = useState<string>('');
+export default function DateAndSlotSelection({
+    dates,
+    selectedDate,
+    handleDateClick,
+    selectedSlots,
+    handleSlotClick,
+    selectedSlot
+}: {
+        dates: Array<{ date: string; slots: Array<string> }>;
+        selectedDate: string | null;
+        handleDateClick: (date: string) => void;
+        selectedSlots: Array<string>;
+        handleSlotClick: (slot: string) => void;
+        selectedSlot: string;
+}) {
 
-    const dates = [
-        {
-            date: '22/01/2025',
-            slots: ['09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:00 PM', '12:30 PM']
-        },
-        {
-            date: '23/01/2025',
-            slots: ['10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:00 PM', '12:30 PM', '01:00 PM', '01:30 PM']
-        },
-        {
-            date: '24/01/2025',
-            slots: ['08:00 AM', '08:30 AM', '09:00 AM', '09:30 AM', '10:00 AM']
-        },
-        {
-            date: '25/01/2025',
-            slots: ['02:00 PM', '02:30 PM', '03:00 PM', '03:30 PM', '04:00 PM', '04:30 PM']
-        },
-        {
-            date: '26/01/2025',
-            slots: ['07:00 AM', '07:30 AM', '08:00 AM']
-        },
-        {
-            date: '27/01/2025',
-            slots: ['09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:00 PM']
-        },
-        {
-            date: '28/01/2025',
-            slots: ['01:00 PM', '01:30 PM', '02:00 PM', '02:30 PM', '03:00 PM', '03:30 PM']
-        }
-    ];
+
+
 
     // Function to convert "DD/MM/YYYY" to "YYYY-MM-DD" (ISO format)
     const convertDate = (dateStr: string) => {
@@ -55,15 +38,7 @@ export default function DateAndSlotSelection() {
         return `${year}-${month}-${day}`; // "YYYY-MM-DD"
     };
 
-    const handleDateClick = (date: string) => {
-        setSelectedDate(date);
-        const selectedDateObject = dates.find(d => d.date === date);
-        setSelectedSlots(selectedDateObject ? selectedDateObject.slots : []);
-    };
 
-    const handleSlotClick = (slot: string) => {
-        setSelectedSlot(slot);
-    }
 
   return (
       <div className='lg:w-2/5 rounded-[16px] border border-[#E3E6EA] p-[26px]'>
