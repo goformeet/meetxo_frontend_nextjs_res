@@ -36,7 +36,7 @@ export default function Footer() {
                     </Link>
                     <div className='flex justify-between items-center mt-12'>
                         <Image src={'/images/play-store.svg'} width={135} height={40} alt='Play Store Image' />
-                        <Image src={'/images/app-store.svg'} width={135} height={40} alt='App Store Image' />
+                        <Image src={'/images/app-store.svg'} href={'https://apps.apple.com/us/app/meetxo/id6741767901'} width={135} height={40} alt='App Store Image' />
                     </div>
                 </div>
             </div>
