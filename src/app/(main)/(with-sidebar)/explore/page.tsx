@@ -17,6 +17,7 @@ type Professional= {
   min_session_price: string;
   average_rating: number;
   about_me: string;
+  username:string
   profession_id: {
     title: string;
   };
@@ -37,8 +38,10 @@ export default function Explore() {
   // const [loading, setLoading] = useState(false);
   const [filterItems, setFilterItems] = useState<FilterItem[]>([]);
   const [searchValue,setSearchValue]=useState<string>("")
-  const [profession, setProfession]=useState<string>("")
+  const [profession, setProfession]=useState<string|boolean>("")
   const [sub_profession, setSub_profession]=useState<string>("")
+  const [mentors,setMentors]=useState<Professional[]>([])
+  const [influencers, setInfluencers]=useState<Professional[]>([]);
   const toggleFilter = (name: string,id:string) => {
     setFilters((prev) =>
       prev.includes(name)
@@ -51,7 +54,34 @@ export default function Explore() {
 
 
  
- 
+ const getMentorsAndInfluencers = async () => {
+   try {
+     const [res, res1] = await Promise.all([
+       Hosts({ profession_id: "678b8dd486062ddce62be676" }),
+       Hosts({ profession_id: "678b8f0586062ddce62be678" }),
+     ]);
+
+     console.log("Mentors API Response:", res);
+     console.log("Influencers API Response:", res1);
+
+     if (res?.success && Array.isArray(res.hosts?.hosts)) {
+       console.log("Setting Mentors:", res.hosts.hosts);
+       setMentors(res.hosts.hosts);
+     } else {
+       console.warn("Invalid mentors response:", res);
+     }
+
+     if (res1?.success && Array.isArray(res1.hosts?.hosts)) {
+       console.log("Setting Influencers:", res1.hosts.hosts);
+       setInfluencers(res1.hosts.hosts);
+     } else {
+       console.warn("Invalid influencers response:", res1);
+     }
+   } catch (error) {
+     console.error("Error fetching mentors & influencers:", error);
+   }
+ };
+
 
   const getProfessionals = debounce(async () => {
     try {
@@ -98,7 +128,8 @@ export default function Explore() {
     }
   };
   const filterItemsFun = async (id: string) => {
-    const res = await ProfessionSubCategories(id);
+    if (id == "is_top_expert") return
+       const res = await ProfessionSubCategories(id);
     if (res?.success && Array.isArray(res.sub_categories)) {
       setFilterItems(res.sub_categories);
     } else {
@@ -109,7 +140,8 @@ export default function Explore() {
   useEffect(() => {
     // getProfessionals("","search");
     getProfessions();
-  });
+    getMentorsAndInfluencers()
+  },[]);
 
   useEffect(() => {
     getProfessionals()
@@ -140,6 +172,29 @@ export default function Explore() {
       </div>
       <div className="">
         <div className="flex gap-7 mt-8 overflow-x-scroll no-scrollbar">
+          <div
+            className="flex flex-col gap-4"
+            onClick={() => {
+              setFilters([]);
+              setSub_profession("");
+              filterItemsFun("is_top_expert");
+              setProfession(true);
+            }}
+          >
+            <Avatar className="h-16 w-[119px]">
+              <AvatarImage
+                width={50}
+                src={
+                  "https://res.cloudinary.com/djocenrah/image/upload/f_auto,q_auto/v1/Meetxo/claipwjobdg9hltgiiu9"
+                }
+                className="object-cover object-center"
+              />
+              <AvatarFallback className="bg-[#E3E6EA] dark:bg-muted-foreground">
+                Top Expert
+              </AvatarFallback>
+            </Avatar>
+            <p className="text-center text-lg font-medium ">Top Expert</p>
+          </div>
           {categories.map((da, index) => {
             return (
               <div
@@ -147,13 +202,17 @@ export default function Explore() {
                 className="flex flex-col gap-4"
                 onClick={() => {
                   setFilters([]);
-                  setSub_profession("")
+                  setSub_profession("");
                   filterItemsFun(da._id);
                   setProfession(da._id);
                 }}
               >
                 <Avatar className="h-16 w-[119px]">
-                  <AvatarImage width={50} src={da.image} className="object-cover object-center" />
+                  <AvatarImage
+                    width={50}
+                    src={da.image}
+                    className="object-cover object-center"
+                  />
                   <AvatarFallback className="bg-[#E3E6EA] dark:bg-muted-foreground">
                     {da.title}
                   </AvatarFallback>
@@ -169,7 +228,7 @@ export default function Explore() {
               key={item._id}
               onClick={() => {
                 if (filters.includes(item.title)) {
-                  setFilters(filters.filter((d)=>d!==item.title))
+                  setFilters(filters.filter((d) => d !== item.title));
                   setSub_profession("");
                 } else {
                   toggleFilter(item.title, item._id);
@@ -190,38 +249,44 @@ export default function Explore() {
             <ExpertCard key={prof._id} prof={prof} />
           ))}
         </div>
-        <div>
-          <div className="flex justify-between items-center">
-            <h2 className="mb-7 text-[22px]/7 font-bold">Mentors</h2>
-            <Link
-              href={"/mentors"}
-              className="text-primary font-bold text-[15px]/7"
-            >
-              See all
-            </Link>
-          </div>
-          <div className="mb-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-x-5 md:gap-y-8">
-            {professionals.map((prof) => (
-              <ExpertCard key={prof._id} prof={prof} />
-            ))}
-          </div>
-        </div>
-        <div>
-          <div className="flex justify-between items-center">
-            <h2 className="mb-7 text-[22px]/7 font-bold">Influencers</h2>
-            <Link
-              href={"/mentors"}
-              className="text-primary font-bold text-[15px]/7"
-            >
-              See all
-            </Link>
-          </div>
-          <div className="mb-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-x-5 md:gap-y-8">
-            {professionals.map((prof) => (
-              <ExpertCard key={prof._id} prof={prof} />
-            ))}
-          </div>
-        </div>
+        {!(profession || sub_profession || searchValue) ? (
+          <>
+            <div>
+              <div className="flex justify-between items-center">
+                <h2 className="mb-7 text-[22px]/7 font-bold">Mentors</h2>
+                <Link
+                  href={"/mentors"}
+                  className="text-primary font-bold text-[15px]/7"
+                >
+                  See all
+                </Link>
+              </div>
+              <div className="mb-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-x-5 md:gap-y-8">
+                {mentors.map((prof) => (
+                  <ExpertCard key={prof._id} prof={prof} />
+                ))}
+              </div>
+            </div>
+            <div>
+              <div className="flex justify-between items-center">
+                <h2 className="mb-7 text-[22px]/7 font-bold">Influencers</h2>
+                <Link
+                  href={"/mentors"}
+                  className="text-primary font-bold text-[15px]/7"
+                >
+                  See all
+                </Link>
+              </div>
+              <div className="mb-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-x-5 md:gap-y-8">
+                {influencers.map((prof) => (
+                  <ExpertCard key={prof._id} prof={prof} />
+                ))}
+              </div>
+            </div>
+          </>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
