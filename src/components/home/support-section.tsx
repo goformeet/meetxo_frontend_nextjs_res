@@ -23,7 +23,7 @@ export default function SupportSection() {
       <section className="px-4 md:px-7 lg:px-10 bg-[url('/images/customer-support.png')] bg-cover bg-center pt-[92px] pb-[60px]">
           <div className="flex flex-col gap-14 max-w-[872px]">
               <h3 className="text-white text-3xl md:text-[56px]/[67px]">
-                  Simple methods to provide Lorem support
+                  Why Experts Love MeetXO for Growth and Success
               </h3>
               {
                   supportItem.map((item) => (
