@@ -28,10 +28,11 @@ export default function HomeBanner() {
                   <TabsContent value="tab-1">
                       <div className="mt-7">
                           <h2 className="text-center text-[30px] font-medium leading-[150%]">
-                              Monetize your expertise, build your brand, and engage with a global audience.
+                              Monetize expertise, build your brand, and engage globally
                           </h2>
                           <p className="mt-2.5 text-center text-lg leading-normal">
-                              All in one seamless platform
+                                                          Everything You Need to Share, Teach & Grow.
+
                           </p>
                       </div>
                     <ExpertInput />
@@ -40,9 +41,10 @@ export default function HomeBanner() {
                   <TabsContent value="tab-2">
                       <div className="mt-7">
                           <h2 className="text-center text-[30px] font-medium leading-[150%]">
-                              Whether you need career advice, business strategies, or expert consultations.
+                              Get expert guidance to grow your career or business!
                           </h2>
                           <p className="mt-2.5 text-center text-lg leading-normal">
+                            
                               MeetXO connects you with top professionals worldwide
                           </p>
                       </div>

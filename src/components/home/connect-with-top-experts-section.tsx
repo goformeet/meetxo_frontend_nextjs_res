@@ -38,22 +38,23 @@ export default function ConnectWithTopExpertsSection() {
                             <>
                                 <h6 className="font-semibold text-[32px]/10 tracking-[-1%]">Discover your go-to guru!</h6>
                                 <p className="mt-4 text-[#7E8492] dark:text-[#BFC8D1]">
-                                    Find an expert who’s perfect for your needs and unlock a world of knowledge.
+                                    Looking for expert advice? Whether it’s career growth, business strategies, or personal development, MeetXO connects you with top professionals worldwide. Browse through experts in various fields and find the perfect match for your needs.
+
                                 </p>
                             </>
                         ) : selected === 'Book a Video Call' ? (
                                 <>
                                     <h6 className="font-semibold text-[32px]/10 tracking-[-1%]"> Let&apos;s Chat!</h6>
                                     <p className="mt-4 text-[#7E8492] dark:text-[#BFC8D1]">
-                                        Book a video call with your chosen expert and get the answers you&apos;ve been looking for—right from the comfort of your home!
+Got questions? Get real-time answers from industry experts through a quick and easy video call. No long email threads, no confusion—just instant, valuable insights from the right person at the right time.
                                     </p>
                                 </>     
                             ) : (
                                     <>
                                         <h6 className="font-semibold text-[32px]/10 tracking-[-1%]">Virtual Consultation</h6>
                                         <p className="mt-4 text-[#7E8492] dark:text-[#BFC8D1]">
-                                            Expert advice, anytime, anywhere!
-                                            Get personalized guidance through a seamless virtual consultation. All you need is your device and curiosity!
+                                            Skip the hassle of in-person meetings! Book a virtual consultation with top experts from around the world and get the advice you need—all from the comfort of your couch (or wherever you like to think best
+
                                         </p>
                                     </>
                         )
