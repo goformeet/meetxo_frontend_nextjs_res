@@ -7,10 +7,10 @@ export default function AuthLayout({children}: {children: React.ReactNode}) {
          <main className="grid grid-cols-1 md:grid-cols-2 min-h-screen font-plus-jakarta-sans relative">
              <div className="hidden bg-[url('/images/login-bg.png')] bg-cover bg-center md:flex items-end text-white order-2 md:order-1 min-h-screen">
                  <div className='flex flex-col items-start gap-2 justify-center border-t-[5px] border-primary p-5 md:p-10 bg-primary-foreground flex-grow'>
-                     <div className='flex gap-[9px] items-center'>
+                     <Link href={'/'} className='flex gap-[9px] items-center'>
                          <Image src='/images/meetxo-logo.png' width={1000} height={300} alt='logo' className='h-14 w-auto' />
                            {/* <h1 className='text-3xl md:text-[39px] leading-normal tracking-[0.195px] font-extrabold font-inter'>MeetXO</h1> */}
-                     </div>
+                     </Link>
                   <p className='font-plus-jakarta-sans text-xl md:text-4xl font-medium leading-[48px] tracking-[-0.5px]'>Accelerate your success with expert mentorship.</p>
                  </div>
           </div>
