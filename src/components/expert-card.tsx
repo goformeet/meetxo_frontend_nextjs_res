@@ -20,7 +20,7 @@ export default function ExpertCard({
 }) {
   return (
     <Link
-      href={`/expert/${prof?.username ? prof?.username : prof?.name}`}
+      href={`/${prof?.username ? prof?.username : prof?.name}`}
       className="relative"
     >
       <div className="w-full">
