@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { Hosts } from "@/services/api";
 import { TabsTrigger } from "@radix-ui/react-tabs";
-import React, { use, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 interface Expert {
     _id: string;
     name: string;
@@ -28,7 +28,7 @@ export default function Page({
 }: {
     params: Promise<{ id: string }>;
 }) {
-    const { id } = use(params);
+   
     const [data, setData] = useState<Expert | null>(null);
     const tabHeaders = [
         {

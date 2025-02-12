@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
-import { Clock3, Star } from 'lucide-react';
+import { Clock3 } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
-import Image from 'next/image';
+// import Image from 'next/image';
 import OneOneCard from '../one-one-card';
-import EventCard from '../event-card';
+// import EventCard from '../event-card';
 import Dot from '../dot';
 import { getServicesById } from '@/services/api';
 type Service = {
@@ -37,148 +37,7 @@ export default function ExpertServices({id}:{id:string}) {
         { id: 5, name: "Webinars" },
     ];
 
-    const events = [
-        {
-            id: 1,
-            title: 'Masterclass for empowering with AI for 2025',
-            description: 'Masterclass for empowering with AI for job securing',
-            image: '/images/event-item.png',
-            location: '36 Guild Street London, UK ',
-            date: 'Wed, 1 Jan`25',
-            time: '20:30 - 21:30 GMT+05:30',
-            host: 'Pratiksha Chavhan',
-            url: '/',
-            participants: [
-                {
-                    id: 1,
-                    name: 'Savannah Nguyen',
-                    avatar: '/images/avatar.svg'
-                },
-                {
-                    id: 2,
-                    name: 'Savannah Nguyen',
-                    avatar: '/images/avatar.svg'
-                },
-                {
-                    id: 3,
-                    name: 'Savannah Nguyen',
-                    avatar: '/images/avatar.svg'
-                },
-            ]
-        },
-        {
-            id: 2,
-            title: 'Masterclass for empowering with AI for 2025',
-            description: 'Masterclass for empowering with AI for job securing',
-            image: '/images/event-item.png',
-            location: '36 Guild Street London, UK ',
-            date: 'Wed, 1 Jan`25',
-            time: '20:30 - 21:30 GMT+05:30',
-            host: 'Pratiksha Chavhan',
-            url: '/',
-            participants: [
-                {
-                    id: 1,
-                    name: 'Savannah Nguyen',
-                    avatar: '/images/avatar.svg'
-                },
-                {
-                    id: 2,
-                    name: 'Savannah Nguyen',
-                    avatar: '/images/avatar.svg'
-                },
-                {
-                    id: 3,
-                    name: 'Savannah Nguyen',
-                    avatar: '/images/avatar.svg'
-                },
-            ]
-        },
-        {
-            id: 3,
-            title: 'Masterclass for empowering with AI for 2025',
-            description: 'Masterclass for empowering with AI for job securing',
-            image: '/images/event-item.png',
-            location: '36 Guild Street London, UK ',
-            date: 'Wed, 1 Jan`25',
-            time: '20:30 - 21:30 GMT+05:30',
-            host: 'Pratiksha Chavhan',
-            url: '/',
-            participants: [
-                {
-                    id: 1,
-                    name: 'Savannah Nguyen',
-                    avatar: '/images/avatar.svg'
-                },
-                {
-                    id: 2,
-                    name: 'Savannah Nguyen',
-                    avatar: '/images/avatar.svg'
-                },
-                {
-                    id: 3,
-                    name: 'Savannah Nguyen',
-                    avatar: '/images/avatar.svg'
-                },
-            ]
-        },
-        {
-            id: 4,
-            title: 'Masterclass for empowering with AI for 2025',
-            description: 'Masterclass for empowering with AI for job securing',
-            image: '/images/event-item.png',
-            location: '36 Guild Street London, UK ',
-            date: 'Wed, 1 Jan`25',
-            time: '20:30 - 21:30 GMT+05:30',
-            host: 'Pratiksha Chavhan',
-            url: '/',
-            participants: [
-                {
-                    id: 1,
-                    name: 'Savannah Nguyen',
-                    avatar: '/images/avatar.svg'
-                },
-                {
-                    id: 2,
-                    name: 'Savannah Nguyen',
-                    avatar: '/images/avatar.svg'
-                },
-                {
-                    id: 3,
-                    name: 'Savannah Nguyen',
-                    avatar: '/images/avatar.svg'
-                },
-            ]
-        },
-        {
-            id: 5,
-            title: 'Masterclass for empowering with AI for 2025',
-            description: 'Masterclass for empowering with AI for job securing',
-            image: '/images/event-item.png',
-            location: '36 Guild Street London, UK ',
-            date: 'Wed, 1 Jan`25',
-            time: '20:30 - 21:30 GMT+05:30',
-            host: 'Pratiksha Chavhan',
-            url: '/',
-            participants: [
-                {
-                    id: 1,
-                    name: 'Savannah Nguyen',
-                    avatar: '/images/avatar.svg'
-                },
-                {
-                    id: 2,
-                    name: 'Savannah Nguyen',
-                    avatar: '/images/avatar.svg'
-                },
-                {
-                    id: 3,
-                    name: 'Savannah Nguyen',
-                    avatar: '/images/avatar.svg'
-                },
-            ]
-        },
-    ];
+   
 const getServices=async()=>{
     try {
         const res=await getServicesById(id)
