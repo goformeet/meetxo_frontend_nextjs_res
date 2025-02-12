@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { Clock3 } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
 // import Image from 'next/image';
-import OneOneCard from '../one-one-card';
+// import OneOneCard from '../one-one-card';
 // import EventCard from '../event-card';
 import Dot from '../dot';
 import { getServicesById } from '@/services/api';

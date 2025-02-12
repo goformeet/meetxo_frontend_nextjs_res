@@ -46,7 +46,8 @@ export const convertToISOString = (date: string, time: string) => {
 
 
   const [timePart, modifier] = time.split(" ");
-  let [hours, minutes] = timePart.split(":").map(Number);
+   let [hours] = timePart.split(":").map(Number);
+   const minutes = Number(timePart.split(":")[1]); 
 
   if (modifier === "PM" && hours !== 12) {
     hours += 12;

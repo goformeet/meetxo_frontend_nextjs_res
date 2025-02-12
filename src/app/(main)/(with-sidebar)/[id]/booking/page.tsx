@@ -7,7 +7,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button';
 import DateAndSlotSelection from '@/components/booking/date-and-slotp-selection';
 import BookingForm, { BookingFormRef } from '@/components/booking/booking-form';
-import { bookMeeting, getSingleService, getTiming, Hosts } from '@/services/api';
+import {  getSingleService, getTiming, Hosts } from '@/services/api';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { convertToISOString, formatSlots, getNext30Days } from '@/app/utils/booking';
 type ServiceType = {
@@ -105,7 +105,10 @@ export default function Page() {
       console.log(postData);
 
       // const res=await bookMeeting(postData)
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+      
+    }
   };
   const getService = async () => {
     try {
@@ -129,7 +132,7 @@ export default function Page() {
     }
   };
   const handleChangeClick=()=>{
-    setSelectedDate(""),
+    setSelectedDate("")
     setSelectedSlot("")
   }
   useEffect(() => {
