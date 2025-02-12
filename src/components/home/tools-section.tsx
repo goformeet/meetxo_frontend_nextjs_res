@@ -6,28 +6,11 @@ import {
     CarouselItem,
     // CarouselNext,
     // CarouselPrevious,
-    type CarouselApi,
 } from "@/components/ui/carousel"
 import Autoplay from 'embla-carousel-autoplay'
 
 
 export default function ToolsSection() {
-    const [api, setApi] = React.useState<CarouselApi>()
-    const [current, setCurrent] = React.useState(0)
-    const [count, setCount] = React.useState(0)
-
-    React.useEffect(() => {
-        if (!api) {
-            return
-        }
-
-        setCount(api.scrollSnapList().length)
-        setCurrent(api.selectedScrollSnap() + 1)
-
-        api.on("select", () => {
-            setCurrent(api.selectedScrollSnap() + 1)
-        })
-    }, [api])
       const platforms = [
         {
           image: '/images/affiliates.png',
