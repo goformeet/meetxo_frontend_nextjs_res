@@ -2,26 +2,28 @@
 import ExpertProtfolio from "@/components/experts/expert-protfolio";
 import ExpertReviews from "@/components/experts/expert-reviews";
 import ExpertServices from "@/components/experts/expert-services";
+import Footer from "@/components/global/layout/footer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { Hosts } from "@/services/api";
 import { TabsTrigger } from "@radix-ui/react-tabs";
 import React, {  useEffect, useState } from "react";
 interface Expert {
+  _id: string;
+  name: string;
+  user_id: {
     _id: string;
-    name: string;
-    user_id:{
-      _id:string
-    }
-    profile_image: string;
-    cover_image: string;
-    min_session_price: string;
-    average_rating: number;
-    about_me: string;
-    profession_id: {
-        title: string;
-        description: string;
-    };
+  };
+  profile_image: string;
+  cover_image: string;
+  min_session_price: string;
+  average_rating: number;
+  about_me: string;
+  username:string
+  profession_id: {
+    title: string;
+    description: string;
+  };
 }
 export default function Page({
     params,
@@ -53,11 +55,11 @@ export default function Page({
             const res = await Hosts({ search: name });
 
             if (res.success) {
-                console.log(res.hosts.hosts[0]);
+               
                 setData(res.hosts.hosts[0]);
             }
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     };
     
@@ -68,7 +70,8 @@ export default function Page({
 
 
     return (
-      <div className="flex-grow pr-[35px] max-w-[calc(100%-103.45px)]">
+      // <div className=" flex-grow pr-[35px] max-w-[calc(100%-103.45px)]">
+      <div className=" flex-grow pr-[35px]">
         <div
           className={`pl-5 flex gap-[18px] items-end  bg-no-repeat bg-top bg-cover bg-background pt-[104px]`}
           style={{
@@ -115,11 +118,14 @@ export default function Page({
             <TabsContent value="overview">
               <div className="py-4 px-6 mt-6 rounded-[16px] border border-[#F1F2F4] text-lg/8 font-medium">
                 <p>{data?.about_me}</p>
-                <p className="mt-4">
-                 
-                </p>
+                <p className="mt-4"></p>
               </div>
-              {data?.user_id && <ExpertServices id={data.user_id._id} />}
+              {data?.user_id && (
+                <ExpertServices
+                  id={data.user_id._id}
+                  username={data.username}
+                />
+              )}
             </TabsContent>
             <TabsContent value="portfolio">
               <ExpertProtfolio />
@@ -129,6 +135,7 @@ export default function Page({
             </TabsContent>
           </Tabs>
         </div>
+        <Footer />
       </div>
     );
 }

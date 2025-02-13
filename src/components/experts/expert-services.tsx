@@ -5,10 +5,11 @@ import { cn } from '@/lib/utils';
 import { Clock3 } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
 // import Image from 'next/image';
-import OneOneCard from '../one-one-card';
+// import OneOneCard from '../one-one-card';
 // import EventCard from '../event-card';
 import Dot from '../dot';
 import { getServicesById } from '@/services/api';
+import { useRouter } from 'next/navigation';
 type Service = {
   _id: string;
   user_id: string;
@@ -26,124 +27,132 @@ type Service = {
   updated_at: string;
   __v: number;
 };
-
-export default function ExpertServices({id}:{id:string}) {
-    const [category, setCategory] = useState("1:1 Call");
-    const [services,setServices]=useState<Service[]>([])
-    const categories = [
-        { id: 2, name: "1:1 Call" },
-        { id: 3, name: "Events" },
-        { id: 4, name: "Digital Product" },
-        { id: 5, name: "Webinars" },
-    ];
-
-   
-const getServices=async()=>{
-    try {
-        const res=await getServicesById(id)
-        console.log(res,"sdsd");
-        
-        if(res.success){
-            setServices(res.services)
-        }
-    } catch (error) {
-        console.log(error);
-        
-    }
+type ExpertServicesProps={
+  username:string
+  id:string
+ 
 }
-console.log(services);
+export default function ExpertServices({ id, username }: ExpertServicesProps) {
+  const [category, setCategory] = useState("1:1 Call");
+  const [services, setServices] = useState<Service[]>([]);
+  const router = useRouter();
+  const categories = [
+    { id: 2, name: "1:1 Call" },
+    { id: 3, name: "Events" },
+    { id: 4, name: "Digital Product" },
+    { id: 5, name: "Webinars" },
+  ];
 
-useEffect(()=>{
-getServices()
-},[])
-    return (
-      <>
-        <div className="my-5 px-5 py-3 bg-primary-light rounded-[14px] flex gap-3 overflow-x-scroll no-scrollbar">
-          {/* <Button variant={'outline'} onClick={() => setCategory('All')} className={cn("bg-transparent text-base/6 font-normal capitalize py-4 px-6 leading-normal rounded-[12px] h-fit shadow-none border-foreground hover:bg-foreground hover:text-background transition-all", { 'bg-foreground text-white dark:text-background font-bold': category === 'All' })}>All</Button> */}
-          {categories.map((categ) => (
-            <Button
-              variant={"outline"}
-              key={categ.id}
-              onClick={() => setCategory(categ.name)}
-              className={cn(
-                "bg-transparent text-base/6 font-normal capitalize py-4 px-6 leading-normal rounded-[12px] h-fit shadow-none border-foreground hover:bg-foreground hover:text-background transition-all",
-                {
-                  "bg-foreground text-white dark:text-background font-bold":
-                    categ.name === category,
-                }
-              )}
+  const getServices = async () => {
+    try {
+      const res = await getServicesById(id);
+     
+
+      if (res.success) {
+        setServices(res.services);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+ 
+
+  useEffect(() => {
+    getServices();
+  }, []);
+  return (
+    <>
+      <div className="my-5 px-5 py-3 bg-primary-light rounded-[14px] flex gap-3 overflow-x-scroll no-scrollbar">
+        {/* <Button variant={'outline'} onClick={() => setCategory('All')} className={cn("bg-transparent text-base/6 font-normal capitalize py-4 px-6 leading-normal rounded-[12px] h-fit shadow-none border-foreground hover:bg-foreground hover:text-background transition-all", { 'bg-foreground text-white dark:text-background font-bold': category === 'All' })}>All</Button> */}
+        {categories.map((categ) => (
+          <Button
+            variant={"outline"}
+            key={categ.id}
+            onClick={() => setCategory(categ.name)}
+            className={cn(
+              "bg-transparent text-base/6 font-normal capitalize py-4 px-6 leading-normal rounded-[12px] h-fit shadow-none border-foreground hover:bg-foreground hover:text-background transition-all",
+              {
+                "bg-foreground text-white dark:text-background font-bold":
+                  categ.name === category,
+              }
+            )}
+          >
+            {categ.name}
+          </Button>
+        ))}
+      </div>
+      <div className="space-y-[18px] mb-[169px]">
+        {services.map((data) => {
+          return (
+            <div
+              key={data._id}
+              className="p-4 border border-[#E0E0E0] rounded-[16px] flex justify-between"
             >
-              {categ.name}
-            </Button>
-          ))}
-        </div>
-        <div className="space-y-[18px] mb-[169px]">
-          {services.map((data)=>{
-            return (
-              <div key={data._id} className="p-4 border border-[#E0E0E0] rounded-[16px] flex justify-between">
-                <div>
-                  <p className="text-xl/[130%] font-medium mb-2">
-                    {/* Building a successful business - 1:1 Mentoring */}
-                    {data.short_description}
+              <div>
+                <p className="text-xl/[130%] font-medium mb-2">
+                  {/* Building a successful business - 1:1 Mentoring */}
+                  {data.short_description}
+                </p>
+                <div className="flex items-center gap-2">
+                  <p className="text-[#7C7C7C] text-base/[150%]">
+                    {/* By Sen Janson */}
+                    {data.name}
                   </p>
-                  <div className="flex items-center gap-2">
-                    <p className="text-[#7C7C7C] text-base/[150%]">
-                      {/* By Sen Janson */}
-                      {data.name}
-                    </p>
-                    <Dot />
-                    
-                    {/* <div className="flex items-center gap-1">
+                  <Dot />
+
+                  {/* <div className="flex items-center gap-1">
                       <Star className="h-5 w-5 text-[#FBBC05]" />
                       <p className="text-[#7C7C7C] text-base/[150%]">
                         4.8 (122)
                       </p>
                     </div> */}
-                  </div>
-                  <div className="my-4 flex gap-2 items-center">
-                    <div className="flex gap-1 items-center">
-                      <Clock3 className="text-foreground" />
-                      <p className="text-[#7C7C7C] text-sm">{data.duration} Minutes</p>
-                    </div>
-                    <Dot />
-                  </div>
-                  <Accordion type="single" collapsible>
-                    <AccordionItem
-                      className="border-none w-fit items-center"
-                      value="details"
-                    >
-                      <AccordionTrigger
-                        icon="/images/more-details-icon.svg"
-                        className="font-semibold text-2xl/8 tracking-[-1%] text-left w-fit"
-                      >
-                        <p className="text-sm/[155%] mr-1 text-primary font-normal">
-                          View Details
-                        </p>
-                      </AccordionTrigger>
-                      <AccordionContent className="text-[#7E8492] pb-0 mt-4 font-medium text-base/[150%]">
-                        {data.long_description}
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
                 </div>
-                <div className="flex flex-col justify-between items-end">
-                  <p className="text-[32px]/[120%] font-medium font-roboto">
-                    ${data.online_pricing}
-                  </p>
-                  <Button
-                    className={cn(
-                      "font-roboto text-sm/normal font-semibold capitalize py-[9px] px-[16px] leading-normal rounded-[8px] h-fit text-white shadow-none"
-                    )}
+                <div className="my-4 flex gap-2 items-center">
+                  <div className="flex gap-1 items-center">
+                    <Clock3 className="text-foreground" />
+                    <p className="text-[#7C7C7C] text-sm">
+                      {data.duration} Minutes
+                    </p>
+                  </div>
+                  <Dot />
+                </div>
+                <Accordion type="single" collapsible>
+                  <AccordionItem
+                    className="border-none w-fit items-center"
+                    value="details"
                   >
-                    Book Session
-                  </Button>
-                </div>
+                    <AccordionTrigger
+                      icon="/images/more-details-icon.svg"
+                      className="font-semibold text-2xl/8 tracking-[-1%] text-left w-fit"
+                    >
+                      <p className="text-sm/[155%] mr-1 text-primary font-normal">
+                        View Details
+                      </p>
+                    </AccordionTrigger>
+                    <AccordionContent className="text-[#7E8492] pb-0 mt-4 font-medium text-base/[150%]">
+                      {data.long_description}
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
               </div>
-            );
-          })
-          }
-          
-          {/* <div className='p-4 border border-[#E0E0E0] rounded-[16px] flex justify-between '>
+              <div className="flex flex-col justify-between items-end">
+                <p className="text-[32px]/[120%] font-medium font-roboto">
+                  ${data.online_pricing}
+                </p>
+                <Button
+                  onClick={() => router.push(`${username}/booking?id=${data._id}`)}
+                  className={cn(
+                    "font-roboto text-sm/normal font-semibold capitalize py-[9px] px-[16px] leading-normal rounded-[8px] h-fit text-white shadow-none"
+                  )}
+                >
+                  Book Session
+                </Button>
+              </div>
+            </div>
+          );
+        })}
+
+        {/* <div className='p-4 border border-[#E0E0E0] rounded-[16px] flex justify-between '>
                     <div className='flex gap-[34px]'>
                         <Image src={'/images/event-item.png'} alt='Event Image' width={177} height={134} className='rounded-[8px] h-full w-[177px] my-auto object-cover object-center' />
                         <div>
@@ -185,17 +194,17 @@ getServices()
                         </Button>
                     </div>
                 </div> */}
-        </div>
-        <div className="mt-[22px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-5">
-          {services.map((event) => (
-            <OneOneCard key={event._id} event={event} />
-          ))}
-        </div>
-        {/* <div className="mt-[22px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-5">
+      </div>
+      {/* <div className="mt-[22px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-5">
+        {services.map((event) => (
+          <OneOneCard key={event._id} event={event} />
+        ))}
+      </div> */}
+      {/* <div className="mt-[22px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-5">
                 {events.map((event) => (
                     <EventCard key={event.id} event={event} />
                 ))}
             </div> */}
-      </>
-    );
+    </>
+  );
 }

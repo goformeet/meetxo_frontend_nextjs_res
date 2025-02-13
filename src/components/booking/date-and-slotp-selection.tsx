@@ -21,7 +21,7 @@ export default function DateAndSlotSelection({
     handleSlotClick,
     selectedSlot
 }: {
-        dates: Array<{ date: string; slots: Array<string> }>;
+        dates: Array<{ date: string }>;
         selectedDate: string | null;
         handleDateClick: (date: string) => void;
         selectedSlots: Array<string>;
@@ -66,9 +66,9 @@ export default function DateAndSlotSelection({
                               <p className="mt-1 text-sm/[18px] font-bold mb-3">
                                   {new Date(formattedDate).toLocaleDateString('en-US', { day: '2-digit', month: 'short' })}
                               </p>
-                              <p className="text-[#30D158] text-[9px]/4 font-bold">
+                              {/* <p className="text-[#30D158] text-[9px]/4 font-bold">
                                   {item.slots.length} slots
-                              </p>
+                              </p> */}
                           </Button>
                       );
                   })}
