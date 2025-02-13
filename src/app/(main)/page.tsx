@@ -1,7 +1,7 @@
 'use client';
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Star } from "lucide-react";
+// import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+// import { Star } from "lucide-react";
 import Marquee from "react-fast-marquee";
 import {
   Accordion,
