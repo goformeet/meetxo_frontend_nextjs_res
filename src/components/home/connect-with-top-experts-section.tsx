@@ -17,9 +17,9 @@ export default function ConnectWithTopExpertsSection() {
         'Virtual Consultation'
     ];
     return (
-        <section className="py-28 px-4 md:px-7 lg:px-10 pt-[50px] pb-[103px]">
-            <h6 className="text-4xl/[46px] font-semibold tracking-[-2%]">Connect with Top Experts for Personalised Advice</h6>
-            <div className="flex gap-4 md:gap-8 flex-wrap items-center mt-12">
+        <section className="py-14 md:py-28 px-4 md:px-7 lg:px-10 pt-6 md:pt-[50px] pb-14 md:pb-[103px]">
+            <h6 className="text-2xl md:text-4xl/[46px] font-semibold tracking-[-2%]">Connect with Top Experts for Personalised Advice</h6>
+            <div className="flex gap-4 md:gap-8 flex-wrap items-center mt-6 md:mt-12">
                 {items.map((item) => (
                     <Button
                         key={item}
@@ -31,7 +31,7 @@ export default function ConnectWithTopExpertsSection() {
                     >{item}</Button>
                 ))}
             </div>
-            <div className="flex flex-col md:flex-row gap-14 md:gap-[108px] items-center mt-[104px]">
+            <div className="flex flex-col md:flex-row gap-14 md:gap-[108px] items-center mt-14 md:mt-[104px]">
                 <div className="max-w-[515px]">
                     {
                         selected === 'Find an Expert' ? (

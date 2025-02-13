@@ -9,7 +9,7 @@ import ExpertInput from './expert-input';
 
 export default function HomeBanner() {
   return (
-      <section className="px-4 md:px-7 lg:px-10 bg-[url('/images/home-banner-bg.png')] bg-cover bg-center hidden md:block">
+      <section className="px-4 md:px-7 lg:px-10 bg-[url('/images/home-banner-bg.png')] bg-cover bg-center">
           <div className="py-28 flex flex-col justify-center items-center">
               <Tabs defaultValue="tab-1" className="">
                   <TabsList className="h-full bg-[rgba(10,_102,_194,_0.25)] rounded-[70px] p-1.5 flex justify-center max-w-fit mx-auto">
@@ -23,20 +23,20 @@ export default function HomeBanner() {
                       <div className="p-[14px] bg-[#EBF5FF] rounded-[6px]">
                           <Image src={'/images/thunder.svg'} width={34} height={34} alt="thunder" />
                       </div>
-                      <h1 className="text-xl md:text-4xl lg:text-5xl font-semibold leading-normal font-plus-jakarta-sans"><span className="text-primary">Unlock</span> Expertise. Anytime, Anywhere</h1>
+                      <h1 className="text-lg md:text-4xl lg:text-5xl font-semibold leading-normal font-plus-jakarta-sans"><span className="text-primary">Unlock</span> Expertise. Anytime, Anywhere</h1>
                   </div>
                   <TabsContent value="tab-1">
                       <div className="mt-7">
-                          <h2 className="text-center text-[30px] font-medium leading-[150%]">
+                          <h2 className="text-center text-2xl md:text-[30px] font-medium leading-[150%]">
                               Monetize expertise, build your brand, and engage globally
                           </h2>
-                          <p className="mt-2.5 text-center text-lg leading-normal">
+                          <p className="mt-2.5 text-center text-base md:text-lg leading-normal">
                                                           Everything You Need to Share, Teach & Grow.
 
                           </p>
                       </div>
                     <ExpertInput />
-                      <p className="text-surface-foreground text-center mt-4">Don’t wait—claim your domain today!</p>
+                      <p className="text-surface-foreground text-sm md:text-base text-center mt-4">Don’t wait—claim your domain today!</p>
                   </TabsContent>
                   <TabsContent value="tab-2">
                       <div className="mt-7">
