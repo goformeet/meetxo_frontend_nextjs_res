@@ -2,7 +2,7 @@
 import ExpertProtfolio from "@/components/experts/expert-protfolio";
 import ExpertReviews from "@/components/experts/expert-reviews";
 import ExpertServices from "@/components/experts/expert-services";
-import Footer from "@/components/global/layout/footer";
+// import Footer from "@/components/global/layout/footer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { Hosts } from "@/services/api";
@@ -135,7 +135,7 @@ export default function Page({
             </TabsContent>
           </Tabs>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     );
 }

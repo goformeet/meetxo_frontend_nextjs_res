@@ -28,7 +28,7 @@ export default function ToolsSection() {
           description: 'Fully customize your profile and storefront on MeetXO to reflect your personal brand, making it easier for your audience to recognize and connect with you.'
         },
         {
-          image: '/images/Expert Profile Creation.png',
+          image: '/images/expert profile creation.png',
           title: 'Expert Profile Creation',
           description: 'Create a professional profile to showcase your expertise, experience, and unique offerings, attracting potential clients and building your reputation.'
         },
@@ -49,9 +49,9 @@ export default function ToolsSection() {
         },
       ];
   return (
-      <section className="px-4 md:px-7 lg:px-10 bg-primary-light pt-[130px] pb-[99px]">
-          <h5 className="text-center font-poppins text-[40px] font-semibold leading-[140%]">All the tools. One platform.</h5>
-          <p className="text-center text-base font-medium leading-[32px] mb-[78px]">Your Gateway to Expert Guidance & Growth.</p>
+      <section className="px-4 md:px-7 lg:px-10 bg-primary-light pt-16 md:pt-[130px] pb-10 md:pb-[99px]">
+          <h5 className="text-center font-poppins text-2xl md:text-[40px] font-semibold leading-[140%]">All the tools. One platform.</h5>
+          <p className="text-center text-sm md:text-base font-medium leading-[32px] mb-9 md:mb-[78px]">Your Gateway to Expert Guidance & Growth.</p>
               <Carousel
                   plugins={[
                       Autoplay({
@@ -73,8 +73,8 @@ export default function ToolsSection() {
                           </CarouselItem>
                       ))}
                   </CarouselContent>
-                  <CarouselPrevious className='left-2' />
-                  <CarouselNext className='right-2' /> 
+                  <CarouselPrevious className='left-0 md:left-2' />
+                  <CarouselNext className='right-0 md:right-2' /> 
               </Carousel>
       </section>
   )

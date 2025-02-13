@@ -1,7 +1,7 @@
 'use client';
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Star } from "lucide-react";
+// import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+// import { Star } from "lucide-react";
 import Marquee from "react-fast-marquee";
 import {
   Accordion,
@@ -14,7 +14,7 @@ import SupportSection from "@/components/home/support-section";
 import ProfessionalsSection from "@/components/home/professionals-section";
 // import EventCard from "@/components/event-card";
 import ReviewCard from "@/components/review-card";
-import Footer from "@/components/global/layout/footer";
+// import Footer from "@/components/global/layout/footer";
 import ConnectWithTopExpertsSection from "@/components/home/connect-with-top-experts-section";
 import ToolsSection from "@/components/home/tools-section";
 
@@ -247,11 +247,11 @@ export default function Home() {
           ))}
         </div>
       </section> */}
-      <section className="pt-16">
-          <h4 className="px-4 md:px-7 lg:px-10 text-center text-[56px]/[130%] font-semibold tracking-[-1.12px]">Our Clients Know the Value We Deliver</h4>
-          <p className="max-w-[624px] mx-auto mt-4 mb-[70px] text-center text-lg/[150%]">We don’t just meet expectations—we redefine them. Here’s what industry leaders say about working with us.</p>
+      <section className="pt-7 md:pt-16">
+          <h4 className="px-4 md:px-7 lg:px-10 text-center text-2xl md:text-[56px]/[130%] font-semibold tracking-[-1.12px]">Our Clients Know the Value We Deliver</h4>
+          <p className="max-w-[624px] mx-auto mt-4 mb-8 md:mb-[70px] text-center text-base md:text-lg/[150%]">We don’t just meet expectations—we redefine them. Here’s what industry leaders say about working with us.</p>
         <Marquee>
-        <div className="flex gap-12 ml-12">
+        <div className="flex gap-6 md:gap-12 ml-12">
           {reviews.map((review, index) => (
             <ReviewCard key={index} review={review} />
           ))}
@@ -259,34 +259,17 @@ export default function Home() {
         </Marquee>
         <Marquee
           direction="right"
-          className="mt-12 mb-[86px]"
+          className="mt-6 md:mt-12 mb-10 md:mb-[86px]"
         >
-          <div className="flex gap-12 mr-12">
+          <div className="flex gap-6 md:gap-12 mr-12">
             {reviews.map((review, index) => (
-              <div key={index} className="p-10 bg-review-card flex-shrink-0 rounded-[20px] flex flex-col gap-7">
-                <div className="flex gap-5">
-                  <Avatar className='h-10 w-10'>
-                    <AvatarImage src={review.avatar}  className="object-cover object-center"/>
-                    <AvatarFallback className='bg-[#E3E6EA] dark:bg-muted-foreground'>CN</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="text-xl/[130%] font-roboto font-bold tracking-[-1px]">{review.name}</p>
-                    <p className="text-sm text-[#7E8492]">{review.name}</p>
-                  </div>
-                </div>
-                <p className="max-w-[391px] font-inter text-base/[26px] font-medium">{review.message}</p>
-                <div className="flex gap-1.5">
-                  {Array.from({ length: 5 }, (_, index) => (
-                    <Star key={index} className="h-5 w-5 fill-[#FBBC05] text-[#FBBC05]" />
-                  ))}
-                </div>
-              </div>
+              <ReviewCard key={index} review={review} />
             ))}
           </div>
         </Marquee>
       </section>
       <ToolsSection />
-      <section className="py-28 px-4 md:px-7 lg:px-10 grid grid-cols-1 md:grid-cols-2 gap-14 lg:gap-[104px]">
+      <section className="py-14 md:py-28 px-4 md:px-7 lg:px-10 grid grid-cols-1 md:grid-cols-2 gap-14 lg:gap-[104px]">
         <div>
           <h5 className="font-semibold text-2xl/7 md:text-5xl/[116%] lg:text-[56px]/[72px] tracking-[-2%]">What you can do by joining as an Expert</h5>
           <p className="text-[#7E8492] font-medium text-sm md:text-base lg:text-lg/8 mt-2.5 md:mt-4">Elevate Your Website Design Game with Coco Intuitive Features and Beautiful Templates</p>
@@ -296,8 +279,8 @@ export default function Home() {
           {
             faqs.map((faq) => (
               <AccordionItem key={faq.title} className="pb-7 mb-7" value={faq.title}>
-                <AccordionTrigger className="font-semibold text-2xl/8 tracking-[-1%] text-left">{faq.title}</AccordionTrigger>
-                <AccordionContent className="text-[#7E8492] pb-0 mt-4 font-medium text-lg/8">
+                <AccordionTrigger className="font-semibold text-base md:text-2xl/8 tracking-[-1%] text-left">{faq.title}</AccordionTrigger>
+                <AccordionContent className="text-[#7E8492] pb-0 mt-4 font-medium text-sm md:text-lg/8">
                  {faq.descritption}
                 </AccordionContent>
               </AccordionItem>
@@ -310,7 +293,7 @@ export default function Home() {
 
 
       {/* mobile */}
-      <section className="block md:hidden">
+      {/* <section className="block md:hidden">
         <div className="bg-[url('/images/home-banner-mobile-bg.png')] bg-cover bg-center pt-7 pb-4 px-5 rounded-2xl">
           <h1 className="max-w-[231px] text-xs font-medium text-white">
             Here , Are you want to earn from your expertise, Let&apos;s setup your expert profile
@@ -327,9 +310,9 @@ export default function Home() {
             ))
           }
         </div>
-      </section>
+      </section> */}
     </main>
-      <Footer />
+      {/* <Footer /> */}
     </>
 
   );

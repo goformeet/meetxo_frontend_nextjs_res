@@ -1,11 +1,11 @@
-import Footer from '@/components/global/layout/footer'
+// import Footer from '@/components/global/layout/footer'
 import React from 'react'
 
 export default function TermsOfService() {
   return (
             <>
                 <main className="font-plus-jakarta-sans px-4 md:px-7 lg:px-10 my-10">
-                    <h1 className="text-2xl font-bold mb-4">Privacy Policy</h1>
+                    <h1 className="text-2xl font-bold mb-4">Terms & Conditions</h1>
                     <p>MeetXO is strongly committed to your right to privacy. This section covers MeetXO&apos;privacy policy that highlights how we handle personally identifiable information that MeetXO collects when you are on our Website or App. Please read this privacy policy carefully. All information covered by MeetXO&apos;s privacy policy will continue to be protected under MeetXO&apos;s privacy policy irrespective of any change in your membership status in the future. By using the MeetXO Website or App, you accept all practices described in this privacy policy.</p>
                     <h2 className="text-xl font-semibold mt-4">Why do we collect personal information?</h2>
                     <p>In this Privacy Policy, your &apos;Personal Data&apos; means information or pieces of information that could allow you to be identified. We process your personal data for us to be able to carry out our contractual commitments towards you. We use this information to assist you in your search for a suitable partner in terms of age, gender, height, interests etc. In addition we process Personal Data to comply with legal obligations. We also process your Personal Data for allowing other users to view your profile on MeetXO, conducting an analysis of your browsing pattern and history, and allowing our access, payment and storage business partners to process your Personal Data. Sometimes we need your consent to process Personal Data, such as for sending you newsletters , Message, Mails, Calls and promotions. Before you can become a user we also ask for your explicit consent so that we can:</p>
@@ -109,7 +109,7 @@ export default function TermsOfService() {
     
                     <p className="mt-4">For any concerns, please contact us at <a href="mailto:info@meetxo.ai" className="text-blue-600 underline">info@meetxo.ai</a>.</p>
                 </main>
-                <Footer />
+                {/* <Footer /> */}
             </>
   )
 }

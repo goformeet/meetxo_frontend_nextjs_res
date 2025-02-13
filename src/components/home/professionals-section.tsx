@@ -97,22 +97,22 @@ getProfessionals()
 
   return (
     <section className="px-4 md:px-7 lg:px-10 pt-[91px] pb-[55px]">
-      <h5 className="text-center text-[28px]/[51px] font-bold capitalize">
+      <h5 className="text-center text-xl md:text-[28px]/[51px] font-bold capitalize">
         
         {/* <span className="text-primary">1.5k+</span> sp */}
         Search among Our
         Experts and
         find your favorite Expert
       </h5>
-      <div className="flex gap-4 items-center justify-center mt-4">
-        <div className="bg-destructive-foreground rounded-[10px] py-1.5 px-4 flex gap-3 items-center max-w-[567px] w-full">
-          <Button className="bg-foreground dark:bg-white text-background text-lg/[27px] py-[12px] px-7 rounded-[12px] h-fit">
+      <div className="flex flex-col md:flex-row gap-4 items-center justify-center mt-4">
+        <div className="bg-destructive-foreground rounded-[10px] py-1.5 px-2 md:px-4 flex gap-3 items-center max-w-[567px] w-full">
+          <Button className="bg-foreground dark:bg-white text-background text-sm md:text-lg/[27px] py-2 md:py-[12px] px-3 md:px-7 rounded-[12px] h-fit">
             Categories
           </Button>
           <Input
             type="text"
             placeholder="Search Experts"
-            className="border-none focus-visible:ring-0 shadow-none placeholder:text-muted-foreground"
+            className="border-none focus-visible:ring-0 shadow-none placeholder:text-sm md:placeholder:text-base placeholder:text-muted-foreground"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
           />
@@ -135,7 +135,7 @@ getProfessionals()
             setCategory(true);
           }}
           className={cn(
-            "bg-gray dark:bg-destructive-foreground dark:text-white font-roboto text-sm/normal font-medium capitalize py-5 px-7 leading-normal rounded-[12px] h-fit hover:text-white shadow-none",
+            "bg-gray dark:bg-destructive-foreground dark:text-white font-roboto text-sm/normal font-medium capitalize py-2.5 md:py-5 px-3.5 md:px-7 leading-normal rounded-[12px] h-fit hover:text-white shadow-none",
             {
               "bg-primary/35 dark:bg-primary/75 text-primary": category === true,
             }
@@ -149,7 +149,7 @@ getProfessionals()
             // onClick={() => onchangeCat(categ.title, categ._id)}
             onClick={() => setCategory(categ._id)}
             className={cn(
-              "bg-gray dark:bg-destructive-foreground dark:text-white font-roboto text-sm/normal font-medium capitalize py-5 px-7 leading-normal rounded-[12px] h-fit hover:text-white shadow-none",
+              "bg-gray dark:bg-destructive-foreground dark:text-white font-roboto text-sm/normal font-medium capitalize py-2.5 md:py-5 px-3.5 md:px-7 leading-normal rounded-[12px] h-fit hover:text-white shadow-none",
               {
                 "bg-primary/35 dark:bg-primary/75  text-primary":
                   categ._id === category,
@@ -162,10 +162,10 @@ getProfessionals()
       </div>
       <div className="mt-8">
         <div className="flex justify-between items-end">
-          <h3 className="text-2xl/[215%] capitalize font-bold">
+          <h3 className="text-sm md:text-2xl/[215%] capitalize font-bold">
             Discover to the world’s Top Experts
           </h3>
-          <Link className="text-primary font-medium text-sm" href={"/explore"}>
+          <Link className="text-primary font-medium text-xs md:text-sm" href={"/explore"}>
             View All
           </Link>
         </div>
@@ -174,8 +174,8 @@ getProfessionals()
             <ExpertCard key={prof._id} prof={prof} />
           ))}
         </div>
-        <div className="flex justify-center mt-16">
-          <Button className="text-white text-lg/[150%] font-semibold py-[18px] px-7 rounded-[14px] h-fit">
+        <div className="flex justify-center mt-8 md:mt-16">
+          <Button className="text-white text-sm md:text-lg/[150%] font-semibold py-3 md:py-[18px] px-4 md:px-7 rounded md:rounded-[14px] h-fit">
             <Link href={"/explore"}>Explore Experts</Link>
           </Button>
         </div>
