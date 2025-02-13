@@ -114,3 +114,80 @@ body {
     /* Firefox */
   }
 }
+
+.team-photo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.dp {
+  position: relative;
+  width: 230px;
+  height: 260px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: linear-gradient(141.41deg,
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(217, 217, 217, 0.1) 33.05%,
+      rgba(217, 217, 217, 0.12) 100%);
+}
+
+.dp::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 1px;
+  left: 1px;
+  background: linear-gradient(141.47deg,
+      rgb(39, 40, 45) 0%,
+      rgb(17, 17, 19) 100%);
+  border-radius: 24px;
+}
+
+.team-photo-container:hover .dp {
+  cursor: pointer;
+  background: (141.41deg,
+      rgba(49, 94, 172, 0.9) 0%,
+      rgba(49, 94, 172, 0.4) 26.19%,
+      rgba(49, 94, 172, 0.3) 100%);
+}
+
+.team-photo-container:hover .dp::before {
+  background: linear-gradient(141.47deg, rgb(14, 27, 49) 0%, hsl(var(--primary)) 100%);
+}
+
+.team-photo-container:hover .linkedin {
+  background: linear-gradient(rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 100%);
+  opacity: 1;
+  transform: translateY(5px);
+  bottom: 0px;
+}
+
+.linkedin {
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  opacity: 0;
+  padding: 15px 0px;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.3s ease-in-out 0s;
+  transform: translateY(10px);
+}
+
+.name {
+  @apply font-bold text-2xl mt-3 mb-1;
+  transition: all 0.5s ease 0s;
+}
+
+.team-photo-container:hover .name {
+  color: hsl(var(--primary));
+}
+
