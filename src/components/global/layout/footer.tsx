@@ -4,11 +4,11 @@ import React from 'react'
 
 export default function Footer() {
     const links = [
-        { text: "Overview", url: '/overview' },
-        { text: "Features", url: '/features' },
-        { text: "Categories", url: '/categories' },
-        { text: 'Careers', url: '/careers' },
-        { text: 'Help', url: '/help' },
+        { text: "Careers ", url: 'https://www.linkedin.com/company/meetxo/jobs/' },
+        { text: "Team ", url: '/team ' },
+        { text: "FAQ", url: '/faq' },
+        { text: 'Experts', url: '/explore' },
+        { text: 'Help', url: 'intro.co/contact ' },
     ]
     return (
         <footer className="bg-[url('/images/footer-bg.png')] text-white bg-cover bg-center pt-14 lg:pt-28 px-6 md:px-16 lg:px-28">

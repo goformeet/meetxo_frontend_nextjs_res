@@ -1,0 +1,41 @@
+export const faqData = {
+    hosts: [
+        { question: "How does a expert set up their availability and rates on MeetXO?", answer: "Experts can set up their availability and rates through their profile settings." },
+        { question: "Can a expert customize meeting types and prices?", answer: "Yes, experts can customize meeting types and set different prices for each." },
+        { question: "What percentage of the booking fee does MeetXO take from experts?", answer: "MeetXO takes a small commission from each booking; details are available in the expert agreement." },
+        { question: "How does MeetXO handle no-shows or cancellations?", answer: "Experts are compensated according to MeetXO's no-show and cancellation policies." },
+        { question: "Can a expert communicate with clients before a meeting?", answer: "No, experts can message clients via MeetXO’s secure messaging system to clarify details." },
+        { question: "How does a expert improve their visibility and attract clients on MeetXO?", answer: "Experts can enhance visibility by maintaining high ratings, responding quickly, and completing a professional profile." },
+        { question: "Are there guidelines for setting up a professional expert profile?", answer: "Yes, MeetXO provides guidelines to help experts create a professional profile with a photo and detailed descriptions." },
+        { question: "Can a expert pause or temporarily disable their profile?", answer: "Experts can temporarily disable their profile through account settings if unavailable." },
+        { question: "What should a expert do if they need to reschedule a meeting?", answer: "Experts should notify the client via MeetXO’s messaging system and propose a new time." },
+        { question: "How are reviews and ratings handled for experts?", answer: "Clients can rate and review experts after a session, which impacts visibility and credibility on the platform." },
+        { question: "What analytics does MeetXO provide to experts to help track their performance?", answer: "MeetXO provides performance metrics like session count, client retention, and revenue trends in the dashboard." },
+        { question: "How does a expert handle a refund request from a client?", answer: "Refund requests are handled by MeetXO support, which may adjust the expert's earnings if necessary." },
+        { question: "Can a expert offer discounts or promo codes to clients?", answer: "Yes, experts can create promo codes and discounts through the 'Promotions' section." },
+        { question: "How long does it take to receive payments after a session?", answer: "Payments are typically processed within 3-5 business days after a session." },
+        { question: "What should a expert do if a client violates MeetXO’s guidelines?", answer: "Experts should report any violations immediately using the 'Report' feature or by contacting support." },
+        { question: "Can a expert offer group sessions on MeetXO?", answer: "Yes, experts can set up group sessions by configuring the session settings accordingly." },
+        { question: "What types of support does MeetXO offer if a expert experiences technical issues?", answer: "MeetXO provides technical support via chat, email, and phone for any platform-related issues." }
+    ],
+    users: [
+        { question: "Is MeetXO free to use?", answer: "Yes, MeetXO is free to download and use. You have to pay for the meetings you schedule." },
+        { question: "How does a user find and book a session with a expert on MeetXO?", answer: "Users can browse experts, view their profiles, and book sessions through the platform." },
+        { question: "What types of professionals can a user connect with on MeetXO?", answer: "MeetXO offers access to various professionals, including mentors, consultants, and experts across fields." },
+        { question: "How are meeting fees structured, and are there any extra charges?", answer: "Meeting fees are set by each expert, and the total cost is shown before booking. There are no hidden charges." },
+        { question: "How does a user cancel or reschedule a meeting?", answer: "Users can cancel or reschedule a meeting through the session details page, subject to the expert’s policies." },
+        { question: "What if my expert cancels or doesn’t show up for a session?", answer: "If a expert cancels or is a no-show, users are eligible for a full refund or rescheduling." },
+        { question: "Can a user contact a expert before the session for clarification?", answer: "No, users can contact experts through MeetXO’s secure messaging system to clarify session details." },
+        { question: "How are expert ratings and reviews handled on MeetXO?", answer: "Users can rate and review experts after each session. Ratings are visible on the expert's profile to help others." },
+        { question: "Is there a way to save favorite experts for future bookings?", answer: "Yes, users can add experts to their favorites list for easy access and future bookings." },
+        { question: "Can a user refer friends to MeetXO?", answer: "Yes, MeetXO has a referral program where users can invite friends and earn rewards." },
+        { question: "How does MeetXO ensure privacy during meetings?", answer: "MeetXO uses encrypted channels and secure communication to protect users' privacy." },
+        { question: "Are there guidelines for appropriate behavior during sessions?", answer: "Yes, MeetXO provides guidelines to promote respectful and professional conduct during sessions." },
+        { question: "How can a user report an issue or misconduct?", answer: "Users can report issues or misconduct through the session details or by contacting MeetXO support." },
+        { question: "Does MeetXO offer customer support for users?", answer: "Yes, MeetXO offers customer support via email, chat, and phone to assist users." },
+        { question: "What should a user do if they encounter technical issues during a session?", answer: "If technical issues arise, users can contact MeetXO’s support team for immediate assistance." },
+        { question: "Can a user use promo codes or discounts when booking a session?", answer: "Yes, users can apply promo codes during checkout to receive discounts on session fees." },
+        { question: "How does a user know if a expert is available and ready for bookings?", answer: "Experts’ availability is displayed on their profiles, which users can check before booking." },
+        { question: "Are there specific guidelines for the types of sessions allowed on MeetXO?", answer: "Yes, MeetXO has session guidelines to ensure quality and professionalism for all users." }
+    ]
+};
