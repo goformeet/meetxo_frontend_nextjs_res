@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "MeetXO - Connect with Experts | Learn, Grow & Earn",
     description: "Get expert advice, book 1:1 consultations, and grow your network with MeetXO. Join as an expert or find top professionals worldwide.",
-    url: "https://meetxo.com/", // Replace with your actual domain
+    url: "https://meetxo.ai/", // Replace with your actual domain
     type: "website",
     images: [
       {
