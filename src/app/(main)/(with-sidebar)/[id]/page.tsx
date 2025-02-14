@@ -1,6 +1,6 @@
 "use client";
-import ExpertProtfolio from "@/components/experts/expert-protfolio";
-import ExpertReviews from "@/components/experts/expert-reviews";
+// import ExpertProtfolio from "@/components/experts/expert-protfolio";
+// import ExpertReviews from "@/components/experts/expert-reviews";
 import ExpertServices from "@/components/experts/expert-services";
 // import Footer from "@/components/global/layout/footer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { Hosts } from "@/services/api";
 import { TabsTrigger } from "@radix-ui/react-tabs";
 import Image from "next/image";
-import Link from "next/link";
+// import Link from "next/link";
 import React, {  useEffect, useState } from "react";
 interface Expert {
   _id: string;
@@ -39,14 +39,14 @@ export default function Page({
             title: "Overview",
             value: "overview",
         },
-        {
-            title: "Portfolio",
-            value: "portfolio",
-        },
-        {
-            title: "Reviews",
-            value: "reviews",
-        },
+        // {
+        //     title: "Portfolio",
+        //     value: "portfolio",
+        // },
+        // {
+        //     title: "Reviews",
+        //     value: "reviews",
+        // },
     ];
 
     const fetchingData = async () => {
@@ -93,7 +93,7 @@ export default function Page({
               <p className="mt-1 text-sm md:text-lg/7">{data?.profession_id?.title}</p>
             </div>
           </div>
-          <div className="absolute right-0  md:bottom-4 flex items-center gap-3">
+          {/* <div className="absolute right-0  md:bottom-4 flex items-center gap-3">
             <Link href={'/'} className="h-10 w-10 bg-primary-light rounded-full flex justify-center items-center">
               <Image src={'/images/linked-in-logo.png'} alt="linked in" width={40} height={40} className="h-[26px] w-[26px] object-contain object-center" />
             </Link>
@@ -103,7 +103,7 @@ export default function Page({
             <Link href={'/'} className="h-10 w-10 bg-primary-light rounded-full flex justify-center items-center">
               <Image src={'/images/git-hub-icon.png'} alt="linked in" width={40} height={40} className="h-[26px] w-[26px] object-contain object-center" />
             </Link>
-          </div>
+          </div> */}
 
         </div>
         <div className="pt-7">
@@ -136,12 +136,12 @@ export default function Page({
                 />
               )}
             </TabsContent>
-            <TabsContent value="portfolio">
+            {/* <TabsContent value="portfolio">
               <ExpertProtfolio />
             </TabsContent>
             <TabsContent value="reviews">
               <ExpertReviews />
-            </TabsContent>
+            </TabsContent> */}
           </Tabs>
         </div>
         {/* <Footer /> */}
