@@ -30,6 +30,20 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "MeetXO - Connect with Experts | Learn, Grow & Earn",
   description: "Get expert advice, book 1:1 consultations, and grow your network with MeetXO. Join as an expert or find top professionals worldwide.",
+  openGraph: {
+    title: "MeetXO - Connect with Experts | Learn, Grow & Earn",
+    description: "Get expert advice, book 1:1 consultations, and grow your network with MeetXO. Join as an expert or find top professionals worldwide.",
+    url: "https://meetxo.com/", // Replace with your actual domain
+    type: "website",
+    images: [
+      {
+        url: "/Og_image.png", // Path to your OG image (stored in the public folder)
+        width: 1200,
+        height: 630,
+        alt: "MeetXO - Connect with Experts",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
