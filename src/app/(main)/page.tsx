@@ -17,6 +17,7 @@ import ReviewCard from "@/components/review-card";
 // import Footer from "@/components/global/layout/footer";
 import ConnectWithTopExpertsSection from "@/components/home/connect-with-top-experts-section";
 import ToolsSection from "@/components/home/tools-section";
+import JoinAsExpert from "@/components/home/join-as-expert";
 
 
 
@@ -25,36 +26,44 @@ export default function Home() {
 
   const reviews = [
     {
-      avatar: '/images/avatar.svg',
-      name: 'Savannah Nguyen',
-      profession: 'CEO Sans Brothers',
-      message: 'It was a pleasure working with the Coca team. They understood the brief correctly and delivered great designs exceeding the expectations.'
+      avatar: '/images/socrates.jpg',
+      name: 'Socrates',
+      profession: 'Philosopher',
+      message: 'The best conversations spark growth—true wisdom comes from exchanging ideas with those who challenge and inspire us.'
     },
     {
-      avatar: '/images/avatar.svg',
-      name: 'Eleanor Pena',
-      profession: 'CEO Sans Brothers',
-      message: 'It was a pleasure working with the Coca team. They understood the brief correctly and delivered great designs exceeding the expectations.'
+      avatar: '/images/Ralphwaldoemerson.jpg',
+      name: 'Ralph Waldo Emerson',
+      profession: 'American essayist',
+      message: 'Your greatest asset is your network—each meeting is a step toward new opportunities, insights, and lasting impact.'
     },
     {
-      avatar: '/images/avatar.svg',
-      name: 'Savannah Nguyen',
-      profession: 'CEO Sans Brothers',
-      message: 'It was a pleasure working with the Coca team. They understood the brief correctly and delivered great designs exceeding the expectations.'
+      avatar: '/images/seneca.jpg',
+      name: 'Seneca',
+      profession: 'Stoic philosopher',
+      message: 'To teach is to learn twice—sharing your expertise strengthens both the mentor and the mentee.'
     },
     {
-      avatar: '/images/avatar.svg',
-      name: 'Eleanor Pena',
-      profession: 'CEO Sans Brothers',
-      message: 'It was a pleasure working with the Coca team. They understood the brief correctly and delivered great designs exceeding the expectations.'
+      avatar: '/images/aristotle .jpg',
+      name: 'Aristotle',
+      profession: 'Greek philosopher and polymath',
+      message: 'Mastery is not achieved alone; it flourishes in the company of experts, mentors, and seekers of knowledge.'
     },
     {
-      avatar: '/images/avatar.svg',
-      name: 'Savannah Nguyen',
+      avatar: '/images/confucius.jpg',
+      name: 'Confucius',
       profession: 'CEO Sans Brothers',
-      message: 'It was a pleasure working with the Coca team. They understood the brief correctly and delivered great designs exceeding the expectations.'
+      message: 'A single connection can open a thousand doors—great knowledge is built through shared experiences and meaningful dialogue.'
+    },
+    {
+      avatar: '/images/osho.jpg',
+      name: 'Osho',
+      profession: 'Indian philosopher',
+      message: 'The sharing of wisdom is the greatest joy. When you give your knowledge, it multiplies—true intelligence grows in connection.'
     },
   ];
+
+  
 
   // const events = [
   //   {
@@ -272,8 +281,8 @@ export default function Home() {
       <section className="py-14 md:py-28 px-4 md:px-7 lg:px-10 grid grid-cols-1 md:grid-cols-2 gap-14 lg:gap-[104px]">
         <div>
           <h5 className="font-semibold text-2xl/7 md:text-5xl/[116%] lg:text-[56px]/[72px] tracking-[-2%]">What you can do by joining as an Expert</h5>
-          <p className="text-[#7E8492] font-medium text-sm md:text-base lg:text-lg/8 mt-2.5 md:mt-4">Elevate Your Website Design Game with Coco Intuitive Features and Beautiful Templates</p>
-          <Button className="text-white text-xs md:text-sm lg:text-base/[26px] py-[14px] px-5 h-fit rounded-full mt-8 md:mt-14">Join as Expert</Button>
+            <p className="text-[#7E8492] font-medium text-sm md:text-base lg:text-lg/8 mt-2.5 md:mt-4">Share Your Expertise. Build Your Brand. Earn Effortlessly.</p>
+            <JoinAsExpert />
         </div>
           <Accordion className="" type="single" collapsible>
           {

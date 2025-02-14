@@ -3,7 +3,8 @@
 export default async function Layout({ children }: { children: React.ReactNode }) {
 
     return (
-        <main className="flex">
+        // flex class should be added here when sidebar is needed
+        <main className="">
             {/* <Sidebar /> */}
             {children}
             

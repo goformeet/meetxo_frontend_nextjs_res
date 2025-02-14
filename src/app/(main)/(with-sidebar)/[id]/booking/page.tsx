@@ -164,7 +164,7 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="pl-5 pr-[35px] max-w-[calc(100%-105px)] w-full relative lg:h-[calc(100svh-80px)] flex flex-col justify-between">
+    <div className="px-4 md:px-7 lg:px-10 w-full relative flex flex-col justify-between">
       <Script src="https://checkout.razorpay.com/v1/checkout.js" />
       <div>
         <Link href={"/"} className="flex gap-1.5 items-center py-5">
@@ -174,14 +174,14 @@ export default function Page() {
             width={22}
             height={22}
           />
-          <p className="text-[22px]/7 font-bold">Booking Session </p>
+          <p className="text-lg md:text-[22px]/7 font-bold">Booking Session </p>
         </Link>
-        <div className="lg:max-h-[calc(100vh-270px)] overflow-y-auto no-scrollbar">
+        <div>
           <div className="my-5 flex flex-col lg:flex-row gap-10 ">
             <div className="rounded-[16px] border border-[#E3E6EA] overflow-hidden lg:w-3/5">
-              <div className="bg-[rgba(10,102,194,0.15)] py-7 px-10 w-full">
+              <div className="bg-[rgba(10,102,194,0.15)] py-4 md:py-7 px-5 md:px-10 w-full">
                 <div className="flex gap-4">
-                  <Avatar className="h-[54px] w-[54px]">
+                  <Avatar className="h-12 md:h-[54px] w-12 md:w-[54px]">
                     <AvatarImage
                       src={
                         user.profile_image
@@ -195,16 +195,16 @@ export default function Page() {
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <h1 className="text-2xl/9 font-bold">{user.name}</h1>
-                    <p className="text-base/6">{username}</p>
+                    <h1 className="text-xl md:text-2xl/9 font-bold">{user.name}</h1>
+                    <p className="text-sm md:text-base/6">{username}</p>
                   </div>
                 </div>
-                <p className="mt-6 text-lg/7 font-semibold max-w-[551px]">
+                <p className="mt-4 md:mt-6 text-base md:text-lg/7 font-semibold max-w-[551px]">
                   {service.name}
                 </p>
               </div>
-              <div className="flex border-b border-[#E3E8ED]">
-                <div className="w-1/2 py-[22px] px-10 border-r-[0.5px] border-[#E3E8ED]">
+              <div className="flex flex-col md:flex-row items-center border-b border-[#E3E8ED]">
+                <div className="md:w-1/2 py-2 md:py-[22px] px-5 md:px-10 md:border-r-[0.5px] border-[#E3E8ED]">
                   <div className="w-fit py-2 px-3 flex justify-center items-center gap-1 rounded-[24px] border border-foreground">
                     <p className="text-[#727272] text-xs/4 font-medium line-through">
                       ₹ {(service.online_pricing * 1.2).toFixed(2)}
@@ -214,7 +214,7 @@ export default function Page() {
                     </p>
                   </div>
                 </div>
-                <div className="w-1/2 py-[22px] px-10">
+                <div className="md:w-1/2 py-2 md:py-[22px] px-5 md:px-10">
                   <div className="w-fit py-2 px-3 flex justify-center items-center gap-3">
                     <Image
                       src={"/images/calander-icon.svg"}
@@ -228,7 +228,7 @@ export default function Page() {
                   </div>
                 </div>
               </div>
-              <p className="text-base/7 py-7 px-10">
+              <p className="text-sm md:text-base/7 py-2.5 md:py-7 px-5 md:px-10">
                 {service.long_description}
               </p>
             </div>
@@ -242,6 +242,7 @@ export default function Page() {
                 selectedSlots={selectedSlots}
               />
             ) : (
+              <>
               <BookingForm
                 ref={formRef}
                 handleFormSubmit={handleFormSubmit}
@@ -250,7 +251,9 @@ export default function Page() {
                 allSlots={allSlots}
                 price={service.online_pricing}
                 handleChangeClick={handleChangeClick}
-              />
+                />
+
+                </>
             )}
           </div>
         </div>
@@ -259,7 +262,7 @@ export default function Page() {
       <div className="py-[25px] px-[42px] flex flex-col lg:flex-row justify-between items-center gap-10 bg-background">
         {selectedDate && selectedSlot && (
           <div className="whitespace-nowrap w-full flex flex-col items-center lg:items-start">
-            <p className="text-xl/[130%] font-medium">Confirm Your booking</p>
+            <p className="text-base md:text-xl/[130%] font-medium">Confirm Your booking</p>
             <div className="flex gap-3.5 items-center mt-2 opacity-70">
               <div className="flex gap-2 items-center">
                 <Image
@@ -268,7 +271,7 @@ export default function Page() {
                   width={20}
                   alt="Calander Icon"
                 />
-                <p className="text-xl/[130%] text-[#252525]">{selectedDate}</p>
+                <p className="text-base md:text-xl/[130%] text-[#252525]">{selectedDate}</p>
               </div>
               <div className="flex gap-2 items-center">
                 <Image
@@ -277,16 +280,16 @@ export default function Page() {
                   width={20}
                   alt="Calander Icon"
                 />
-                <p className="text-xl/[130%] text-[#252525]">{selectedSlot}</p>
+                <p className="text-base md:text-xl/[130%] text-[#252525]">{selectedSlot}</p>
               </div>
             </div>
           </div>
         )}
 
-        <div className="flex justify-center lg:justify-end gap-[18px] w-full">
+        <div className="flex flex-col-reverse md:flex-row justify-center lg:justify-end gap-[18px] w-full">
           <Button
             variant={"outline"}
-            className="border-[#6B7B8A] text-[#6B7B8A] w-full max-w-[202px] h-[58px]"
+            className="border-[#6B7B8A] text-[#6B7B8A] w-full md:max-w-[202px] h-[58px]"
             onClick={() => router.push(`/${username}`)}
           >
             <Link href={"/explore"}>Back to Experts</Link>
@@ -294,7 +297,7 @@ export default function Page() {
           <Button
             onClick={() => formRef.current?.submitForm()}
             disabled={isProcessing}
-            className="text-white w-full max-w-[202px] h-[58px]"
+            className="text-white w-full md:max-w-[202px] h-[58px]"
           >
             {isProcessing ? "Processing..." : "Continuess"}
           </Button>
