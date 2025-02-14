@@ -7,9 +7,12 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button';
 import DateAndSlotSelection from '@/components/booking/date-and-slotp-selection';
 import BookingForm, { BookingFormRef } from '@/components/booking/booking-form';
-import {  getSingleService, getTiming, Hosts } from '@/services/api';
+import {  bookMeeting, getSingleService, getTiming, Hosts } from '@/services/api';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { convertToISOString, formatSlots, getNext30Days } from '@/app/utils/booking';
+
+import Script from 'next/script';
+import { handlePayment } from '@/app/utils/razorpay';
 type ServiceType = {
   _id: string;
   user_id: string;
@@ -29,6 +32,7 @@ type ServiceType = {
 };
 
 export default function Page() {
+ 
   const formRef = useRef<BookingFormRef>(null);
   const searchParams = useSearchParams();
   const id = searchParams.get("id") || "";
@@ -41,6 +45,7 @@ export default function Page() {
   );
   
   const [user, setUser] = useState({ name: "", profile_image: "" });
+  const[isProcessing,setIsProcessing]=useState(false)
   const [service, setService] = useState<ServiceType>({
     _id: "",
     user_id: "",
@@ -85,29 +90,16 @@ export default function Page() {
     phone: string;
     recive_details?: boolean;
   }) => {
-   
-
     try {
-      const mtTime =
-        selectedDate && selectedSlot
-          ? convertToISOString(selectedDate, selectedSlot)
-          : "";
-      const postData = {
-        host_id: service.user_id,
-        meeting_time: mtTime,
-        meeting_type: "online",
-        meeting_description: "",
-        service_id: service._id,
-        razorpay_payment_id: "hjsda",
-        email: data.email,
-        phone_number: data.phone,
+      const dat = {
+          email: data.email,
+          phone_number: data.phone,
+          name: data.name,
       };
-      console.log(postData);
 
-      // const res=await bookMeeting(postData)
+       await handlePayment(dat, service, continueToBooking, setIsProcessing);
     } catch (error) {
       console.error(error);
-      
     }
   };
   const getService = async () => {
@@ -123,18 +115,49 @@ export default function Page() {
   };
   const getUser = async () => {
     try {
+
       const dat = await Hosts({ search: username });
 
-      setUser(dat.hosts.hosts[0]);
+      setUser(dat?.hosts?.hosts[0]);
     } catch (error) {
       console.error(error);
-      
     }
   };
   const handleChangeClick=()=>{
     setSelectedDate("")
     setSelectedSlot("")
   }
+  const continueToBooking = async (
+    data: { email: string; name: string; phone_number: string },
+    response: { razorpay_order_id: string }
+  ) => {
+    try {
+      const mtTime =
+        selectedDate && selectedSlot
+          ? convertToISOString(selectedDate, selectedSlot)
+          : "";
+      const postData = {
+        host_id: service.user_id,
+        meeting_time: mtTime,
+        meeting_type: "Online",
+        meeting_description: service.name,
+        service_id: service._id,
+        razorpay_payment_id: response.razorpay_order_id,
+        email: data.email,
+        phone_number: data.phone_number,
+      };
+      const res = await bookMeeting(postData);
+      if (res.success) {
+        alert(res.message);
+        router.push(`/${username}`);
+      }
+    } catch (error) {
+      console.error(error);
+   
+      alert("Something went wrong. Please try again.");
+    }
+  };
+  
   useEffect(() => {
     getService();
     getUser();
@@ -142,6 +165,7 @@ export default function Page() {
 
   return (
     <div className="pl-5 pr-[35px] max-w-[calc(100%-105px)] w-full relative lg:h-[calc(100svh-80px)] flex flex-col justify-between">
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" />
       <div>
         <Link href={"/"} className="flex gap-1.5 items-center py-5">
           <Image
@@ -269,9 +293,10 @@ export default function Page() {
           </Button>
           <Button
             onClick={() => formRef.current?.submitForm()}
+            disabled={isProcessing}
             className="text-white w-full max-w-[202px] h-[58px]"
           >
-            Continue
+            {isProcessing ? "Processing..." : "Continuess"}
           </Button>
         </div>
       </div>

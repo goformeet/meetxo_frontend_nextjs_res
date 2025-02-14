@@ -68,8 +68,10 @@ export const getSingleService = async (id: string) => {
 };
 export const getTiming = async (id: string, date: string) => {
   try {
+     const [day, month, year] = date.split("/");
     const response = await axios.post(
-      `${API_BASE_URL}/services/get-timings?service_id=${id}&date=${date}`,{},
+      `${API_BASE_URL}/services/get-timings?service_id=${id}&date=${year}-${month}-${day}`,
+      {},
       {
         headers: {
           Authorization: `Bearer ${token}`,
