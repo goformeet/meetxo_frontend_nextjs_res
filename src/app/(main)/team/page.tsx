@@ -12,6 +12,14 @@ const Team = () => {
         prajwal: "/images/team/placeholder.png",
         ritu: "/images/team/placeholder.png",
         surya: "/images/team/placeholder.png",
+                abhishek: "/images/team/placeholder.png",
+        vishwa: "/images/team/placeholder.png",
+        tejas: "/images/team/placeholder.png",
+        akshat: "/images/team/placeholder.png",
+        anil: "/images/team/placeholder.png",
+        asif: "/images/team/placeholder.png",
+        ayush: "/images/team/placeholder.png",
+
     };
 
     return (
@@ -25,13 +33,13 @@ const Team = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
                     <TeamImage
                         name="Saurav Kumar"
-                        designation="CEO & Co-Founder"
+                        designation="Founder & CEO"
                         goformeet="https://www.goformeet.co/sauravkumar"
                         image={images.saurav}
                     />
                     <TeamImage
                         name="Prashob P"
-                        designation="CTO & Co-Founder"
+                        designation="Co-Founder & CTO"
                         goformeet="https://goformeet.co/prashob"
                         image={images.prashob}
                     />
@@ -48,7 +56,7 @@ const Team = () => {
                 />
                 <TeamImage
                     name="Prajwal"
-                    designation="Software Engineer"
+                    designation="founder's Office"
                     goformeet="https://www.goformeet.co/prajwal"
                     image={images.prajwal}
                 />
@@ -60,7 +68,56 @@ const Team = () => {
                 />
                 <TeamImage
                     name="Surya"
-                    designation="Content Writer"
+                    designation="Video Editor"
+                    goformeet="https://www.goformeet.co/surya"
+                    image={images.surya}
+                />
+
+
+
+
+
+                 <TeamImage
+                    name="Abhishek Kumar"
+                    designation="Founders Office Intern"
+                    goformeet="https://www.goformeet.co/surya"
+                    image={images.surya}
+                /> <TeamImage
+                    name="Vishwa"
+                    designation="Founders Office Intern"
+                    goformeet="https://www.goformeet.co/surya"
+                    image={images.surya}
+                /> <TeamImage
+                    name="Tejas"
+                    designation="Founders Office Intern"
+                    goformeet="https://www.goformeet.co/surya"
+                    image={images.surya}
+                />
+
+                <TeamImage
+                    name="Akshat Chouksey"
+                    designation="Founders Office Intern"
+                    goformeet="https://www.goformeet.co/surya"
+                    image={images.surya}
+                />
+
+                <TeamImage
+                    name="Anil Kumar"
+                    designation="Founders Office Intern"
+                    goformeet="https://www.goformeet.co/surya"
+                    image={images.surya}
+                />
+                <TeamImage
+                    name="Asif Nawaz"
+                    designation="Founders Office Intern"
+                    goformeet="https://www.goformeet.co/surya"
+                    image={images.surya}
+                />
+
+
+                    <TeamImage
+                    name="Ayush raj"
+                    designation="Founders Office Intern"
                     goformeet="https://www.goformeet.co/surya"
                     image={images.surya}
                 />
