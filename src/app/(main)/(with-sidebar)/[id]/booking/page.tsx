@@ -10,8 +10,9 @@ import BookingForm, { BookingFormRef } from '@/components/booking/booking-form';
 import {  bookMeeting, getSingleService, getTiming, Hosts } from '@/services/api';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { convertToISOString, formatSlots, getNext30Days } from '@/app/utils/booking';
-import axios from 'axios';
+
 import Script from 'next/script';
+import { handlePayment } from '@/app/utils/razorpay';
 type ServiceType = {
   _id: string;
   user_id: string;
@@ -29,11 +30,7 @@ type ServiceType = {
   updated_at: string;
   __v: number;
 };
-// declare global{
-//   interface window{
-//     Razorpay:any
-//   }
-// }
+
 export default function Page() {
  
   const formRef = useRef<BookingFormRef>(null);
@@ -94,11 +91,13 @@ export default function Page() {
     recive_details?: boolean;
   }) => {
     try {
-      await handlePayment({
-        email: data.email,
-        phone_number: data.phone,
-        name: data.name,
-      });
+      const dat = {
+          email: data.email,
+          phone_number: data.phone,
+          name: data.name,
+      };
+
+       await handlePayment(dat, service, continueToBooking, setIsProcessing);
     } catch (error) {
       console.error(error);
     }
@@ -148,64 +147,17 @@ export default function Page() {
         phone_number: data.phone_number,
       };
       const res = await bookMeeting(postData);
-      console.log(res);
-
       if (res.success) {
         alert(res.message);
         router.push(`/${username}`);
       }
-    } catch (error: any) {
-      console.error(error);
-      const errorMessage =
-        error.response?.data?.message ||
-        "Something went wrong. Please try again.";
-      alert(errorMessage);
-    }
-  };
-  const handlePayment = async (dat: {
-   
-    email: string;
-    phone_number: string;
-    name:string
-  }) => {
-    setIsProcessing(true);
-   
-    const Amount = Number(service.online_pricing)*100; ;
-   
-    try {
-      const response = await axios.post("/api/create-order", {
-        amount: Amount,
-      });
-      
-      
-      const data = response.data;
-      const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: Amount,
-        currency: "INR",
-        name: "meetxo",
-        description: service.name,
-        order_id: data.orderId,
-        handler: function (response: any) {
-          continueToBooking(dat, response);
-        },
-        prefill: {
-          name: dat?.name,
-          email: dat?.email,
-          contact: Number(dat?.phone_number),
-        },
-        theme: {
-          color: "#3b50c4",
-        },
-      };
-      const rzp1 = new (window as any).Razorpay(options);
-      rzp1.open();
     } catch (error) {
-      console.error("Payment failed", error);
-    } finally {
-      setIsProcessing(false);
+      console.error(error);
+   
+      alert("Something went wrong. Please try again.");
     }
   };
+  
   useEffect(() => {
     getService();
     getUser();
