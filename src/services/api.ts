@@ -100,3 +100,12 @@ export const bookMeeting = async (data: Record<string, string | boolean>) => {
     throw error;
   }
 };
+export const getAllEvents=async()=>{
+try {
+  const response = await axios.get(`${API_BASE_URL}/events/all`);
+    return response.data;
+} catch (error) {
+   console.error("Error fetching service timings:", error);
+   throw error;
+}
+}

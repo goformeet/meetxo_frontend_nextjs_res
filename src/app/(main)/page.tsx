@@ -17,11 +17,35 @@ import ReviewCard from "@/components/review-card";
 // import Footer from "@/components/global/layout/footer";
 import ConnectWithTopExpertsSection from "@/components/home/connect-with-top-experts-section";
 import ToolsSection from "@/components/home/tools-section";
+import EventCard from "@/components/event-card";
+import { useEffect, useState } from "react";
+import { getAllEvents } from "@/services/api";
 
 
-
+type EventType= {
+  _id: string;
+  user_id: string;
+  profile_id?: any;
+  max_participants: number;
+  booked_participants?: any;
+  participants?: any;
+  meeting_link: string;
+  title: string;
+  description: string;
+  price: number;
+  image: string;
+  latitude?: any;
+  longitude?: any;
+  type: string;
+  start_date: string;
+  location: string;
+  created_at: string;
+  updated_at: string;
+  __v: number;
+}
 
 export default function Home() {
+  const [events, setEvents] = useState < EventType[]>([]);
 
   const reviews = [
     {
@@ -56,7 +80,7 @@ export default function Home() {
     },
   ];
 
-  // const events = [
+  // const events1 = [
   //   {
   //     id: 1,
   //     title: 'Masterclass for empowering with AI for 2025',
@@ -223,7 +247,19 @@ export default function Home() {
       descritption: 'MeetXO is designed to bring experts and users together in one place. We offer everything from easy profile setup, seamless booking systems, secure payments, to live sessions—all in a single platform. It’s made to help both experts grow their businesses and users find the right guidance efficiently.'
     }
   ];
-
+const getEvents=async()=>{
+  try {
+    const res=await getAllEvents()
+    if(res.success){
+      setEvents(res.data);
+    }
+  } catch (error) {
+    
+  }
+}
+useEffect(()=>{
+getEvents()
+},[])
   return (
     <>
     <main className="font-plus-jakarta-sans">
@@ -231,22 +267,22 @@ export default function Home() {
       <HomeBanner />
       <SupportSection />
       <ProfessionalsSection />
-      {/* <section className="px-4 md:px-7 lg:px-10 pt-[50px] pb-10 bg-[#F9FCFF] dark:bg-[#181C28] bg-[url('/images/upcomming-events-bg.png')] bg-cover bg-center">
+       {/* <section className="px-4 md:px-7 lg:px-10 pt-[50px] pb-10 bg-[#F9FCFF] dark:bg-[#181C28] bg-[url('/images/upcomming-events-bg.png')] bg-cover bg-center">
         <h5 className="text-2xl/[51px] font-bold capitalize">Upcoming Webinars</h5>
         <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-5">
           {events.map((event) => (
             <EventCard key={event.id} event={event} />
           ))}
         </div>
-      </section>
+      </section> */}
       <section className="px-4 md:px-7 lg:px-10 pt-[50px] pb-10 bg-[#F9FCFF] dark:bg-[#181C28] bg-[url('/images/upcomming-events-bg.png')] bg-cover bg-center">
         <h5 className="text-2xl/[51px] font-bold capitalize">Upcoming Events</h5>
         <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-5">
           {events.map((event) => (
-            <EventCard key={event.id} event={event} />
+            <EventCard key={event._id} event={event} />
           ))}
         </div>
-      </section> */}
+      </section> 
       <section className="pt-7 md:pt-16">
           <h4 className="px-4 md:px-7 lg:px-10 text-center text-2xl md:text-[56px]/[130%] font-semibold tracking-[-1.12px]">Our Clients Know the Value We Deliver</h4>
           <p className="max-w-[624px] mx-auto mt-4 mb-8 md:mb-[70px] text-center text-base md:text-lg/[150%]">We don’t just meet expectations—we redefine them. Here’s what industry leaders say about working with us.</p>
