@@ -51,7 +51,7 @@ export default function Home() {
     {
       avatar: '/images/confucius.jpg',
       name: 'Confucius',
-      profession: 'CEO Sans Brothers',
+      profession: 'philosopher',
       message: 'A single connection can open a thousand doors—great knowledge is built through shared experiences and meaningful dialogue.'
     },
     {
@@ -256,8 +256,8 @@ export default function Home() {
         </div>
       </section> */}
       <section className="pt-7 md:pt-16">
-          <h4 className="px-4 md:px-7 lg:px-10 text-center text-2xl md:text-[56px]/[130%] font-semibold tracking-[-1.12px]">Our Clients Know the Value We Deliver</h4>
-          <p className="max-w-[624px] mx-auto mt-4 mb-8 md:mb-[70px] text-center text-base md:text-lg/[150%]">We don’t just meet expectations—we redefine them. Here’s what industry leaders say about working with us.</p>
+          <h4 className="px-4 md:px-7 lg:px-10 text-center text-2xl md:text-[56px]/[130%] font-semibold tracking-[-1.12px]">Scholars know the value of meeting the right people</h4>
+          <p className="max-w-[624px] mx-auto mt-4 mb-8 md:mb-[70px] text-center text-base md:text-lg/[150%]">We don’t just meet expectations—we redefine them. Here’s what the philosopher says..</p>
         <Marquee>
         <div className="flex gap-6 md:gap-12 ml-12">
           {reviews.map((review, index) => (
