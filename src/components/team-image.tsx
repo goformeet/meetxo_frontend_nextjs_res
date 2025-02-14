@@ -19,7 +19,7 @@ const TeamImage = ({ name, designation, image }: personDetails) => {
                             <span className="mb-1">Meet via <span className="font-bold">MeetXO</span></span>
                         </div>
                         {image && (
-                            <Image src={image} alt="person image" className="absolute top-[1px] left-[0px]" height={250} width={250} />
+                            <Image src={image} alt="person image" className="absolute top-[1px] left-[0px] object-cover" height={250} width={250} />
                         )}
                     </div>
                 </div>
