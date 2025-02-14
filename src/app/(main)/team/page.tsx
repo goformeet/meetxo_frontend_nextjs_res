@@ -8,17 +8,13 @@ const Team = () => {
     const images = {
         saurav: "/images/team/saurav-sir.png",
         prashob: "/images/team/prashob-sir.png",
-        shashank: "/images/team/shashank-sir.png",
+        shashank: "/images/team/sashank-sir.png",
         prajwal: "/images/team/Prajwal.png",
         ritu: "/images/team/ritu.png",
         surya: "/images/team/suryaa.png",
                 abhishek: "/images/team/Abhishek.png",
         vishwa: "/images/team/vishwa.png",
         tejas: "/images/team/Tejas.png",
-        akshat: "/images/team/placeholder.png",
-        anil: "/images/team/placeholder.png",
-        asif: "/images/team/placeholder.png",
-        ayush: "/images/team/placeholder.png",
 
     };
 
@@ -94,33 +90,9 @@ const Team = () => {
                     image={images.tejas}
                 />
 
-                <TeamImage
-                    name="Akshat Chouksey"
-                    designation="Founders Office Intern"
-                    goformeet="https://www.goformeet.co/surya"
-                    image={images.surya}
-                />
-
-                <TeamImage
-                    name="Anil Kumar"
-                    designation="Founders Office Intern"
-                    goformeet="https://www.goformeet.co/surya"
-                    image={images.surya}
-                />
-                <TeamImage
-                    name="Asif Nawaz"
-                    designation="Founders Office Intern"
-                    goformeet="https://www.goformeet.co/surya"
-                    image={images.surya}
-                />
+            
 
 
-                    <TeamImage
-                    name="Ayush raj"
-                    designation="Founders Office Intern"
-                    goformeet="https://www.goformeet.co/surya"
-                    image={images.ayush}
-                />
             </div>
 
             <div className="flex justify-center mt-10">
