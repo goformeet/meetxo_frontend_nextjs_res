@@ -58,7 +58,7 @@ export const handlePayment = async (
 
     const data = response.data;
     const options: RazorpayOptions = {
-      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "",
+      key: process.env.RAZORPAY_KEY_ID || "",
       amount: Amount,
       currency: "INR",
       name: "meetxo",
