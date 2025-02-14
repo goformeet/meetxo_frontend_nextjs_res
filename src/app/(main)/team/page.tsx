@@ -6,15 +6,15 @@ import React from "react";
 const Team = () => {
     // Declare image locations as constants
     const images = {
-        saurav: "/images/team/saurav.png",
-        prashob: "/images/team/prashob.png",
-        shashank: "/images/team/shashanks.png",
-        prajwal: "/images/team/placeholder.png",
-        ritu: "/images/team/placeholder.png",
-        surya: "/images/team/placeholder.png",
-                abhishek: "/images/team/placeholder.png",
-        vishwa: "/images/team/placeholder.png",
-        tejas: "/images/team/placeholder.png",
+        saurav: "/images/team/saurav-sir.png",
+        prashob: "/images/team/prashob-sir.png",
+        shashank: "/images/team/shashank-sir.png",
+        prajwal: "/images/team/Prajwal.png",
+        ritu: "/images/team/ritu.png",
+        surya: "/images/team/suryaa.png",
+                abhishek: "/images/team/Abhishek.png",
+        vishwa: "/images/team/vishwa.png",
+        tejas: "/images/team/Tejas.png",
         akshat: "/images/team/placeholder.png",
         anil: "/images/team/placeholder.png",
         asif: "/images/team/placeholder.png",
@@ -81,17 +81,17 @@ const Team = () => {
                     name="Abhishek Kumar"
                     designation="Founders Office Intern"
                     goformeet="https://www.goformeet.co/surya"
-                    image={images.surya}
+                    image={images.abhishek}
                 /> <TeamImage
                     name="Vishwa"
                     designation="Founders Office Intern"
                     goformeet="https://www.goformeet.co/surya"
-                    image={images.surya}
+                    image={images.vishwa}
                 /> <TeamImage
                     name="Tejas"
                     designation="Founders Office Intern"
                     goformeet="https://www.goformeet.co/surya"
-                    image={images.surya}
+                    image={images.tejas}
                 />
 
                 <TeamImage
@@ -119,7 +119,7 @@ const Team = () => {
                     name="Ayush raj"
                     designation="Founders Office Intern"
                     goformeet="https://www.goformeet.co/surya"
-                    image={images.surya}
+                    image={images.ayush}
                 />
             </div>
 
