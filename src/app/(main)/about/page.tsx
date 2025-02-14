@@ -5,7 +5,7 @@ export default function AboutPage() {
             <div className="text-center mb-12">
                 <h1 className="text-5xl font-bold mb-4">About MeetXO</h1>
                 <p className="text-lg max-w-5xl mx-auto text-gray-600 mb-2">
-                    Access the Right People. Anytime, Anywhere.
+                    Access the Right People - Anytime, Anywhere.
                     We&apos;ve all had those moments when we needed expert advice—whether it&apos;s career guidance, business strategies, or specialized skills—but didn&apos;t know where to turn. That&apos;s where MeetXO comes in.
                     MeetXO makes it easy to book world-class experts for one-on-one video consultations, live sessions, and workshops. No gatekeepers, no waitlists—just instant access to the knowledge you need.
 
@@ -27,7 +27,7 @@ export default function AboutPage() {
             <div className="bg-gray-100 rounded-xl p-10 text-center">
                 <h2 className="text-3xl font-semibold mb-4">What We Believe</h2>
                 <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-                    MeetXO isn&apos;t just a platform—it&apos;s a movement. A movement to break down barriers, unlock opportunities, and make expertise available to everyone, no matter where they are.
+                    MeetXO isn&apos;t just a platform—it&apos;s a movement. A movement to break down barriers, unlock opportunities, and make expertise available to everyone, no matter whereever they are.
                 </p>
             </div>
 
@@ -36,10 +36,12 @@ export default function AboutPage() {
                 <h2 className="text-3xl font-semibold mb-6">Why MeetXO?</h2>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {[
-                        "All the experts. One platform. Whether you’re looking for business advice, career coaching, or creative mentorship, MeetXO connects you with top professionals worldwide.",
-                        "Seamless booking & payments. No back-and-forth emails. Just find your expert, book your session, and get insights—fast.",
+                        "All the experts, One platform. Whether you’re looking for business advice, career coaching, or creative mentorship, MeetXO connects you with top professionals worldwide.",
+                        "Seamless booking & payments. No back-and-forth emails. Just find your expert, book your session, and get insights, fast.",
                         "A new way to learn. Get personalized, actionable advice in real time, instead of wasting hours on generic content.",
-                        "Your expertise, your business. If you're an expert, MeetXO helps you monetize your knowledge and build your brand with ease."
+                        "Your expertise, your business. If you're an expert, MeetXO helps you monetize your knowledge and build your brand with ease.",
+                        "Host real-time webinars, workshops, and group coaching sessions, enabling you to connect and interact with your audience while sharing your expertise.",
+                        "Your greatest asset is your network—each meeting is a step toward new opportunities, insights, and lasting impact."
                     ].map((item, index) => (
                         <div key={index} className="bg-white shadow-md p-6 rounded-lg">
                             <p className="text-gray-800 font-medium">{item}</p>
@@ -52,7 +54,7 @@ export default function AboutPage() {
             <div className="mt-16 text-center">
                 <h2 className="text-3xl font-semibold mb-4">The Future of Expert Access</h2>
                 <p className="text-lg max-w-3xl mx-auto text-gray-600 mb-6">
-                    The world&apos;s top experts shouldn&apos;t be out of reach. MeetXO is here to change that. Whether it’s a quick career tip, a deep-dive strategy session, or hands-on mentorship, we’re making it possible for anyone to learn from the best.
+                    The world&apos;s top experts shouldn&apos;t be out of reach. MeetXO, is here to change that. Whether it’s a quick career tip, a deep-dive strategy session, or hands-on mentorship, we’re making it possible for anyone to learn from the best.
 
                 </p>
                 <p className="text-lg text-gray-700 max-w-3xl mx-auto">

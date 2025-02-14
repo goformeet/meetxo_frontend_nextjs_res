@@ -148,12 +148,13 @@ export default function Explore() {
   }, [searchValue, profession, sub_profession]);
 
   return (
-    <div className="pl-5 pt-5 pr-[35px] max-w-[calc(100%-105px)]">
-      <h1 className="text-[22px]/[28px] font-bold">
+    // max-w-[calc(100%-105px)] shoduld be added here when side bar is there
+    <div className="px-4 md:px-7 lg:px-10">
+      <h1 className="text-lg/5 md:text-[22px]/[28px] font-bold">
         Select an expert, schedule a session, and receive guidance via video
         call.
       </h1>
-      <div className="mt-6 flex py-[1px] px-6 items-center rounded-[38px] border border-[#F1F2F4]">
+      <div className="mt-4 md:mt-6 flex py-[1px] px-3.5 md:px-6 items-center rounded-[38px] border border-[#F1F2F4]">
         <Image
           src={"/icons/search-primary.svg"}
           alt="Search Icon"
@@ -163,7 +164,7 @@ export default function Explore() {
         <Input
           type="text"
           placeholder="Search by name, company, role"
-          className="border-none focus-visible:ring-0 h-fit py-4 shadow-none placeholder:text-muted-foreground"
+          className="border-none focus-visible:ring-0 h-fit py-3 md:py-4 shadow-none placeholder:text-muted-foreground"
           // onChange={(e) => {
           //   getProfessionals(e.target.value,"search");
           // }}
@@ -171,9 +172,9 @@ export default function Explore() {
         />
       </div>
       <div className="">
-        <div className="flex gap-7 mt-8 overflow-x-scroll no-scrollbar">
+        <div className="flex gap-3.5 md:gap-7 mt-8 overflow-x-scroll no-scrollbar">
           <div
-            className="flex flex-col gap-4"
+            className="flex flex-col gap-2 md:gap-4"
             onClick={() => {
               setFilters([]);
               setSub_profession("");
@@ -199,7 +200,7 @@ export default function Explore() {
             return (
               <div
                 key={index}
-                className="flex flex-col gap-4"
+                className="flex flex-col gap-2 md:gap-4"
                 onClick={() => {
                   setFilters([]);
                   setSub_profession("");
@@ -222,7 +223,7 @@ export default function Explore() {
             );
           })}
         </div>
-        <div className="flex gap-4 my-7 overflow-x-scroll no-scrollbar">
+        <div className="flex gap-4 my-3.5 md:my-7 overflow-x-scroll no-scrollbar">
           {filterItems.map((item) => (
             <Button
               key={item._id}

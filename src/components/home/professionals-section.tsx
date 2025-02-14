@@ -165,7 +165,7 @@ getProfessionals()
           <h3 className="text-sm md:text-2xl/[215%] capitalize font-bold">
             Discover to the world’s Top Experts
           </h3>
-          <Link className="text-primary font-medium text-xs md:text-sm" href={"/explore"}>
+          <Link className="text-primary font-medium text-xs md:text-sm" href={"/experts"}>
             View All
           </Link>
         </div>
@@ -176,7 +176,7 @@ getProfessionals()
         </div>
         <div className="flex justify-center mt-8 md:mt-16">
           <Button className="text-white text-sm md:text-lg/[150%] font-semibold py-3 md:py-[18px] px-4 md:px-7 rounded md:rounded-[14px] h-fit">
-            <Link href={"/explore"}>Explore Experts</Link>
+            <Link href={"/experts"}>Explore Experts</Link>
           </Button>
         </div>
       </div>
