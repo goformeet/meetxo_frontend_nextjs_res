@@ -8,17 +8,12 @@ export default function EventCard({
   event: {
     _id: string;
     user_id: string;
-    profile_id?: any;
     max_participants: number;
-    booked_participants?: any;
-    participants?: any;
     meeting_link: string;
     title: string;
     description: string;
     price: number;
     image: string;
-    latitude?: any;
-    longitude?: any;
     type: string;
     start_date: string;
     location: string;

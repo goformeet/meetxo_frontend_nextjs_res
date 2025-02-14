@@ -25,17 +25,14 @@ import { getAllEvents } from "@/services/api";
 type EventType= {
   _id: string;
   user_id: string;
-  profile_id?: any;
+
   max_participants: number;
-  booked_participants?: any;
-  participants?: any;
+
   meeting_link: string;
   title: string;
   description: string;
   price: number;
   image: string;
-  latitude?: any;
-  longitude?: any;
   type: string;
   start_date: string;
   location: string;
@@ -254,6 +251,7 @@ const getEvents=async()=>{
       setEvents(res.data);
     }
   } catch (error) {
+    console.error(error)
     
   }
 }
