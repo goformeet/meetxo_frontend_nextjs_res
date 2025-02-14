@@ -165,7 +165,7 @@ getProfessionals()
           <h3 className="text-sm md:text-2xl/[215%] capitalize font-bold">
             Discover to the world’s Top Experts
           </h3>
-          <Link className="text-primary font-medium text-xs md:text-sm" href={"/explore"}>
+          <Link className="text-primary font-medium text-xs md:text-sm" href={"/experts"}>
             View All
           </Link>
         </div>

@@ -292,7 +292,7 @@ export default function Page() {
             className="border-[#6B7B8A] text-[#6B7B8A] w-full md:max-w-[202px] h-[58px]"
             onClick={() => router.push(`/${username}`)}
           >
-            <Link href={"/explore"}>Back to Experts</Link>
+            <Link href={"/experts"}>Back to Experts</Link>
           </Button>
           <Button
             onClick={() => formRef.current?.submitForm()}

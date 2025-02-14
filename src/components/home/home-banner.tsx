@@ -53,7 +53,7 @@ export default function HomeBanner() {
                           <div className="flex items-center bg-background border-[#F1F1F3] border rounded-[14px] p-1">
                               <Input type="text" placeholder="Search expert" className="border-none focus-visible:ring-0 shadow-none placeholder:text-muted-foreground" />
                               <Button className="text-white text-lg/[27px] py-[18px] px-7 h-fit rounded-[12px]">
-                                  <Link href="/explore">Search</Link>
+                                  <Link href="/experts">Search</Link>
                               </Button>
                           </div>
                       </div>
