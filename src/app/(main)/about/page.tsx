@@ -39,7 +39,9 @@ export default function AboutPage() {
                         "All the experts. One platform. Whether you’re looking for business advice, career coaching, or creative mentorship, MeetXO connects you with top professionals worldwide.",
                         "Seamless booking & payments. No back-and-forth emails. Just find your expert, book your session, and get insights—fast.",
                         "A new way to learn. Get personalized, actionable advice in real time, instead of wasting hours on generic content.",
-                        "Your expertise, your business. If you're an expert, MeetXO helps you monetize your knowledge and build your brand with ease."
+                        "Your expertise, your business. If you're an expert, MeetXO helps you monetize your knowledge and build your brand with ease.",
+                        "Host real-time webinars, workshops, and group coaching sessions, enabling you to connect and interact with your audience while sharing your expertise.",
+                        "Your greatest asset is your network—each meeting is a step toward new opportunities, insights, and lasting impact."
                     ].map((item, index) => (
                         <div key={index} className="bg-white shadow-md p-6 rounded-lg">
                             <p className="text-gray-800 font-medium">{item}</p>

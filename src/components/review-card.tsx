@@ -2,7 +2,7 @@ import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Star } from 'lucide-react';
 
-export default function ReviewCard({ review, style }: { review: { avatar: string; name: string; message: string; }, style?: string; }) {
+export default function ReviewCard({ review, style }: { review: { avatar: string; name: string; profession: string; message: string; }, style?: string; }) {
   return (
       <div className={`p-5 md:p-10 bg-review-card flex-shrink-0 rounded-[20px] flex flex-col gap-3.5 md:gap-7 ${style}`}>
           <div className="flex gap-2.5 md:gap-5">
@@ -12,7 +12,7 @@ export default function ReviewCard({ review, style }: { review: { avatar: string
               </Avatar>
               <div>
                   <p className="text-base md:text-xl/[130%] font-roboto font-bold md:tracking-[-1px]">{review.name}</p>
-                  <p className="text-xs md:text-sm text-[#7E8492]">{review.name}</p>
+                  <p className="text-xs md:text-sm text-[#7E8492]">{review.profession}</p>
               </div>
           </div>
           <p className="max-w-[391px] font-inter text-sm md:text-base/[26px] font-medium">{review.message}</p>

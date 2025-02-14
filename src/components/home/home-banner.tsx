@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import ExpertInput from './expert-input';
+import Link from 'next/link';
 
 
 export default function HomeBanner() {
@@ -50,8 +51,10 @@ export default function HomeBanner() {
                       </div>
                       <div className="h-[111px] mt-16">
                           <div className="flex items-center bg-background border-[#F1F1F3] border rounded-[14px] p-1">
-                              <Input type="text" placeholder="Enter your name" className="border-none focus-visible:ring-0 shadow-none placeholder:text-muted-foreground" />
-                              <Button className="text-white text-lg/[27px] py-[18px] px-7 h-fit rounded-[12px]">Search</Button>
+                              <Input type="text" placeholder="Search expert" className="border-none focus-visible:ring-0 shadow-none placeholder:text-muted-foreground" />
+                              <Button className="text-white text-lg/[27px] py-[18px] px-7 h-fit rounded-[12px]">
+                                  <Link href="/explore">Search</Link>
+                              </Button>
                           </div>
                       </div>
                   </TabsContent>

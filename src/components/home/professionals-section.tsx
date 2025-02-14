@@ -176,7 +176,7 @@ getProfessionals()
         </div>
         <div className="flex justify-center mt-8 md:mt-16">
           <Button className="text-white text-sm md:text-lg/[150%] font-semibold py-3 md:py-[18px] px-4 md:px-7 rounded md:rounded-[14px] h-fit">
-            <Link href={"/explore"}>Explore Experts</Link>
+            <Link href={"/experts"}>Explore Experts</Link>
           </Button>
         </div>
       </div>
