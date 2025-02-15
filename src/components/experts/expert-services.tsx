@@ -10,6 +10,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '..
 import Dot from '../dot';
 import { getServicesById } from '@/services/api';
 import { useRouter } from 'next/navigation';
+import EmptyData from '../empty-data';
 type Service = {
   _id: string;
   user_id: string;
@@ -39,8 +40,7 @@ export default function ExpertServices({ id, username }: ExpertServicesProps) {
   const categories = [
     { id: 2, name: "1:1 Call" },
     { id: 3, name: "Events" },
-    { id: 4, name: "Digital Product" },
-    { id: 5, name: "Webinars" },
+    { id: 4, name: "Digital Product" }
   ];
 
   const getServices = async () => {
@@ -70,7 +70,7 @@ export default function ExpertServices({ id, username }: ExpertServicesProps) {
             key={categ.id}
             onClick={() => setCategory(categ.name)}
             className={cn(
-              "bg-transparent text-base/6 font-normal capitalize py-4 px-6 leading-normal rounded-[12px] h-fit shadow-none border-foreground hover:bg-foreground hover:text-background transition-all",
+              "bg-transparent text-sm md:text-base/6 font-normal capitalize py-2.5 md:py-4 px-4 md:px-6 leading-normal rounded-lg md:rounded-[12px] h-fit shadow-none border-foreground hover:bg-foreground hover:text-background transition-all",
               {
                 "bg-foreground text-white dark:text-background font-bold":
                   categ.name === category,
@@ -82,75 +82,78 @@ export default function ExpertServices({ id, username }: ExpertServicesProps) {
         ))}
       </div>
       <div className="space-y-[18px] mb-[169px]">
-        {services.map((data) => {
-          return (
-            <div
-              key={data._id}
-              className="p-4 border border-[#E0E0E0] rounded-[16px] flex justify-between"
-            >
-              <div>
-                <p className="text-xl/[130%] font-medium mb-2">
-                  {/* Building a successful business - 1:1 Mentoring */}
-                  {data.short_description}
-                </p>
-                <div className="flex items-center gap-2">
-                  <p className="text-[#7C7C7C] text-base/[150%]">
-                    {/* By Sen Janson */}
-                    {data.name}
+        {services.length ? (
+          services.map((data) => {
+            return (
+              <div
+                key={data._id}
+                className="p-4 border border-[#E0E0E0] rounded-[16px] flex justify-between"
+              >
+                <div>
+                  <p className="text-xl/[130%] font-medium mb-2">
+                    {/* Building a successful business - 1:1 Mentoring */}
+                    {data.short_description}
                   </p>
-                  <Dot />
+                  <div className="flex items-center gap-2">
+                    <p className="text-[#7C7C7C] text-base/[150%]">
+                      {/* By Sen Janson */}
+                      {data.name}
+                    </p>
+                    <Dot />
 
-                  {/* <div className="flex items-center gap-1">
+                    {/* <div className="flex items-center gap-1">
                       <Star className="h-5 w-5 text-[#FBBC05]" />
                       <p className="text-[#7C7C7C] text-base/[150%]">
                         4.8 (122)
                       </p>
                     </div> */}
-                </div>
-                <div className="my-4 flex gap-2 items-center">
-                  <div className="flex gap-1 items-center">
-                    <Clock3 className="text-foreground" />
-                    <p className="text-[#7C7C7C] text-sm">
-                      {data.duration} Minutes
-                    </p>
                   </div>
-                  <Dot />
-                </div>
-                <Accordion type="single" collapsible>
-                  <AccordionItem
-                    className="border-none w-fit items-center"
-                    value="details"
-                  >
-                    <AccordionTrigger
-                      icon="/images/more-details-icon.svg"
-                      className="font-semibold text-2xl/8 tracking-[-1%] text-left w-fit"
-                    >
-                      <p className="text-sm/[155%] mr-1 text-primary font-normal">
-                        View Details
+                  <div className="my-4 flex gap-2 items-center">
+                    <div className="flex gap-1 items-center">
+                      <Clock3 className="text-foreground" />
+                      <p className="text-[#7C7C7C] text-sm">
+                        {data.duration} Minutes
                       </p>
-                    </AccordionTrigger>
-                    <AccordionContent className="text-[#7E8492] pb-0 mt-4 font-medium text-base/[150%]">
-                      {data.long_description}
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
+                    </div>
+                    <Dot />
+                  </div>
+                  <Accordion type="single" collapsible>
+                    <AccordionItem
+                      className="border-none w-fit items-center"
+                      value="details"
+                    >
+                      <AccordionTrigger
+                        icon="/images/more-details-icon.svg"
+                        className="font-semibold text-2xl/8 tracking-[-1%] text-left w-fit"
+                      >
+                        <p className="text-sm/[155%] mr-1 text-primary font-normal">
+                          View Details
+                        </p>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-[#7E8492] pb-0 mt-4 font-medium text-base/[150%]">
+                        {data.long_description}
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                </div>
+                <div className="flex flex-col justify-between items-end">
+                  <p className="text-[32px]/[120%] font-medium font-roboto">
+                    ${data.online_pricing}
+                  </p>
+                  <Button
+                    onClick={() => router.push(`${username}/booking?id=${data._id}`)}
+                    className={cn(
+                      "font-roboto text-sm/normal font-semibold capitalize py-[9px] px-[16px] leading-normal rounded-[8px] h-fit text-white shadow-none"
+                    )}
+                  >
+                    Book Session
+                  </Button>
+                </div>
               </div>
-              <div className="flex flex-col justify-between items-end">
-                <p className="text-[32px]/[120%] font-medium font-roboto">
-                  ${data.online_pricing}
-                </p>
-                <Button
-                  onClick={() => router.push(`${username}/booking?id=${data._id}`)}
-                  className={cn(
-                    "font-roboto text-sm/normal font-semibold capitalize py-[9px] px-[16px] leading-normal rounded-[8px] h-fit text-white shadow-none"
-                  )}
-                >
-                  Book Session
-                </Button>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })
+        ) : <EmptyData />}
+
 
         {/* <div className='p-4 border border-[#E0E0E0] rounded-[16px] flex justify-between '>
                     <div className='flex gap-[34px]'>
