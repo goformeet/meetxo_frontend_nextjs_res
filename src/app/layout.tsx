@@ -37,9 +37,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/web-meet-xo.png", // Path to your OG image (stored in the public folder)
-        width: 1200,
-        height: 630,
+        url: "/images/meetxo-logo.png", // Path to your OG image (stored in the public folder)
+        width: 1000,
+        height: 300,
         alt: "MeetXO - Connect with Experts",
       },
     ],
