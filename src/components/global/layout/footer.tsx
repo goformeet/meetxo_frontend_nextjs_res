@@ -63,7 +63,10 @@ export default function Footer() {
                         </p>
                     </Link>
                     <div className='flex justify-between items-center mt-12'>
+
+                         <a href="https://play.google.com/store/apps/details?id=com.app.meetxo&pli=1" target="_blank" rel="noopener noreferrer">
                         <Image src={'/images/play-store.svg'} width={135} height={40} alt='Play Store Image' />
+                        </a>
                         <a href="https://apps.apple.com/us/app/meetxo/id6741767901" target="_blank" rel="noopener noreferrer">
                             <Image src={'/images/app-store.svg'} width={135} height={40} alt='App Store Image' />
                         </a>
