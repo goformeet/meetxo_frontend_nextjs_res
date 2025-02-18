@@ -299,7 +299,7 @@ export default function Page() {
             disabled={isProcessing}
             className="text-white w-full md:max-w-[202px] h-[58px]"
           >
-            {isProcessing ? "Processing..." : "Continuess"}
+            {isProcessing ? "Processing..." : "Continue"}
           </Button>
         </div>
       </div>
