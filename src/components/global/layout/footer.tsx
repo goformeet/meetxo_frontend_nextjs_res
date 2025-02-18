@@ -8,7 +8,7 @@ export default function Footer() {
         { text: "Careers ", url: 'https://www.linkedin.com/company/meetxo/jobs/' },
         { text: "Team ", url: '/team ' },
         { text: "FAQ", url: '/faq' },
-        { text: 'Experts', url: '/explore' },
+        { text: 'Experts', url: '/experts' },
         // { text: 'Help', url: 'intro.co/contact ' },
     ];
     const socialLinks = [
