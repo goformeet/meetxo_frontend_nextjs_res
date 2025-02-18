@@ -52,7 +52,7 @@ const Team = () => {
                 />
                 <TeamImage
                     name="Prajwal"
-                    designation="founder's Office"
+                    designation="Founder's Office"
                     goformeet="https://www.goformeet.co/prajwal"
                     image={images.prajwal}
                 />
