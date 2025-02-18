@@ -18,7 +18,7 @@ export default function Sidebar() {
             icon: '/icons/sidebar-icons/explore-icon.svg',
             activeIcon: '/icons/sidebar-icons/explore-active.svg',
             title: 'Explore',
-            url:'/explore'
+            url:'/experts'
         },
         {
             icon: '/icons/sidebar-icons/booking-icon.svg',

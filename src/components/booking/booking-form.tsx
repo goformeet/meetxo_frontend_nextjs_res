@@ -73,7 +73,6 @@ const BookingForm = forwardRef<BookingFormRef, Props>(
     useImperativeHandle(ref, () => ({
       submitForm: () => {
         form.handleSubmit(onSubmit)();
-       
       },
     }));
     const formattedDate = convertDate(selectedDate);
@@ -81,12 +80,12 @@ const BookingForm = forwardRef<BookingFormRef, Props>(
     
     
     return (
-      <div className="lg:w-2/5 rounded-[16px] border border-[#E3E6EA] p-[26px]">
-        <h3 className="text-2xl/8 font-extrabold">
-          Breaking into Product Management (₹{price})
+      <div className="lg:w-2/5 rounded-[16px] border border-[#E3E6EA] p-5 md:p-[26px]">
+        <h3 className="text-lg md:text-2xl/8 font-extrabold">
+          Breaking into Product Management (${price})
         </h3>
 
-        <div className="bg-primary-light rounded-[12px] flex items-center justify-between mt-6 p-4">
+        <div className="bg-primary-light rounded-[12px] flex flex-col gap-8 md:gap-0 md:flex-row md:items-center justify-between mt-6 p-3.5 md:p-4">
           <div className="flex gap-3 items-center flex-shrink-0">
             <div className="flex flex-shrink-0 flex-col justify-center gap-0.5 rounded-[16px] overflow-hidden border border-[#DEDEDF] bg-[#F6F6F6] font-bold text-sm">
               <p className="px-5 pt-3">
@@ -205,7 +204,7 @@ const BookingForm = forwardRef<BookingFormRef, Props>(
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormLabel>
-                      Use different settings for my mobile devices
+                      Receive booking details on phone
                     </FormLabel>
                   </div>
                 </FormItem>

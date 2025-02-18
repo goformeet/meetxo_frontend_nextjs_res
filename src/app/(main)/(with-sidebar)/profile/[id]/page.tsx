@@ -12,7 +12,7 @@ export default function page() {
         },
         {
             icon: '/images/meeting-icon.svg',
-            title: 'Add Meetings',
+            title: 'Add Services',
             vlue: ''
         },
         {

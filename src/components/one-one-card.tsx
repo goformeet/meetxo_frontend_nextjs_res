@@ -28,7 +28,7 @@ import React from 'react'
               alt={event.name}
               width={287}
               height={131}
-              className="max-h-[131] w-full rounded-[10px]"
+              className="max-h-[131px] w-full rounded-[10px]"
             />
             <div className="py-1.5 px-3.5 flex flex-col items-center justify-center flex-shrink-0 text-[#F0635A] text-[10px] font-medium rounded-[10px] bg-white/70 absolute top-2 left-2.5 uppercase">
               <p className="font-bold text-lg/[100%]">{event.duration}</p>

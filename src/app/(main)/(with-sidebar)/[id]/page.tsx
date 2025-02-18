@@ -1,12 +1,15 @@
 "use client";
-import ExpertProtfolio from "@/components/experts/expert-protfolio";
-import ExpertReviews from "@/components/experts/expert-reviews";
+// import ExpertProtfolio from "@/components/experts/expert-protfolio";
+// import ExpertReviews from "@/components/experts/expert-reviews";
 import ExpertServices from "@/components/experts/expert-services";
 // import Footer from "@/components/global/layout/footer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { Hosts } from "@/services/api";
 import { TabsTrigger } from "@radix-ui/react-tabs";
+import Image from "next/image";
+import Link from "next/link";
+// import Link from "next/link";
 import React, {  useEffect, useState } from "react";
 interface Expert {
   _id: string;
@@ -37,14 +40,14 @@ export default function Page({
             title: "Overview",
             value: "overview",
         },
-        {
-            title: "Portfolio",
-            value: "portfolio",
-        },
-        {
-            title: "Reviews",
-            value: "reviews",
-        },
+        // {
+        //     title: "Portfolio",
+        //     value: "portfolio",
+        // },
+        // {
+        //     title: "Reviews",
+        //     value: "reviews",
+        // },
     ];
 
     const fetchingData = async () => {
@@ -71,33 +74,40 @@ export default function Page({
 
     return (
       // <div className=" flex-grow pr-[35px] max-w-[calc(100%-103.45px)]">
-      <div className=" flex-grow pr-[35px]">
-        <div
-          className={`pl-5 flex gap-[18px] items-end  bg-no-repeat bg-top bg-cover bg-background pt-[104px]`}
-          style={{
-            backgroundImage: `url(${
-              data?.cover_image
-                ? data.cover_image
-                : "https://res.cloudinary.com/djocenrah/image/upload/v1739182656/Untitled_design_33_esnuv5.png "
-            })`,
-            backgroundSize: "100% 180px",
-          }}
-        >
-          <Avatar className="h-[190px] w-[190px] border-4 border-background">
-            <AvatarImage
-              src={data?.profile_image}
-              className="object-cover object-center"
-            />
-            <AvatarFallback className="bg-[#E3E6EA] dark:bg-muted-foreground">
-              CN
-            </AvatarFallback>
-          </Avatar>
-          <div className="mb-9">
-            <h1 className="text-[31px]/9 font-bold">{data?.name}</h1>
-            <p className="mt-1 text-lg/7">{data?.profession_id?.title}</p>
+      <div className="flex-grow mx-4 md:mx-7 lg:mx-10">
+        <div className="relative pb-20 md:pb-[110px]">
+          <Image src={data?.cover_image
+            ? data.cover_image
+            : "https://res.cloudinary.com/djocenrah/image/upload/v1739182656/Untitled_design_33_esnuv5.png"} alt="" width={1318} height={180} className="w-full h-28 md:h-[180px] object-cover object-center" />
+          <div className="flex flex-col md:flex-row gap-2 md:gap-4 absolute bottom-0 md:left-8 md:items-center">
+            <Avatar className="h-20 w-20 md:h-[190px] md:w-[190px] border-4 border-background">
+              <AvatarImage
+                src={data?.profile_image}
+                className="object-cover object-center"
+              />
+              <AvatarFallback className="bg-[#E3E6EA] dark:bg-muted-foreground">
+                CN
+              </AvatarFallback>
+            </Avatar>
+            <div className="md:mt-16 flex-shrink-0">
+              <h1 className="text-base md:text-[31px]/9 font-bold">{data?.name}</h1>
+              <p className="md:mt-1 text-sm md:text-lg/7">{data?.profession_id?.title}</p>
+            </div>
           </div>
+          <div className="absolute right-0 md:bottom-4 flex items-center gap-3">
+            <Link href={'/'} className="h-10 w-10 bg-primary-light rounded-full flex justify-center items-center">
+              <Image src={'/images/linked-in-logo.png'} alt="linked in" width={40} height={40} className="h-[26px] w-[26px] object-contain object-center" />
+            </Link>
+            <Link href={'/'} className="h-10 w-10 bg-primary-light rounded-full flex justify-center items-center">
+              <Image src={'/images/youtube-icon.png'} alt="linked in" width={40} height={40} className="h-[26px] w-[26px] object-contain object-center" />
+            </Link>
+            <Link href={'/'} className="h-10 w-10 bg-primary-light rounded-full flex justify-center items-center">
+              <Image src={'/images/git-hub-icon.png'} alt="linked in" width={40} height={40} className="h-[26px] w-[26px] object-contain object-center" />
+            </Link>
+          </div>
+
         </div>
-        <div className="pl-5 pt-7">
+        <div className="pt-7">
           <Tabs defaultValue="overview">
             <TabsList className="gap-[36px] bg-background border-b w-full h-fit px-0 py-0 justify-start rounded-none">
               {tabHeaders.map((tab) => (
@@ -116,9 +126,8 @@ export default function Page({
               ))}
             </TabsList>
             <TabsContent value="overview">
-              <div className="py-4 px-6 mt-6 rounded-[16px] border border-[#F1F2F4] text-lg/8 font-medium">
+              <div className="py-3 md:py-4 px-4 md:px-6 mt-4 md:mt-6 rounded-lg md:rounded-[16px] border border-[#F1F2F4] text-base/7 md:text-lg/8 font-medium">
                 <p>{data?.about_me}</p>
-                <p className="mt-4"></p>
               </div>
               {data?.user_id && (
                 <ExpertServices
@@ -127,12 +136,12 @@ export default function Page({
                 />
               )}
             </TabsContent>
-            <TabsContent value="portfolio">
+            {/* <TabsContent value="portfolio">
               <ExpertProtfolio />
             </TabsContent>
             <TabsContent value="reviews">
               <ExpertReviews />
-            </TabsContent>
+            </TabsContent> */}
           </Tabs>
         </div>
         {/* <Footer /> */}

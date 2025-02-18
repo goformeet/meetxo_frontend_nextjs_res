@@ -6,12 +6,16 @@ import React from "react";
 const Team = () => {
     // Declare image locations as constants
     const images = {
-        saurav: "/images/team/saurav.png",
-        prashob: "/images/team/prashob.png",
-        shashank: "/images/team/shashanks.png",
-        prajwal: "/images/team/placeholder.png",
-        ritu: "/images/team/placeholder.png",
-        surya: "/images/team/placeholder.png",
+        saurav: "/images/team/saurav-sir.png",
+        prashob: "/images/team/prashob-sir.png",
+        shashank: "/images/team/sashank-sir.png",
+        prajwal: "/images/team/Prajwal.png",
+        ritu: "/images/team/ritu.png",
+        surya: "/images/team/suryaa.png",
+                abhishek: "/images/team/Abhishek.png",
+        vishwa: "/images/team/vishwa.png",
+        tejas: "/images/team/Tejas.png",
+
     };
 
     return (
@@ -25,13 +29,13 @@ const Team = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
                     <TeamImage
                         name="Saurav Kumar"
-                        designation="CEO & Co-Founder"
+                        designation="Founder & CEO"
                         goformeet="https://www.goformeet.co/sauravkumar"
                         image={images.saurav}
                     />
                     <TeamImage
                         name="Prashob P"
-                        designation="CTO & Co-Founder"
+                        designation="Co-Founder & CTO"
                         goformeet="https://goformeet.co/prashob"
                         image={images.prashob}
                     />
@@ -48,7 +52,7 @@ const Team = () => {
                 />
                 <TeamImage
                     name="Prajwal"
-                    designation="Software Engineer"
+                    designation="founder's Office"
                     goformeet="https://www.goformeet.co/prajwal"
                     image={images.prajwal}
                 />
@@ -60,10 +64,35 @@ const Team = () => {
                 />
                 <TeamImage
                     name="Surya"
-                    designation="Content Writer"
+                    designation="Video Editor"
                     goformeet="https://www.goformeet.co/surya"
                     image={images.surya}
                 />
+
+
+
+
+
+                 <TeamImage
+                    name="Abhishek Kumar"
+                    designation="Founders Office Intern"
+                    goformeet="https://www.goformeet.co/surya"
+                    image={images.abhishek}
+                /> <TeamImage
+                    name="Vishwa"
+                    designation="Founders Office Intern"
+                    goformeet="https://www.goformeet.co/surya"
+                    image={images.vishwa}
+                /> <TeamImage
+                    name="Tejas"
+                    designation="Founders Office Intern"
+                    goformeet="https://www.goformeet.co/surya"
+                    image={images.tejas}
+                />
+
+            
+
+
             </div>
 
             <div className="flex justify-center mt-10">
