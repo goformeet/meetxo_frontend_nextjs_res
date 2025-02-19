@@ -10,7 +10,7 @@ export default function BecomeExpertButton() {
         <>
             <Button onClick={() => setOpen(true)} className="w-full py-2 px-4 h-[42px]">
                 <Image width={25} height={24} src="/images/expert-button-icon.svg" alt="Calander Icon" />
-                <p className="font-inter text-base font-medium leading-[160%] text-white">Become a Expert</p>
+                <p className="font-inter text-base font-medium leading-[160%] text-white">Join as expert</p>
             </Button>
             <BecomeExpertModal name='' open={open} setOpen={setOpen}  />
       </>
