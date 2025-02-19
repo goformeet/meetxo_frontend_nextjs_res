@@ -9,7 +9,7 @@ export default function Footer() {
         { text: "Team ", url: '/team ' },
         { text: "FAQ", url: '/faq' },
         { text: 'Experts', url: '/experts' },
-                { text: 'Events', url: '/Events' },
+                { text: 'Events', url: '/events' },
 
         // { text: 'Help', url: 'intro.co/contact ' },
     ];
