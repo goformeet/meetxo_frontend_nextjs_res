@@ -93,7 +93,7 @@ export default function Footer() {
                     </ul>
                 </nav>
                 <aside className='flex items-center gap-6'>
-                    {
+{/*                     {
 
 
 
@@ -102,7 +102,7 @@ socialLinks.map((link, index) => (
         <Image src={link.icon} height={20} width={20} alt="Social Logo" />
     </Link>
 ))
-                    }
+                    } */}
                 </aside>
             </div>
             <div className='py-10 flex flex-col-reverse md:flex-row items-center justify-between gap-8'>
