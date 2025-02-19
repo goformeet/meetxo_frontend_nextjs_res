@@ -1,5 +1,6 @@
 'use client'
 import { handlePayment } from '@/app/utils/razorpay';
+import LoginModal from '@/components/auth/login-modal';
 import EventBookingModal from '@/components/booking/event-booking-modal';
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button';
@@ -37,10 +38,24 @@ const register=async()=>{
     name: "",
     online_pricing: eventData?.price?eventData?.price:1
   }
-  await handlePayment(dat, service, continueToBooking,setIsProcessing);
+try {
+  setIsProcessing(true)
+   await handlePayment(dat, service, continueToBooking, setIsProcessing);
+} catch (error) {
+  console.error(error);
+  
+}finally{
+  setIsProcessing(false);
+}
+
+ 
 }
 const continueToBooking=( dat: { email: string; name: string; phone_number: string },
     response: { razorpay_order_id: string })=>{
+      console.log(response);
+      console.log(dat);
+      
+      
 
 }
  useEffect(() => {
@@ -206,7 +221,13 @@ const formatDateTime = (dateTimeStr: string) => {
         <p className="font-semibold mb-4">About the event:</p>
         <p className="whitespace-pre-line">{eventData?.description}</p>
       </div>
-      <EventBookingModal open={open} setOpen={setOpen} register={register} />
+      <LoginModal open={open} setOpen={setOpen} />
+      {/* <EventBookingModal
+        open={open}
+        setOpen={setOpen}
+        register={register}
+        isProcessing={isProcessing}
+      /> */}
     </main>
   );
 }

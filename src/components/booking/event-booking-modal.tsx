@@ -35,10 +35,12 @@ export default function EventBookingModal({
   open,
   setOpen,
   register,
+  isProcessing,
 }: {
+  isProcessing:boolean
   open: boolean;
   setOpen: (open: boolean) => void;
-  register:()=>void
+  register: () => void;
 }) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -53,8 +55,8 @@ export default function EventBookingModal({
     console.log("🚀 ~ onSubmit ~ data:", data);
   }
 
-//   const isButtonDisabled = !form.watch("name");
-const isButtonDisabled =false
+  //   const isButtonDisabled = !form.watch("name");
+  const isButtonDisabled = false;
 
   return (
     <Dialog open={open} onOpenChange={() => setOpen(!open)}>
@@ -127,17 +129,31 @@ const isButtonDisabled =false
                 </FormItem>
               )}
             />
-            <Button
-              disabled={isButtonDisabled}
-              className={cn(
-                "bg-primary text-white w-full mt-7 md:mt-8 px-6 py-6 font-plus-jakarta-sans text-base font-bold leading-[150%] tracking-[0.3px]",
-                { "opacity-50 cursor-not-allowed": isButtonDisabled }
-              )}
-              onClick={() => register()}
-            //   type="submit"
-            >
-              Continue
-            </Button>
+            {isProcessing ? (
+              <Button
+                disabled={isButtonDisabled}
+                className={cn(
+                  "bg-primary text-white w-full mt-7 md:mt-8 px-6 py-6 font-plus-jakarta-sans text-base font-bold leading-[150%] tracking-[0.3px]",
+                  { "opacity-50 cursor-not-allowed": isButtonDisabled }
+                )}
+                // onClick={() => register()}
+                //   type="submit"
+              >
+                Processing...
+              </Button>
+            ) : (
+              <Button
+                disabled={isButtonDisabled}
+                className={cn(
+                  "bg-primary text-white w-full mt-7 md:mt-8 px-6 py-6 font-plus-jakarta-sans text-base font-bold leading-[150%] tracking-[0.3px]",
+                  { "opacity-50 cursor-not-allowed": isButtonDisabled }
+                )}
+                onClick={() => register()}
+                //   type="submit"
+              >
+                Continue
+              </Button>
+            )}
           </form>
         </Form>
       </DialogContent>
