@@ -81,7 +81,7 @@ export default function BecomeExpertModal({ name, open, setOpen }: { name: strin
                     !fromSubmitted ? (
                         <>
                             <DialogHeader>
-                                <DialogTitle>Become a Expert</DialogTitle>
+                                <DialogTitle>Join as expert</DialogTitle>
                                 <DialogDescription>
                                 </DialogDescription>
                             </DialogHeader>
