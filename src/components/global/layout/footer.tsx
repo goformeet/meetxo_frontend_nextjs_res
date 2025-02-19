@@ -124,6 +124,8 @@ socialLinks.map((link, index) => (
                     <Link href={'/terms-of-service'}>Terms & Conditions</Link>
                     <Link href={'/privacy-policy'}>Privacy Policy</Link>
                     <Link href={'/refund-policy'}>Refund Policy</Link>
+                                        <Link href={'/sitemap.xml'}>Sitemap</Link>
+
                 </div>
             </div>
         </footer>
