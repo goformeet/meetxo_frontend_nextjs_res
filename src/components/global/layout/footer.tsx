@@ -97,8 +97,8 @@ export default function Footer() {
 
 
 
-                        socialLinks.map((link, index) => (
-    <Link key={index} href={link.url} target="_blank" 
+socialLinks.map((link, index) => (
+    <Link key={index} href={link.url} target="_blank">
         <Image src={link.icon} height={20} width={20} alt="Social Logo" />
     </Link>
 ))
