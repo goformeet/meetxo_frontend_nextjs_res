@@ -9,6 +9,8 @@ export default function Footer() {
         { text: "Team ", url: '/team ' },
         { text: "FAQ", url: '/faq' },
         { text: 'Experts', url: '/experts' },
+                { text: 'Events', url: '/Events' },
+
         // { text: 'Help', url: 'intro.co/contact ' },
     ];
     const socialLinks = [
