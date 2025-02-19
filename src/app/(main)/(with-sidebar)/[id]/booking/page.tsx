@@ -206,9 +206,9 @@ export default function Page() {
               <div className="flex flex-col md:flex-row items-center border-b border-[#E3E8ED]">
                 <div className="md:w-1/2 py-2 md:py-[22px] px-5 md:px-10 md:border-r-[0.5px] border-[#E3E8ED]">
                   <div className="w-fit py-2 px-3 flex justify-center items-center gap-1 rounded-[24px] border border-foreground">
-                    <p className="text-[#727272] text-xs/4 font-medium line-through">
+                    {/* <p className="text-[#727272] text-xs/4 font-medium line-through">
                       $ {(service.online_pricing * 1.2).toFixed(2)}
-                    </p>
+                    </p> */}
                     <p className="text-base/5 font-bold">
                       ${service.online_pricing.toFixed(2)}
                     </p>
@@ -299,7 +299,7 @@ export default function Page() {
             disabled={isProcessing}
             className="text-white w-full md:max-w-[202px] h-[58px]"
           >
-            {isProcessing ? "Processing..." : "Continuess"}
+            {isProcessing ? "Processing..." : "Continue"}
           </Button>
         </div>
       </div>

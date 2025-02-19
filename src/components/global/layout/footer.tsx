@@ -8,7 +8,7 @@ export default function Footer() {
         { text: "Careers ", url: 'https://www.linkedin.com/company/meetxo/jobs/' },
         { text: "Team ", url: '/team ' },
         { text: "FAQ", url: '/faq' },
-        { text: 'Experts', url: '/explore' },
+        { text: 'Experts', url: '/experts' },
         // { text: 'Help', url: 'intro.co/contact ' },
     ];
     const socialLinks = [
@@ -63,7 +63,10 @@ export default function Footer() {
                         </p>
                     </Link>
                     <div className='flex justify-between items-center mt-12'>
+
+                         <a href="https://play.google.com/store/apps/details?id=com.app.meetxo&pli=1" target="_blank" rel="noopener noreferrer">
                         <Image src={'/images/play-store.svg'} width={135} height={40} alt='Play Store Image' />
+                        </a>
                         <a href="https://apps.apple.com/us/app/meetxo/id6741767901" target="_blank" rel="noopener noreferrer">
                             <Image src={'/images/app-store.svg'} width={135} height={40} alt='App Store Image' />
                         </a>
@@ -91,11 +94,18 @@ export default function Footer() {
                 </nav>
                 <aside className='flex items-center gap-6'>
                     {
-                        socialLinks.map((link, index) => (
+{/*                         socialLinks.map((link, index) => (
                             <Link key={index} href={link.url}>
                                 <Image src={link.icon} height={20} width={20} alt='Social Logo' />
                             </Link>
-                        ))
+                        )) */}
+
+
+                        socialLinks.map((link, index) => (
+    <Link key={index} href={link.url} target="_blank" rel="noopener noreferrer">
+        <Image src={link.icon} height={20} width={20} alt="Social Logo" />
+    </Link>
+))
                     }
                 </aside>
             </div>
