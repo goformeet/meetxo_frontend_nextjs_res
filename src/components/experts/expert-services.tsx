@@ -92,12 +92,13 @@ export default function ExpertServices({ id, username }: ExpertServicesProps) {
                 <div>
                   <p className="text-xl/[130%] font-medium mb-2">
                     {/* Building a successful business - 1:1 Mentoring */}
-                    {data.short_description}
+                                          {data.name}
+
                   </p>
                   <div className="flex items-center gap-2">
                     <p className="text-[#7C7C7C] text-base/[150%]">
                       {/* By Sen Janson */}
-                      {data.name}
+                    {data.short_description}
                     </p>
                     <Dot />
 
