@@ -23,6 +23,7 @@ import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import PhoneForm from "./phoneForm";
 import { OtpForm } from "./otpForm";
+import DetailsForm from "./detailsForm";
 
 const FormSchema = z.object({
     phone: z
@@ -30,44 +31,34 @@ const FormSchema = z.object({
         .refine(isValidPhoneNumber, { message: "Invalid phone number" }),
 });
 
-
+interface ChildProps {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  step: "phone" | "otp" | "details";
+  handlePhoneSubmit: (phone: string) => void;
+  handleOtpSubmit: (otp: string) => void;
+//   handleDetailsSubmit: (details: { userName: string; email: string }) => void;
+}
 export default function LoginModal({
   open,
   setOpen,
-}: {
-  open: boolean;
-  setOpen: (open: boolean) => void;
-}) {
-
-     const [phone, setPhone] = useState<string>('');
-     const [step, setStep] = useState<'phone' | 'otp' | 'details'>('phone');
-      const [otp, setOtp] = useState<string>('');
-
-  //   const isButtonDisabled = !form.watch("name");
-     function onSubmit(data: z.infer<typeof FormSchema>) {
-        //  handleSubmit(data.phone);
-     }
- const handlePhoneSubmit = (phone: string) => {
- setPhone(phone);
- setStep("otp");
- };
-  const handleOtpSubmit = (otp: string) => {
-    setOtp(otp);
-    setStep("details");
+  step,
+  handlePhoneSubmit,
+  handleOtpSubmit,
+//   handleDetailsSubmit,
+}: ChildProps) {
+  const renderForm = (step: string) => {
+    switch (step) {
+      case "phone":
+        return <PhoneForm handleSubmit={handlePhoneSubmit} />;
+      case "otp":
+        return <OtpForm handleSubmit={handleOtpSubmit} />;
+    //   case "details":
+    //     return <DetailsForm handleSubmit={handleDetailsSubmit} />;
+      default:
+        return <PhoneForm handleSubmit={handlePhoneSubmit} />;
+    }
   };
-   
-      const renderForm = (step: string) => {
-             switch (step) {
-                 case 'phone':
-                     return <PhoneForm handleSubmit={handlePhoneSubmit} />;
-                 case 'otp':
-                     return <OtpForm handleSubmit={handleOtpSubmit} />;
-                //  case 'details':
-                //      return <DetailsForm handleSubmit={handleDetailsSubmit} />;
-                 default:
-                     return <PhoneForm handleSubmit={handlePhoneSubmit} />;
-             }
-         }
 
   return (
     <Dialog open={open} onOpenChange={() => setOpen(!open)}>

@@ -1,4 +1,6 @@
+import { AuthData } from "@/types/authTypes";
 import axios from "axios";
+import { date } from "zod";
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001/api";
 
@@ -8,8 +10,8 @@ export const api = axios.create({
     "Content-Type": "application/json",
   },
 });
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjc0MTk2OGI4MDUxNGY1NGNlY2Q1NTcxIiwicGhvbmVfbnVtYmVyIjoiKzkxNzkwNzc1MzE2MyIsImlhdCI6MTczMjM1NDQ2OH0.g-Z5LfT_6LCXO2stpH18jMm6B2ifbEusRUsyhbrbAvY";
+const token =localStorage.getItem("token")
+  
 
 export const Hosts = async (filters: Record<string, string | boolean>) => {
   try {
@@ -109,10 +111,35 @@ try {
    throw error;
 }
 }
-export const sentOtp = async (mobile_number: { mobile_number :string}) => {
+export const sendOtp = async (phone: string) => {
+  const data = {
+    mobile_number: phone,
+  };
   try {
-    const response = await axios.post(`${API_BASE_URL}/login`, mobile_number);
-      return response.data;
+    const response = await axios.post(`${API_BASE_URL}/auth/send-otp`, data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+export const verifyOtp = async (authData: AuthData) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/auth/verify-otp`,authData);
+    return response.data
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+export const setUpProfile = async (data: Record<string, unknown>) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/profile/`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
   } catch (error) {
     console.error(error);
     throw error;

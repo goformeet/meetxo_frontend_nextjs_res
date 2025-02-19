@@ -24,11 +24,11 @@ const FormSchema = z.object({
     email: z
         .string()
         .email({ message: "Please enter a valid email address." }),
-    phone: z
-        .string()
-        .min(10, { message: "Phone number must be at least 10 digits." })
-        .max(15, { message: "Phone number cannot exceed 15 digits." })
-        .regex(/^\d+$/, { message: "Phone number must contain only digits." })
+    // phone: z
+    //     .string()
+    //     .min(10, { message: "Phone number must be at least 10 digits." })
+    //     .max(15, { message: "Phone number cannot exceed 15 digits." })
+    //     .regex(/^\d+$/, { message: "Phone number must contain only digits." })
 });
 
 export default function EventBookingModal({
@@ -40,23 +40,24 @@ export default function EventBookingModal({
   isProcessing:boolean
   open: boolean;
   setOpen: (open: boolean) => void;
-  register: () => void;
+  register: (data:{email:string,name:string}) => void;
 }) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       name: "",
       email: "",
-      phone: "",
+      // phone: "",
     },
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log("🚀 ~ onSubmit ~ data:", data);
+   register(data)
   }
 
-  //   const isButtonDisabled = !form.watch("name");
-  const isButtonDisabled = false;
+    const isButtonDisabled = !form.watch("name");
+  // const isButtonDisabled = false;
 
   return (
     <Dialog open={open} onOpenChange={() => setOpen(!open)}>
@@ -110,7 +111,7 @@ export default function EventBookingModal({
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name="phone"
               render={({ field }) => (
@@ -128,7 +129,7 @@ export default function EventBookingModal({
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             {isProcessing ? (
               <Button
                 disabled={isButtonDisabled}
@@ -136,8 +137,7 @@ export default function EventBookingModal({
                   "bg-primary text-white w-full mt-7 md:mt-8 px-6 py-6 font-plus-jakarta-sans text-base font-bold leading-[150%] tracking-[0.3px]",
                   { "opacity-50 cursor-not-allowed": isButtonDisabled }
                 )}
-                // onClick={() => register()}
-                //   type="submit"
+              
               >
                 Processing...
               </Button>
@@ -148,8 +148,8 @@ export default function EventBookingModal({
                   "bg-primary text-white w-full mt-7 md:mt-8 px-6 py-6 font-plus-jakarta-sans text-base font-bold leading-[150%] tracking-[0.3px]",
                   { "opacity-50 cursor-not-allowed": isButtonDisabled }
                 )}
-                onClick={() => register()}
-                //   type="submit"
+              
+                  type="submit"
               >
                 Continue
               </Button>

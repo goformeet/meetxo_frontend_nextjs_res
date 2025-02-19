@@ -1,11 +1,14 @@
 'use client'
+import { collectAuthData } from '@/app/utils/collectAuthData';
 import { handlePayment } from '@/app/utils/razorpay';
 import LoginModal from '@/components/auth/login-modal';
 import EventBookingModal from '@/components/booking/event-booking-modal';
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button';
+import { sendOtp, setUpProfile, verifyOtp } from '@/services/api';
+import { AuthData } from '@/types/authTypes';
 import Image from 'next/image'
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Script from 'next/script';
 import React, { useEffect, useState } from 'react'
 
@@ -22,34 +25,93 @@ type  Event= {
   };
 
 export default function Page() {
+      const router = useRouter();
   const [open, setOpen] = useState(false);
   const [eventData, setEventData] = useState<Event | null>(null);
   const[isProcessing,setIsProcessing]=useState(false)
- 
+   const [phone, setPhone] = useState<string>("");
+   const [step, setStep] = useState<"phone" | "otp" | "details">("phone");
+   const [otp, setOtp] = useState<string>("");
+     const [details, setDetails] = useState<{ userName: string; email: string }>({ userName: '', email: '' });
  const pathname = usePathname();
 //  const router=useRouter()
-const register=async()=>{
+const token = localStorage.getItem("token");
+const register = async (data:{email:string,name:string}) => {
   const dat = {
     email: "",
     phone_number: "",
     name: "",
   };
-  const service= {
+  const service = {
     name: "",
-    online_pricing: eventData?.price?eventData?.price:1
+    online_pricing: eventData?.price ? eventData?.price : 1,
+  };
+  try {
+    setIsProcessing(true);
+    await setUpProfile(data)
+    await handlePayment(dat, service, continueToBooking, setIsProcessing);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setIsProcessing(false);
   }
-try {
-  setIsProcessing(true)
-   await handlePayment(dat, service, continueToBooking, setIsProcessing);
-} catch (error) {
-  console.error(error);
-  
-}finally{
-  setIsProcessing(false);
-}
+};
+    const handlePhoneSubmit = async (phone: string) => {
+         setPhone(phone);
+   
+         try {
+           const res = await sendOtp(phone);
+           if (res.success) {
+             setStep("otp");
+           } else {
+             alert(res.message);
+           }
+         } catch (error) {
+           console.error(error);
+   
+           alert("Something went wrong");
+         }
+       };
+   
+       const handleOtpSubmit = async (otp: string) => {
+         setOtp(otp);
 
- 
-}
+         try {
+           const collectData = await collectAuthData(phone, otp);
+           const authData: AuthData = collectData;
+
+           const response = await verifyOtp(authData);
+           if (response.success) {
+             localStorage.setItem("token", response.token);
+             if (response.is_new_user) {
+               setStep("details");
+             }
+           } else {
+             alert(response.message);
+           }
+         } catch (error) {
+           console.error(error);
+           alert("Something went wrong");
+         }
+       };
+
+       const handleDetailsSubmit = async (detals: {
+         userName: string;
+         email: string;
+       }) => {
+         setDetails(detals);
+         try {
+           const res = await setUpProfile(detals);
+           console.log(res);
+           if (res.success) {
+           } else {
+             alert(res.message);
+           }
+         } catch (error) {
+           console.error(error);
+         }
+       };
+     
 const continueToBooking=( dat: { email: string; name: string; phone_number: string },
     response: { razorpay_order_id: string })=>{
       console.log(response);
@@ -221,13 +283,24 @@ const formatDateTime = (dateTimeStr: string) => {
         <p className="font-semibold mb-4">About the event:</p>
         <p className="whitespace-pre-line">{eventData?.description}</p>
       </div>
-      <LoginModal open={open} setOpen={setOpen} />
-      {/* <EventBookingModal
+      {token ? (
+        <EventBookingModal
         open={open}
         setOpen={setOpen}
         register={register}
         isProcessing={isProcessing}
-      /> */}
+      />
+        
+      ) : (
+        <LoginModal
+          open={open}
+          setOpen={setOpen}
+          step={step}
+          handlePhoneSubmit={handlePhoneSubmit}
+          handleOtpSubmit={handleOtpSubmit}
+          // handleDetailsSubmit={handleDetailsSubmit}
+        />
+      )}
     </main>
   );
 }
