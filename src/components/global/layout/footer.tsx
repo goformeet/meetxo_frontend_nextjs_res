@@ -94,15 +94,11 @@ export default function Footer() {
                 </nav>
                 <aside className='flex items-center gap-6'>
                     {
-{/*                         socialLinks.map((link, index) => (
-                            <Link key={index} href={link.url}>
-                                <Image src={link.icon} height={20} width={20} alt='Social Logo' />
-                            </Link>
-                        )) */}
+
 
 
                         socialLinks.map((link, index) => (
-    <Link key={index} href={link.url} target="_blank" rel="noopener noreferrer">
+    <Link key={index} href={link.url} target="_blank" 
         <Image src={link.icon} height={20} width={20} alt="Social Logo" />
     </Link>
 ))
