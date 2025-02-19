@@ -109,3 +109,12 @@ try {
    throw error;
 }
 }
+export const sentOtp = async (mobile_number: { mobile_number :string}) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/login`, mobile_number);
+      return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};

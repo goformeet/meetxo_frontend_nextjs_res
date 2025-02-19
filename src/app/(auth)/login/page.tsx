@@ -19,6 +19,7 @@ const Page = () => {
 
     const handlePhoneSubmit = (phone: string) => {
         setPhone(phone);
+        
         setStep('otp');
     }
 
