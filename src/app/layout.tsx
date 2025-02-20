@@ -29,16 +29,16 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://meetxo.ai/"),
-  title: "MeetXO - Connect with Experts | Learn, Grow & Earn",
-  description: "Get expert advice, book 1:1 consultations, and grow your network with MeetXO. Join as an expert or find top professionals worldwide.",
+  title: "MeetXO | Connect with Experts & Get 1:1 Advice",
+  description: "Browse top industry experts, book 1:1 sessions, and get expert guidance online or offline. Learn, grow, and make smarter decisions with MeetXO.",
   openGraph: {
-    title: "MeetXO - Connect with Experts | Learn, Grow & Earn",
-    description: "Get expert advice, book 1:1 consultations, and grow your network with MeetXO. Join as an expert or find top professionals worldwide.",
+    title: "MeetXO | Connect with Experts & Get 1:1 Advice",
+    description: "Browse top industry experts, book 1:1 sessions, and get expert guidance online or offline. Learn, grow, and make smarter decisions with MeetXO.",
     url: "https://meetxo.ai/", // Replace with your actual domain
     type: "website",
     images: [
       {
-        url: "/images/meetxo-logo.png", // Path to your OG image (stored in the public folder)
+        url: "/og_image.png",
         width: 1000,
         height: 300,
         alt: "MeetXO - Connect with Experts",
