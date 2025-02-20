@@ -72,7 +72,7 @@ export default function EventCard({
             className="flex-shrink-0"
           />
           <p className="text-xs leading-normal text-[#2B2849] dark:text-[#A8A4C8]">
-            {event.location}
+            {event.location != "" ? event.location : "Online"}
           </p>
         </div>
         <div className="flex gap-[5px] items-start">
