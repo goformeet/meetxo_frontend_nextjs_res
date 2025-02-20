@@ -32,28 +32,28 @@ type FilterItem ={
   title: string;
 }
 
-export const metadata = {
-  title: "Meta Title: Book Top Experts for 1:1 Advice at MeetXO",
-  description:
-    "Connect with the world's most in-demand experts for 1-on-1 guidance. Ask questions, get expert advice, and grow with personalized insights.",
-    keywords: "Monetize Your Expertise Online, Join as an Expert & Earn, Offer Paid Expert Consultations, Get Clients as an Online Coach, Start Your Virtual Consulting Business, Create Your Expert Profile Free, Grow Your Brand as an Expert, Become a Mentor & Guide Others, Earn Money Sharing Your Knowledge, Find Clients for Consulting Online, Boost Your Career with MeetXO, Get Paid for Your Advice, Online Platform for Industry Experts, Showcase Your Skills & Get Bookings, Work as a Virtual Consultant",
-  metadataBase: new URL("https://meetxo.ai"),
-  openGraph: {
-  title: "Meta Title: Book Top Experts for 1:1 Advice at MeetXO",
-    description:
-    "Connect with the world's most in-demand experts for 1-on-1 guidance. Ask questions, get expert advice, and grow with personalized insights.",
-    url: "https://meetxo.ai",
-    images: [
-      {
-        url: "/og_image.png",
-        width: 1200,
-        height: 630,
-        alt: "MeetXO Logo",
-      },
-    ],
-  },
+// export const metadata = {
+//   title: "Meta Title: Book Top Experts for 1:1 Advice at MeetXO",
+//   description:
+//     "Connect with the world's most in-demand experts for 1-on-1 guidance. Ask questions, get expert advice, and grow with personalized insights.",
+//     keywords: "Monetize Your Expertise Online, Join as an Expert & Earn, Offer Paid Expert Consultations, Get Clients as an Online Coach, Start Your Virtual Consulting Business, Create Your Expert Profile Free, Grow Your Brand as an Expert, Become a Mentor & Guide Others, Earn Money Sharing Your Knowledge, Find Clients for Consulting Online, Boost Your Career with MeetXO, Get Paid for Your Advice, Online Platform for Industry Experts, Showcase Your Skills & Get Bookings, Work as a Virtual Consultant",
+//   metadataBase: new URL("https://meetxo.ai"),
+//   openGraph: {
+//   title: "Meta Title: Book Top Experts for 1:1 Advice at MeetXO",
+//     description:
+//     "Connect with the world's most in-demand experts for 1-on-1 guidance. Ask questions, get expert advice, and grow with personalized insights.",
+//     url: "https://meetxo.ai",
+//     images: [
+//       {
+//         url: "/og_image.png",
+//         width: 1200,
+//         height: 630,
+//         alt: "MeetXO Logo",
+//       },
+//     ],
+//   },
 
-};
+// };
 
 
 
