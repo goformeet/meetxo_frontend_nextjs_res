@@ -24,6 +24,32 @@ type  Event= {
     // host: string;
   };
 
+
+export const metadata = {
+  title: "Upcoming Events – Live Learning & Networking at Meetxo.ai",
+  description:
+    "Join exclusive expert-led events, workshops, and webinars to upskill and grow your network - Meetxo.ai",
+    keywords: "MeetXO events, live expert sessions, virtual events platform, MeetXO expert workshops, join MeetXO webinars, online learning events, MeetXO live sessions, interactive expert discussions, MeetXO speaker sessions, book an event on MeetXO, MeetXO online conferences, industry-specific webinars, professional growth events, learn from top experts, MeetXO networking events",
+  metadataBase: new URL("https://meetxo.ai"),
+  openGraph: {
+  title: "Upcoming Events – Live Learning & Networking at Meetxo.ai",
+    description:
+    "Join exclusive expert-led events, workshops, and webinars to upskill and grow your network - Meetxo.ai",
+    url: "https://meetxo.ai",
+    images: [
+      {
+        url: "/og_image.png",
+        width: 1200,
+        height: 630,
+        alt: "MeetXO Logo",
+      },
+    ],
+  },
+
+};
+
+
+
 export default function Page() {
       // const router = useRouter();
   const [open, setOpen] = useState(false);
