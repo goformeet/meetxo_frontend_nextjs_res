@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og_image.png",
+        url: "https://meetxo.ai/og_image.png",
         width: 1000,
         height: 300,
         alt: "MeetXO - Connect with Experts",
