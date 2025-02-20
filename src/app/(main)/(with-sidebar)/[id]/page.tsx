@@ -33,7 +33,7 @@ export async function generateMetadata({
 
   return {
     title: `Schedule and meet with ⁠ ${expert.name} on meetxo.ai⁠` ,
-    description: `Check Out ${expert.name}, a top ${expert.profession_id?.title} expert on meetxo.ai! Ready to gain insights and level up? Book a session now! ⁠,`,
+    description: `Check Out ${expert.name}, a top ${expert.profession_id?.title} expert on MeetXO. Ready to gain insights and level up? Book a session now! | meetxo.ai `,
     metadataBase: new URL("https://meetxo.ai"),
     openGraph: {
       title: `${expert.name} - Expert Profile`,
