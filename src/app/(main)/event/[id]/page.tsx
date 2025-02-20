@@ -2,13 +2,14 @@
 import { collectAuthData } from '@/app/utils/collectAuthData';
 import { handlePayment } from '@/app/utils/razorpay';
 import LoginModal from '@/components/auth/login-modal';
+import SucessPopup from '@/components/auth/successPopup';
 import EventBookingModal from '@/components/booking/event-booking-modal';
 // import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button';
 import { eventBooking, sendOtp, setUpProfile, verifyOtp } from '@/services/api';
 import { AuthData } from '@/types/authTypes';
 import Image from 'next/image'
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Script from 'next/script';
 import React, { useEffect, useState } from 'react'
 
@@ -26,7 +27,7 @@ type Event = {
 };
 
 export default function Page() {
-      // const router = useRouter();
+      const router = useRouter();
   const [open, setOpen] = useState(false);
   const [eventData, setEventData] = useState<Event | null>(null);
   const[isProcessing,setIsProcessing]=useState(false)
@@ -35,6 +36,7 @@ export default function Page() {
    const [otp, setOtp] = useState<string>("");
    const [user,setUser]=useState<string>("")
     //  const [details, setDetails] = useState<{ userName: string; email: string }>({ userName: '', email: '' });
+    const [sucessOpen,setSucessOpen]=useState<boolean>(false);
  const pathname = usePathname();
 
 const register = async (data:{email:string,name:string}) => {
@@ -52,7 +54,10 @@ const register = async (data:{email:string,name:string}) => {
     const currency = eventData?.currency.code?eventData?.currency.code:"INR"
     await setUpProfile(data)
     if(eventData?.price){
+     
+
 await handlePayment(dat, service, continueToBooking, setIsProcessing, currency);
+
     }else{
       bookEvent();
     }
@@ -129,24 +134,24 @@ const continueToBooking = (
 ) => {
   console.log(dat);
   console.log(response);
-  bookEvent()
+  bookEvent();
 };
- const bookEvent = async () => {
-  const userId=localStorage.getItem("user_id")||""
-  const eventId=eventData?._id||""
-   try {
+const bookEvent = async () => {
+  const userId = localStorage.getItem("user_id") || "";
+  const eventId = eventData?._id || "";
+  try {
     const data = {
       event_id: eventId,
       user_id: userId,
     };
-    const res=await eventBooking(data)
-    console.log(res);
-    alert("Success")
-    
-   } catch (error) {
-     console.log(error);
-   }
- };
+    await eventBooking(data);
+
+    setSucessOpen(true);
+    router.push("/");
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const formatDateTime = (dateTimeStr: string) => {
   const dateObj = new Date(dateTimeStr);
@@ -312,7 +317,7 @@ useEffect(()=>{
           <p className="text-base font-semibold mb-3">
             Welcome! To join the event, please register below.
           </p>
-          <Button onClick={ () => setOpen(true)} className="text-white w-full">
+          <Button onClick={() => setOpen(true)} className="text-white w-full">
             Register Now
           </Button>
         </div>
@@ -335,9 +340,9 @@ useEffect(()=>{
           step={step}
           handlePhoneSubmit={handlePhoneSubmit}
           handleOtpSubmit={handleOtpSubmit}
-  
         />
       )}
+      <SucessPopup open={sucessOpen} setOpen={setSucessOpen} />
     </main>
   );
 }
