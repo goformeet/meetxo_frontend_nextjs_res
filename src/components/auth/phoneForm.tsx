@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/form";
 import { PhoneInput } from "../phone-input";
 import clsx from "clsx";
-import Image from "next/image";
 
 const FormSchema = z.object({
     phone: z
@@ -88,8 +87,9 @@ export default function PhoneForm({ handleSubmit }: { handleSubmit: (phone: stri
               Why a mobile number?
             </h2>
             <p className="text-2xl md:text-[10px] font-bold">
-              It's simpler than remembering an email and password, and it also
-              helps confirm that you're a real person.
+              {
+                "It's simpler than remembering an email and password, and it also helps confirm that you're a real person."
+              }
             </p>
           </div>
           <div className="flex gap-4">

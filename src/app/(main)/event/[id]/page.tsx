@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { sendOtp, setUpProfile, verifyOtp } from '@/services/api';
 import { AuthData } from '@/types/authTypes';
 import Image from 'next/image'
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Script from 'next/script';
 import React, { useEffect, useState } from 'react'
 
@@ -25,16 +25,16 @@ type  Event= {
   };
 
 export default function Page() {
-      const router = useRouter();
+      // const router = useRouter();
   const [open, setOpen] = useState(false);
   const [eventData, setEventData] = useState<Event | null>(null);
   const[isProcessing,setIsProcessing]=useState(false)
    const [phone, setPhone] = useState<string>("");
    const [step, setStep] = useState<"phone" | "otp" | "details">("phone");
    const [otp, setOtp] = useState<string>("");
-     const [details, setDetails] = useState<{ userName: string; email: string }>({ userName: '', email: '' });
+    //  const [details, setDetails] = useState<{ userName: string; email: string }>({ userName: '', email: '' });
  const pathname = usePathname();
-//  const router=useRouter()
+
 const token = localStorage.getItem("token");
 const register = async (data:{email:string,name:string}) => {
   const dat = {
@@ -94,23 +94,24 @@ const register = async (data:{email:string,name:string}) => {
            alert("Something went wrong");
          }
        };
+console.log(otp);
 
-       const handleDetailsSubmit = async (detals: {
-         userName: string;
-         email: string;
-       }) => {
-         setDetails(detals);
-         try {
-           const res = await setUpProfile(detals);
-           console.log(res);
-           if (res.success) {
-           } else {
-             alert(res.message);
-           }
-         } catch (error) {
-           console.error(error);
-         }
-       };
+      //  const handleDetailsSubmit = async (detals: {
+      //    userName: string;
+      //    email: string;
+      //  }) => {
+      //    setDetails(detals);
+      //    try {
+      //      const res = await setUpProfile(detals);
+      //      console.log(res);
+      //      if (res.success) {
+      //      } else {
+      //        alert(res.message);
+      //      }
+      //    } catch (error) {
+      //      console.error(error);
+      //    }
+      //  };
      
 const continueToBooking=( dat: { email: string; name: string; phone_number: string },
     response: { razorpay_order_id: string })=>{

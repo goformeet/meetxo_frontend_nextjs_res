@@ -75,6 +75,7 @@ const Page = () => {
         }
         
       } catch (error) {
+        console.error(error);
         
       }
       console.log(phone, otp, details);

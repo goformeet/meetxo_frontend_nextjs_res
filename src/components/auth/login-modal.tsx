@@ -1,17 +1,4 @@
-import React, { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { isValidPhoneNumber } from "react-phone-number-input";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import React from "react";
 import {
   Dialog,
   DialogContent,
@@ -19,17 +6,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
-import { Button } from "../ui/button";
-import { cn } from "@/lib/utils";
+
+
 import PhoneForm from "./phoneForm";
 import { OtpForm } from "./otpForm";
-import DetailsForm from "./detailsForm";
 
-const FormSchema = z.object({
-    phone: z
-        .string()
-        .refine(isValidPhoneNumber, { message: "Invalid phone number" }),
-});
 
 interface ChildProps {
   open: boolean;

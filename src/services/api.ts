@@ -1,6 +1,5 @@
 import { AuthData } from "@/types/authTypes";
 import axios from "axios";
-import { date } from "zod";
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001/api";
 
@@ -10,7 +9,9 @@ export const api = axios.create({
     "Content-Type": "application/json",
   },
 });
-const token =localStorage.getItem("token")
+// const token =localStorage.getItem("token")
+const token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjc0MTk2OGI4MDUxNGY1NGNlY2Q1NTcxIiwicGhvbmVfbnVtYmVyIjoiKzkxNzkwNzc1MzE2MyIsImlhdCI6MTczMjM1NDQ2OH0.g-Z5LfT_6LCXO2stpH18jMm6B2ifbEusRUsyhbrbAvY";
   
 
 export const Hosts = async (filters: Record<string, string | boolean>) => {
