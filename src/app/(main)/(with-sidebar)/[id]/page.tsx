@@ -8,7 +8,6 @@ import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { Hosts } from "@/services/api";
 import { TabsTrigger } from "@radix-ui/react-tabs";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 // import Link from "next/link";
 import React, {  useEffect, useState } from "react";
@@ -99,7 +98,7 @@ router.push('/')
               <p className="md:mt-1 text-sm md:text-lg/7">{data?.profession_id?.title}</p>
             </div>
           </div>
-          <div className="absolute right-0 md:bottom-4 flex items-center gap-3">
+{/*           <div className="absolute right-0 md:bottom-4 flex items-center gap-3">
             <Link href={'/'} className="h-10 w-10 bg-primary-light rounded-full flex justify-center items-center">
               <Image src={'/images/linked-in-logo.png'} alt="linked in" width={40} height={40} className="h-[26px] w-[26px] object-contain object-center" />
             </Link>
@@ -109,7 +108,7 @@ router.push('/')
             <Link href={'/'} className="h-10 w-10 bg-primary-light rounded-full flex justify-center items-center">
               <Image src={'/images/git-hub-icon.png'} alt="linked in" width={40} height={40} className="h-[26px] w-[26px] object-contain object-center" />
             </Link>
-          </div>
+          </div> */}
 
         </div>
         <div className="pt-7">

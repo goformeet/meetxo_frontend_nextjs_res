@@ -9,6 +9,8 @@ export default function Footer() {
         { text: "Team ", url: '/team ' },
         { text: "FAQ", url: '/faq' },
         { text: 'Experts', url: '/experts' },
+                { text: 'Events', url: '/events' },
+
         // { text: 'Help', url: 'intro.co/contact ' },
     ];
     const socialLinks = [
@@ -92,17 +94,28 @@ export default function Footer() {
 
                     </ul>
                 </nav>
-                <aside className='flex items-center gap-6'>
+{/*                 <aside className='flex items-center gap-6'>
                     {
 
 
 
-                        socialLinks.map((link, index) => (
-    <Link key={index} href={link.url} target="_blank" rel="noopener noreferrer">
+socialLinks.map((link, index) => (
+    <Link key={index} href={link.url} target="_blank">
         <Image src={link.icon} height={20} width={20} alt="Social Logo" />
     </Link>
 ))
+           
+                    
                     }
+                </aside> */}
+
+
+                   <aside className='flex items-center gap-6'>
+                    {socialLinks.map((link, index) => (
+                        <a key={index} href={link.url} target="_blank" rel="noopener noreferrer">
+                            <Image src={link.icon} height={20} width={20} alt="Social Logo" />
+                        </a>
+                    ))}
                 </aside>
             </div>
             <div className='py-10 flex flex-col-reverse md:flex-row items-center justify-between gap-8'>
@@ -111,6 +124,8 @@ export default function Footer() {
                     <Link href={'/terms-of-service'}>Terms & Conditions</Link>
                     <Link href={'/privacy-policy'}>Privacy Policy</Link>
                     <Link href={'/refund-policy'}>Refund Policy</Link>
+                                        <Link href={'/sitemap.xml'}>Sitemap</Link>
+
                 </div>
             </div>
         </footer>

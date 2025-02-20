@@ -7,7 +7,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '..
 // import Image from 'next/image';
 // import OneOneCard from '../one-one-card';
 // import EventCard from '../event-card';
-import Dot from '../dot';
+// import Dot from '../dot';
 import { getServicesById } from '@/services/api';
 import { useRouter } from 'next/navigation';
 import EmptyData from '../empty-data';
@@ -92,14 +92,15 @@ export default function ExpertServices({ id, username }: ExpertServicesProps) {
                 <div>
                   <p className="text-xl/[130%] font-medium mb-2">
                     {/* Building a successful business - 1:1 Mentoring */}
-                    {data.short_description}
+                                          {data.name}
+
                   </p>
                   <div className="flex items-center gap-2">
                     <p className="text-[#7C7C7C] text-base/[150%]">
                       {/* By Sen Janson */}
-                      {data.name}
+                    {data.short_description}
                     </p>
-                    <Dot />
+{/*                     <Dot /> */}
 
                     {/* <div className="flex items-center gap-1">
                       <Star className="h-5 w-5 text-[#FBBC05]" />
@@ -115,7 +116,7 @@ export default function ExpertServices({ id, username }: ExpertServicesProps) {
                         {data.duration} Minutes
                       </p>
                     </div>
-                    <Dot />
+{/*                     <Dot /> */}
                   </div>
                   <Accordion type="single" collapsible>
                     <AccordionItem
