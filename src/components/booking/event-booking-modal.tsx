@@ -64,9 +64,9 @@ export default function EventBookingModal({
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle>Enter Your Details</DialogTitle>
-          <DialogDescription>
+{/*           <DialogDescription>
             Breaking into Product Management ($300)
-          </DialogDescription>
+          </DialogDescription> */}
         </DialogHeader>
         <Form {...form}>
           <form
