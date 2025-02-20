@@ -68,7 +68,7 @@ const Team = () => {
             </div>
 
             {/* Second Row with 5 Members */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 bg-cover">
                 <TeamImage
                     name="Shashank Chaurasia"
                     designation="Investor Relationship Manager"
