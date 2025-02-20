@@ -3,7 +3,7 @@ import { collectAuthData } from '@/app/utils/collectAuthData';
 import { handlePayment } from '@/app/utils/razorpay';
 import LoginModal from '@/components/auth/login-modal';
 import EventBookingModal from '@/components/booking/event-booking-modal';
-import { Avatar, AvatarImage } from '@/components/ui/avatar'
+// import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button';
 import { sendOtp, setUpProfile, verifyOtp } from '@/services/api';
 import { AuthData } from '@/types/authTypes';
