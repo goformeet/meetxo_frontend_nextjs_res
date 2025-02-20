@@ -11,13 +11,15 @@ import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Metadata } from "next";
 
+type Props = {
+  params: Promise<{ id: string }>
+}
 
 export async function generateMetadata({
   params,
-}: {
-  params: { id: string };
-}): Promise<Metadata> {
-  const id = params.id.replace(/%20/g, " ");
+}: Props): Promise<Metadata> {
+
+  const id = (await params).id.replace(/%20/g, " ");
   const res = await Hosts({ search: id });
 
   if (!res.success || !res.hosts.hosts[0]) {
@@ -32,6 +34,7 @@ export async function generateMetadata({
   return {
     title: `${expert.name} - Expert Profile`,
     description: `Explore ${expert.name}'s expertise and services on Meetxo.`,
+    metadataBase: new URL("https://meetxo.ai"),
     openGraph: {
       title: `${expert.name} - Expert Profile`,
       description: `Learn more about ${expert.name} and their services.`,
@@ -50,10 +53,8 @@ export async function generateMetadata({
 
 export default async function Page({
   params,
-}: {
-  params: { id: string };
-}) {
-  const id = params.id.replace(/%20/g, " ");
+}: Props) {
+  const id = (await params).id.replace(/%20/g, " ");
   const res = await Hosts({ search: id });
 
   if (!res.success || !res.hosts.hosts[0]) {
