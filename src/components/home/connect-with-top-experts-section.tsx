@@ -33,7 +33,7 @@ export default function ConnectWithTopExpertsSection() {
                     >{item}</Button>
                 ))}
             </div>
-            <div className="flex flex-col md:flex-row gap-14 md:gap-[108px] items-center mt-14 md:mt-[104px]">
+            <div className="flex flex-col md:flex-row gap-14 md:gap-[108px] items-center mt-14 md:mt-[30px]">
                 <div className="max-w-[515px]">
                       {selected === "Find an Expert" ? (
             <>
