@@ -168,7 +168,7 @@ const formatDateTime = (dateTimeStr: string) => {
         alt={"event banner"}
         width={287}
         height={131}
-        className="h-[130px] w-auto max-w-full object-cover rounded-[10px] mb-4"
+        className="h-[300px] w-auto max-w-full object-cover rounded-[10px] mb-4"
       />
       <h1 className="text-xl sm:text-2xl md:text-5xl font-bold mb-3">
         {eventData?.title}
