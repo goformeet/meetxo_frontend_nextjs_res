@@ -1,6 +1,30 @@
 // import Footer from '@/components/global/layout/footer'
 import React from 'react'
 
+
+export const metadata = {
+  title: "MeetXO Privacy Policy – Your Data, Your Control",
+  description:
+    "Learn how MeetXO collects, stores, and protects your personal data and privacy - Meetxo.ai",
+    keywords: "MeetXO privacy policy, data security MeetXO, user data protection MeetXO, MeetXO confidentiality policy, information security MeetXO, online privacy MeetXO, MeetXO personal data policy, how MeetXO handles data, MeetXO user security, MeetXO cookie policy, privacy rights MeetXO, MeetXO GDPR compliance, MeetXO data sharing policy, MeetXO information collection, MeetXO transparency policy",
+  metadataBase: new URL("https://meetxo.ai"),
+  openGraph: {
+    title: "MeetXO - Connect with Experts",
+    description:
+      "MeetXO helps you connect with industry experts for one-on-one sessions.",
+    url: "https://meetxo.ai",
+    images: [
+      {
+        url: "/og_image.png",
+        width: 1200,
+        height: 630,
+        alt: "MeetXO Logo",
+      },
+    ],
+  },
+
+};
+
 export default function Page() {
     return (
         <>
