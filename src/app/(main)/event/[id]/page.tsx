@@ -168,7 +168,7 @@ const formatDateTime = (dateTimeStr: string) => {
         alt={"event banner"}
         width={287}
         height={131}
-        className="h-[410px] w-auto max-w-full object-cover rounded-[10px] mb-4"
+        className="h-[400px] w-auto max-w-full object-cover rounded-[10px] mb-4"
       />
       <h1 className="text-xl sm:text-2xl md:text-5xl font-bold mb-3">
         {eventData?.title}
@@ -220,7 +220,7 @@ const formatDateTime = (dateTimeStr: string) => {
           Google Meet
         </p>
       </div>
-      <div className="flex items-center gap-2.5 mb-3">
+{/*       <div className="flex items-center gap-2.5 mb-3">
         <Avatar className="h-8 w-8">
           <AvatarImage
             src="/images/avatar.svg"
@@ -230,7 +230,7 @@ const formatDateTime = (dateTimeStr: string) => {
         <p className="text-base font-semibold text-muted-foreground">
           Hosted By Sen Janson
         </p>
-      </div>
+      </div> */}
       <div className="rounded-lg border border-muted-foreground/70 overflow-hidden max-w-md">
         <p className="p-2 font-semibold bg-primary-light">Registration</p>
         <div className="p-2">
