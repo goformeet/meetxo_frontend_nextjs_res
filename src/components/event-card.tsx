@@ -37,6 +37,12 @@ export default function EventCard({
     router.push(`/event/${event.title}`);
   };
 
+const maxLength = 90;
+const truncatedDescription =
+  event.description.length > maxLength
+    ? event.description.substring(0, maxLength) + "..."
+    : event.description;
+
   return (
     <div className="rounded-[18px] shadow-[0px_8px_30px_0px_rgba(80,85,136,0.06)] py-2 px-3 bg-background">
       <div className="relative">
@@ -60,7 +66,7 @@ export default function EventCard({
         {event.title}
       </p>
       <p className="text-xs/[19px] tracking-[0.06px] text-[#384853] dark:text-[#A8B4C0]/90 mt-1.5 line-clamp-3">
-        {event.description}
+        {truncatedDescription}
       </p>
       <div className="mt-[22px] flex flex-col gap-[9px]">
         <div className="flex gap-[5px] items-start">
@@ -105,7 +111,7 @@ export default function EventCard({
           href={"/"}
           onClick={(e) => {
             e.preventDefault();
-           handleNavigate()
+            handleNavigate();
           }}
           className="flex items-center justify-center p-2 bg-[#E3F0FD] rounded-full"
         >

@@ -11,10 +11,11 @@ const razorpay = new Razorpay({
 export const POST=async(request:NextRequest)=>{
 try {
     const body=await request.json()
-    const order=await razorpay.orders.create({
-        amount:body.amount,
-        currency:"INR"
-    })
+    const currency = body.currency?body.currency:"INR"
+    const order = await razorpay.orders.create({
+      amount: body.amount,
+      currency: currency,
+    });
     return NextResponse.json({orderId:order.id},{status:200})
 } catch (error) {
     console.error(error);

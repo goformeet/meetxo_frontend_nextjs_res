@@ -48,6 +48,7 @@ const Page = () => {
         const response = await verifyOtp(authData);
         if (response.success) {
              localStorage.setItem("token", response.token);
+             localStorage.setItem("user_id", response.user_id);
           if (response.is_new_user) {
             setStep("details");
           } 

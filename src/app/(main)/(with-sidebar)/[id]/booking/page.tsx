@@ -97,7 +97,7 @@ export default function Page() {
           name: data.name,
       };
 
-       await handlePayment(dat, service, continueToBooking, setIsProcessing);
+       await handlePayment(dat, service, continueToBooking, setIsProcessing,"INR");
     } catch (error) {
       console.error(error);
     }
