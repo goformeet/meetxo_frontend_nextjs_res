@@ -59,7 +59,7 @@ export default function EventCard({
       <p className="text-sm font-semibold leading-normal mt-[14px]">
         {event.title}
       </p>
-      <p className="text-xs/[19px] tracking-[0.06px] text-[#384853] dark:text-[#A8B4C0]/90 mt-1.5">
+      <p className="text-xs/[19px] tracking-[0.06px] text-[#384853] dark:text-[#A8B4C0]/90 mt-1.5 line-clamp-3">
         {event.description}
       </p>
       <div className="mt-[22px] flex flex-col gap-[9px]">
