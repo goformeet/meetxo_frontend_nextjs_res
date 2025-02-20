@@ -28,6 +28,7 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://meetxo.ai/"),
   title: "MeetXO - Connect with Experts | Learn, Grow & Earn",
   description: "Get expert advice, book 1:1 consultations, and grow your network with MeetXO. Join as an expert or find top professionals worldwide.",
   openGraph: {
