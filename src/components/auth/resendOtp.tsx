@@ -21,7 +21,7 @@ export default function OtpResendTimer() {
     }, [timer]);
 
     const handleResendOtp = () => {
-        setTimer(30);
+        setTimer(60);
         setIsButtonDisabled(true);
         console.log('OTP Resent');
     };

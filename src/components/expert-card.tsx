@@ -36,7 +36,11 @@ export default function ExpertCard({
       <p className="text-sm font-bold">{prof.name}</p>
       <div className="flex justify-between items-center">
         <p className="text-xs font-semibold">
-          ${prof.min_session_price ? prof.min_session_price : 0.0}
+          {prof.min_session_price ? (
+            `$ ${prof.min_session_price}`
+          ) : (
+            <span className="text-[#52c627]">Free</span>
+          )}
         </p>
         {prof?.average_rating ? (
           <div className="flex items-center gap-0.5">

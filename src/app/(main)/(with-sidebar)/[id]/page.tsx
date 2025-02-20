@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { Hosts } from "@/services/api";
 import { TabsTrigger } from "@radix-ui/react-tabs";
 import Image from "next/image";
-// import Link from "next/link";
+import { useRouter } from "next/navigation";
 // import Link from "next/link";
 import React, {  useEffect, useState } from "react";
 interface Expert {
@@ -35,6 +35,7 @@ export default function Page({
 }) {
    
     const [data, setData] = useState<Expert | null>(null);
+    const router=useRouter()
     const tabHeaders = [
         {
             title: "Overview",
@@ -58,8 +59,11 @@ export default function Page({
             const res = await Hosts({ search: name });
 
             if (res.success) {
-               
-                setData(res.hosts.hosts[0]);
+               if (res.hosts.hosts[0]){
+setData(res.hosts.hosts[0]);
+               }else{
+router.push('/')
+               } 
             }
         } catch (error) {
             console.error(error);

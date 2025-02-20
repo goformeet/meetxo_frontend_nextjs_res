@@ -16,12 +16,33 @@ import ReviewCard from "@/components/review-card";
 // import Footer from "@/components/global/layout/footer";
 import ConnectWithTopExpertsSection from "@/components/home/connect-with-top-experts-section";
 import ToolsSection from "@/components/home/tools-section";
+import EventCard from "@/components/event-card";
+import { useEffect, useState } from "react";
+import { getAllEvents } from "@/services/api";
 import JoinAsExpert from "@/components/home/join-as-expert";
 
 
+type EventType= {
+  _id: string;
+  user_id: string;
 
+  max_participants: number;
+
+  meeting_link: string;
+  title: string;
+  description: string;
+  price: number;
+  image: string;
+  type: string;
+  start_date: string;
+  location: string;
+  created_at: string;
+  updated_at: string;
+  __v: number;
+}
 
 export default function Home() {
+  const [events, setEvents] = useState < EventType[]>([]);
 
   const reviews = [
     {
@@ -231,77 +252,106 @@ export default function Home() {
       descritption: 'MeetXO is designed to bring experts and users together in one place. We offer everything from easy profile setup, seamless booking systems, secure payments, to live sessions—all in a single platform. It’s made to help both experts grow their businesses and users find the right guidance efficiently.'
     }
   ];
-
+const getEvents=async()=>{
+  try {
+    const res=await getAllEvents()
+    if(res.success){
+      setEvents(res.data);
+    }
+  } catch (error) {
+    console.error(error)
+    
+  }
+}
+useEffect(()=>{
+getEvents()
+},[])
   return (
     <>
-    <main className="font-plus-jakarta-sans">
-      {/* Desktop */}
-      <HomeBanner />
-      <SupportSection />
-      <ProfessionalsSection />
-      {/* <section className="px-4 md:px-7 lg:px-10 pt-[50px] pb-10 bg-[#F9FCFF] dark:bg-[#181C28] bg-[url('/images/upcomming-events-bg.png')] bg-cover bg-center">
+      <main className="font-plus-jakarta-sans">
+        {/* Desktop */}
+        <HomeBanner />
+        <SupportSection />
+        <ProfessionalsSection />
+        {/* <section className="px-4 md:px-7 lg:px-10 pt-[50px] pb-10 bg-[#F9FCFF] dark:bg-[#181C28] bg-[url('/images/upcomming-events-bg.png')] bg-cover bg-center">
         <h5 className="text-2xl/[51px] font-bold capitalize">Upcoming Webinars</h5>
         <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-5">
           {events.map((event) => (
             <EventCard key={event.id} event={event} />
           ))}
         </div>
-      </section>
-      <section className="px-4 md:px-7 lg:px-10 pt-[50px] pb-10 bg-[#F9FCFF] dark:bg-[#181C28] bg-[url('/images/upcomming-events-bg.png')] bg-cover bg-center">
-        <h5 className="text-2xl/[51px] font-bold capitalize">Upcoming Events</h5>
-        <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-5">
-          {events.map((event) => (
-            <EventCard key={event.id} event={event} />
-          ))}
-        </div>
       </section> */}
-      <section className="pt-7 md:pt-16">
-          <h4 className="px-4 md:px-7 lg:px-10 text-center text-2xl md:text-[56px]/[130%] font-semibold tracking-[-1.12px]">Scholars know the value of meeting the right people</h4>
-          <p className="max-w-[624px] mx-auto mt-4 mb-8 md:mb-[70px] text-center text-base md:text-lg/[150%]">We don’t just meet expectations—we redefine them. Here’s what the philosopher says..</p>
-        <Marquee>
-        <div className="flex gap-6 md:gap-12 ml-12">
-          {reviews.map((review, index) => (
-            <ReviewCard key={index} review={review} />
-          ))}
-          </div>
-        </Marquee>
-        <Marquee
-          direction="right"
-          className="mt-6 md:mt-12 mb-10 md:mb-[86px]"
-        >
-          <div className="flex gap-6 md:gap-12 mr-12">
-            {reviews.map((review, index) => (
-              <ReviewCard key={index} review={review} />
-            ))}
-          </div>
-        </Marquee>
-      </section>
-      <ToolsSection />
-      <section className="py-14 md:py-28 px-4 md:px-7 lg:px-10 grid grid-cols-1 md:grid-cols-2 gap-14 lg:gap-[104px]">
-        <div>
-          <h5 className="font-semibold text-2xl/7 md:text-5xl/[116%] lg:text-[56px]/[72px] tracking-[-2%]">What you can do by joining as an Expert</h5>
-            <p className="text-[#7E8492] font-medium text-sm md:text-base lg:text-lg/8 mt-2.5 md:mt-4">Share Your Expertise. Build Your Brand. Earn Effortlessly.</p>
+        {events.length > 0 && (
+          <section className="px-4 md:px-7 lg:px-10 pt-[50px] pb-10 bg-[#F9FCFF] dark:bg-[#181C28] bg-[url('/images/upcomming-events-bg.png')] bg-cover bg-center">
+            <h5 className="text-2xl/[51px] font-bold capitalize">
+              Upcoming Events
+            </h5>
+            <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-5">
+              {events.map((event) => (
+                <EventCard key={event._id} event={event} />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section className="pt-7 md:pt-16">
+          <h4 className="px-4 md:px-7 lg:px-10 text-center text-2xl md:text-[56px]/[130%] font-semibold tracking-[-1.12px]">
+            Scholars know the value of meeting the right people
+          </h4>
+          <p className="max-w-[624px] mx-auto mt-4 mb-8 md:mb-[70px] text-center text-base md:text-lg/[150%]">
+            We don’t just meet expectations—we redefine them. Here’s what the
+            philosopher says..
+          </p>
+          <Marquee>
+            <div className="flex gap-6 md:gap-12 ml-12">
+              {reviews.map((review, index) => (
+                <ReviewCard key={index} review={review} />
+              ))}
+            </div>
+          </Marquee>
+          <Marquee
+            direction="right"
+            className="mt-6 md:mt-12 mb-10 md:mb-[86px]"
+          >
+            <div className="flex gap-6 md:gap-12 mr-12">
+              {reviews.map((review, index) => (
+                <ReviewCard key={index} review={review} />
+              ))}
+            </div>
+          </Marquee>
+        </section>
+        <ToolsSection />
+        <section className="py-14 md:py-28 px-4 md:px-7 lg:px-10 grid grid-cols-1 md:grid-cols-2 gap-14 lg:gap-[104px]">
+          <div>
+            <h5 className="font-semibold text-2xl/7 md:text-5xl/[116%] lg:text-[56px]/[72px] tracking-[-2%]">
+              What you can do by joining as an Expert
+            </h5>
+            <p className="text-[#7E8492] font-medium text-sm md:text-base lg:text-lg/8 mt-2.5 md:mt-4">
+              Share Your Expertise. Build Your Brand. Earn Effortlessly.
+            </p>
             <JoinAsExpert />
-        </div>
+          </div>
           <Accordion className="" type="single" collapsible>
-          {
-            faqs.map((faq) => (
-              <AccordionItem key={faq.title} className="pb-7 mb-7" value={faq.title}>
-                <AccordionTrigger className="font-semibold text-base md:text-2xl/8 tracking-[-1%] text-left">{faq.title}</AccordionTrigger>
+            {faqs.map((faq) => (
+              <AccordionItem
+                key={faq.title}
+                className="pb-7 mb-7"
+                value={faq.title}
+              >
+                <AccordionTrigger className="font-semibold text-base md:text-2xl/8 tracking-[-1%] text-left">
+                  {faq.title}
+                </AccordionTrigger>
                 <AccordionContent className="text-[#7E8492] pb-0 mt-4 font-medium text-sm md:text-lg/8">
-                 {faq.descritption}
+                  {faq.descritption}
                 </AccordionContent>
               </AccordionItem>
-            ))
-           }
+            ))}
           </Accordion>
-      </section>
-      <ConnectWithTopExpertsSection />
+        </section>
+        <ConnectWithTopExpertsSection />
 
-
-
-      {/* mobile */}
-      {/* <section className="block md:hidden">
+        {/* mobile */}
+        {/* <section className="block md:hidden">
         <div className="bg-[url('/images/home-banner-mobile-bg.png')] bg-cover bg-center pt-7 pb-4 px-5 rounded-2xl">
           <h1 className="max-w-[231px] text-xs font-medium text-white">
             Here , Are you want to earn from your expertise, Let&apos;s setup your expert profile
@@ -319,9 +369,8 @@ export default function Home() {
           }
         </div>
       </section> */}
-    </main>
+      </main>
       {/* <Footer /> */}
     </>
-
   );
 }
