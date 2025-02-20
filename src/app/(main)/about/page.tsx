@@ -1,3 +1,29 @@
+
+export const metadata = {
+  title: "About MeetXO – Connect, Learn & Grow",
+  description:
+    "Learn how MeetXO helps experts and users connect for 1:1 sessions, knowledge sharing, and growth - Meetxo.ai",
+    keywords: "about MeetXO, what is MeetXO, MeetXO platform, expert marketplace, connect with experts online, find professionals online, virtual expert consultations, online learning platform, professional networking site, MeetXO services, how MeetXO works, MeetXO business model, why choose MeetXO, online mentorship platform, trusted expert network",
+  metadataBase: new URL("https://meetxo.ai"),
+  openGraph: {
+  title: "About MeetXO – Connect, Learn & Grow",
+    description:
+    "Learn how MeetXO helps experts and users connect for 1:1 sessions, knowledge sharing, and growth - Meetxo.ai",
+    url: "https://meetxo.ai",
+    images: [
+      {
+        url: "/og_image.png",
+        width: 1200,
+        height: 630,
+        alt: "MeetXO Logo",
+      },
+    ],
+  },
+
+};
+
+
+
 export default function AboutPage() {
     return (
         <div className="px-6 py-16 max-w-6xl mx-auto">
