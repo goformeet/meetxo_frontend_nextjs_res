@@ -14,6 +14,31 @@ interface FaqData {
   hosts: FaqItem[];
 }
 
+
+
+export const metadata = {
+  title: "MeetXO FAQs – How MeetXO Works?",
+  description:
+    "Find answers about MeetXO, expert bookings, payments, and more in our detailed FAQ section - Meetxo.ai",
+    keywords: "MeetXO FAQ, frequently asked questions MeetXO, how to use MeetXO, MeetXO expert signup, MeetXO user guide, MeetXO pricing details, MeetXO consultation process, MeetXO refund queries, MeetXO payment options, how MeetXO works for experts, MeetXO customer support, setting up a MeetXO profile, MeetXO verification process, troubleshooting MeetXO issues, MeetXO account management",
+  metadataBase: new URL("https://meetxo.ai"),
+  openGraph: {
+  title: "MeetXO FAQs – How MeetXO Works?",
+    description:
+    "Find answers about MeetXO, expert bookings, payments, and more in our detailed FAQ section - Meetxo.ai",
+    url: "https://meetxo.ai",
+    images: [
+      {
+        url: "/og_image.png",
+        width: 1200,
+        height: 630,
+        alt: "MeetXO Logo",
+      },
+    ],
+  },
+
+};
+
 const Faq = () => {
   const [selectedCategory, setSelectedCategory] = useState<keyof FaqData>("users");
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
