@@ -1,6 +1,31 @@
 // import Footer from '@/components/global/layout/footer'
 import React from 'react'
 
+
+
+export const metadata = {
+  title: "MeetXO Refund Policy – Easy & Transparent",
+  description:
+    "Understand MeetXO’s refund process, eligibility, and how to request a refund hassle-free - Meetxo.ai",
+    keywords: "MeetXO refund policy, MeetXO cancellation policy, money-back guarantee MeetXO, MeetXO refund process, MeetXO expert session refunds, MeetXO payment policies, MeetXO transaction policies, getting a refund on MeetXO, MeetXO service cancellation, MeetXO refund eligibility, MeetXO customer refund guide, MeetXO purchase protection, MeetXO fee reimbursement, MeetXO billing support, MeetXO chargeback policy",
+  metadataBase: new URL("https://meetxo.ai"),
+  openGraph: {
+  title: "MeetXO Refund Policy – Easy & Transparent",
+    description:
+    "Understand MeetXO’s refund process, eligibility, and how to request a refund hassle-free - Meetxo.ai",
+    url: "https://meetxo.ai",
+    images: [
+      {
+        url: "/og_image.png",
+        width: 1200,
+        height: 630,
+        alt: "MeetXO Logo",
+      },
+    ],
+  },
+
+};
+
 export default function Page() {
     return (
         <>
