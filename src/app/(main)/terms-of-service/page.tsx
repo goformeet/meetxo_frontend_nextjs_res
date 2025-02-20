@@ -1,6 +1,33 @@
 // import Footer from '@/components/global/layout/footer'
 import React from 'react'
 
+
+
+export const metadata = {
+  title: "MeetXO Terms & Conditions – User Guidelines",
+  description:
+    "Review the rules and guidelines for using MeetXO’s expert marketplace and services - Meetxo.ai",
+    keywords: "MeetXO terms and conditions, MeetXO user agreement, MeetXO service policies, expert consultation guidelines, online platform terms MeetXO, MeetXO usage policy, terms of service MeetXO, MeetXO compliance rules, MeetXO community guidelines, MeetXO legal requirements, online consultation regulations, MeetXO fair use policy, user responsibilities MeetXO, MeetXO terms for experts, platform rules MeetXO",
+  metadataBase: new URL("https://meetxo.ai"),
+  openGraph: {
+    title: "MeetXO Terms & Conditions – User Guidelines",
+    description:
+      "Review the rules and guidelines for using MeetXO’s expert marketplace and services - Meetxo.ai",
+    url: "https://meetxo.ai",
+    images: [
+      {
+        url: "/og_image.png",
+        width: 1200,
+        height: 630,
+        alt: "MeetXO Logo",
+      },
+    ],
+  },
+
+};
+
+
+
 export default function TermsOfService() {
   return (
             <>
