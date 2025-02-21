@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /login/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /private/
+Allow: /
+
+Sitemap: https://www.meetxo.ai/sitemap.xml
