@@ -37,30 +37,40 @@ interface RazorpayInstance {
 // interface OrderResponse {
 //   orderId: string;
 // }
+const currencyMultipliers: { [key: string]: number } = {
+  USD: 100, 
+  INR: 100,
+  EUR: 100, 
+  JPY: 1, 
 
+};
 export const handlePayment = async (
   dat: { email: string; phone_number: string; name: string },
   service: { name: string; online_pricing: number },
+  
   continueToBooking: (
     dat: { email: string; name: string; phone_number: string },
     response: { razorpay_order_id: string }
   ) => void,
-  setIsProcessing: (state: boolean) => void
+  setIsProcessing: (state: boolean) => void,
+  currency:string,
 ) => {
   setIsProcessing(true);
 
-  const Amount = Number(service.online_pricing) * 100;
+const multiplier = currencyMultipliers[currency.toUpperCase()] || 100;
+const Amount = Number(service.online_pricing) * multiplier;
 
   try {
     const response = await axios.post("/api/create-order", {
       amount: Amount,
+      currency: currency,
     });
 
     const data = response.data;
     const options: RazorpayOptions = {
       key: process.env.RAZORPAY_KEY_ID || "",
       amount: Amount,
-      currency: "INR",
+      currency: currency,
       name: "meetxo",
       description: service.name,
       order_id: data.orderId,

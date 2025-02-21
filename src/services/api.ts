@@ -146,3 +146,12 @@ export const setUpProfile = async (data: Record<string, unknown>) => {
     throw error;
   }
 };
+export const eventBooking = async (data: { event_id: string ,user_id:string}) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/event-bookings`,data);
+    return response.data
+  } catch (error) {
+     console.error(error);
+     throw error;
+  }
+};

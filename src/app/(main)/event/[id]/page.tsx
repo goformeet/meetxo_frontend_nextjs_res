@@ -2,27 +2,29 @@
 import { collectAuthData } from '@/app/utils/collectAuthData';
 import { handlePayment } from '@/app/utils/razorpay';
 import LoginModal from '@/components/auth/login-modal';
+import SucessPopup from '@/components/auth/successPopup';
 import EventBookingModal from '@/components/booking/event-booking-modal';
 // import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button';
-import { sendOtp, setUpProfile, verifyOtp } from '@/services/api';
+import { eventBooking, sendOtp, setUpProfile, verifyOtp } from '@/services/api';
 import { AuthData } from '@/types/authTypes';
 import Image from 'next/image'
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Script from 'next/script';
 import React, { useEffect, useState } from 'react'
 
-type  Event= {
-    _id: string;
-    image: string;
-    title: string;
-    description: string;
-    location: string;
-    price:number
-    start_date: string;
-    // time: string;
-    // host: string;
-  };
+type Event = {
+  _id: string;
+  image: string;
+  title: string;
+  description: string;
+  location: string;
+  price: number;
+  start_date: string;
+  currency:{code:string,symbol:string}
+  // time: string;
+  // host: string;
+};
 
 
 // export const metadata = {
@@ -51,17 +53,18 @@ type  Event= {
 
 
 export default function Page() {
-      // const router = useRouter();
+      const router = useRouter();
   const [open, setOpen] = useState(false);
   const [eventData, setEventData] = useState<Event | null>(null);
   const[isProcessing,setIsProcessing]=useState(false)
    const [phone, setPhone] = useState<string>("");
    const [step, setStep] = useState<"phone" | "otp" | "details">("phone");
    const [otp, setOtp] = useState<string>("");
+   const [user,setUser]=useState<string>("")
     //  const [details, setDetails] = useState<{ userName: string; email: string }>({ userName: '', email: '' });
+    const [sucessOpen,setSucessOpen]=useState<boolean>(false);
  const pathname = usePathname();
 
-const token = localStorage.getItem("token");
 const register = async (data:{email:string,name:string}) => {
   const dat = {
     email: "",
@@ -74,8 +77,17 @@ const register = async (data:{email:string,name:string}) => {
   };
   try {
     setIsProcessing(true);
+    const currency = eventData?.currency.code?eventData?.currency.code:"INR"
     await setUpProfile(data)
-    await handlePayment(dat, service, continueToBooking, setIsProcessing);
+    if(eventData?.price){
+     
+
+await handlePayment(dat, service, continueToBooking, setIsProcessing, currency);
+
+    }else{
+      bookEvent();
+    }
+    
   } catch (error) {
     console.error(error);
   } finally {
@@ -109,9 +121,12 @@ const register = async (data:{email:string,name:string}) => {
            const response = await verifyOtp(authData);
            if (response.success) {
              localStorage.setItem("token", response.token);
-             if (response.is_new_user) {
-               setStep("details");
+             localStorage.setItem("user_id", response.user_id);
+             setUser(response.user_id);
+             if(response.is_new_user){
+
              }
+             
            } else {
              alert(response.message);
            }
@@ -139,29 +154,30 @@ console.log(otp);
       //    }
       //  };
      
-const continueToBooking=( dat: { email: string; name: string; phone_number: string },
-    response: { razorpay_order_id: string })=>{
-      console.log(response);
-      console.log(dat);
-      
-      
+const continueToBooking = (
+  dat: { email: string; name: string; phone_number: string },
+  response: { razorpay_order_id: string }
+) => {
+  console.log(dat);
+  console.log(response);
+  bookEvent();
+};
+const bookEvent = async () => {
+  const userId = localStorage.getItem("user_id") || "";
+  const eventId = eventData?._id || "";
+  try {
+    const data = {
+      event_id: eventId,
+      user_id: userId,
+    };
+    await eventBooking(data);
 
-}
- useEffect(() => {
-   const storedData = localStorage.getItem("eventData");
-   if (storedData) {
-     const event = JSON.parse(storedData);
-     const decodedTitle = decodeURIComponent(pathname.split("/").pop() || "");
-
-     if (event.title === decodedTitle) {
-       setEventData(event);
-       
-      //  router.push("/")
-     }
-   }else{
-    // router.push("/")
-   }
- }, [pathname]);
+    setSucessOpen(true);
+    router.push("/");
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const formatDateTime = (dateTimeStr: string) => {
   const dateObj = new Date(dateTimeStr);
@@ -177,6 +193,27 @@ const formatDateTime = (dateTimeStr: string) => {
   return { month, date, time };
 };
 
+useEffect(() => {
+  const storedData = localStorage.getItem("eventData");
+ 
+
+  if (storedData) {
+    const event = JSON.parse(storedData);
+    const decodedTitle = decodeURIComponent(pathname.split("/").pop() || "");
+
+    if (event.title === decodedTitle) {
+      setEventData(event);
+
+      //  router.push("/")
+    }
+  } else {
+    // router.push("/")
+  }
+}, [pathname]);
+useEffect(()=>{
+ const userId = localStorage.getItem("user_id") || "";
+ setUser(userId);
+},[])
   return (
     <main className="px-4 md:px-7 lg:px-10 max-w-5xl mx-auto py-20">
       <div className="flex gap-2.5 items-center mb-2 bg-primary-light rounded-md w-fit py-1 px-2">
@@ -246,7 +283,7 @@ const formatDateTime = (dateTimeStr: string) => {
           Google Meet
         </p>
       </div>
-{/*       <div className="flex items-center gap-2.5 mb-3">
+      {/*       <div className="flex items-center gap-2.5 mb-3">
         <Avatar className="h-8 w-8">
           <AvatarImage
             src="/images/avatar.svg"
@@ -295,6 +332,11 @@ const formatDateTime = (dateTimeStr: string) => {
                 })}{" "}
                 (GMT +05:30)
               </p>
+              {eventData?.price ? (
+                <p>{`${eventData?.currency.symbol} ${eventData?.price}`}</p>
+              ) : (
+                <p className="text-green-500">Free</p>
+              )}
             </div>
           </div>
           <div className="h-[1px] w-full bg-muted-foreground/50 my-3"></div>
@@ -310,14 +352,13 @@ const formatDateTime = (dateTimeStr: string) => {
         <p className="font-semibold mb-4">About the event:</p>
         <p className="whitespace-pre-line">{eventData?.description}</p>
       </div>
-      {token ? (
+      {user ? (
         <EventBookingModal
-        open={open}
-        setOpen={setOpen}
-        register={register}
-        isProcessing={isProcessing}
-      />
-        
+          open={open}
+          setOpen={setOpen}
+          register={register}
+          isProcessing={isProcessing}
+        />
       ) : (
         <LoginModal
           open={open}
@@ -325,9 +366,9 @@ const formatDateTime = (dateTimeStr: string) => {
           step={step}
           handlePhoneSubmit={handlePhoneSubmit}
           handleOtpSubmit={handleOtpSubmit}
-          // handleDetailsSubmit={handleDetailsSubmit}
         />
       )}
+      <SucessPopup open={sucessOpen} setOpen={setSucessOpen} />
     </main>
   );
 }
