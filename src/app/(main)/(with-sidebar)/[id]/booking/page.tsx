@@ -1,4 +1,4 @@
-'use client';
+ 'use client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -292,7 +292,7 @@ export default function Page() {
             className="border-[#6B7B8A] text-[#6B7B8A] w-full md:max-w-[202px] h-[58px]"
             onClick={() => router.push(`/${username}`)}
           >
-            <Link href={"/experts"}>Back to Experts</Link>
+            <Link href={"/experts"}>Back to Expert</Link>
           </Button>
           <Button
             onClick={() => formRef.current?.submitForm()}
