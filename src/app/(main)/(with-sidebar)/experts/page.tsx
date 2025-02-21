@@ -282,7 +282,7 @@ export default function Explore() {
               <div className="flex justify-between items-center">
                 <h2 className="mb-7 text-[22px]/7 font-bold">Mentors</h2>
                 <Link
-                  href={"/mentors"}
+                  href={"/experts"}
                   className="text-primary font-bold text-[15px]/7"
                 >
                   See all
@@ -298,7 +298,7 @@ export default function Explore() {
               <div className="flex justify-between items-center">
                 <h2 className="mb-7 text-[22px]/7 font-bold">Influencers</h2>
                 <Link
-                  href={"/mentors"}
+                  href={"/experts"}
                   className="text-primary font-bold text-[15px]/7"
                 >
                   See all
