@@ -7,7 +7,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '..
 // import Image from 'next/image';
 // import OneOneCard from '../one-one-card';
 // import EventCard from '../event-card';
-// import Dot from '../dot';
+import Dot from '../dot';
 import { getServicesById } from '@/services/api';
 import { useRouter } from 'next/navigation';
 import EmptyData from '../empty-data';
@@ -116,7 +116,17 @@ export default function ExpertServices({ id, username }: ExpertServicesProps) {
                         {data.duration} Minutes
                       </p>
                     </div>
-{/*                     <Dot /> */}
+                    <Dot />
+
+
+
+                    <div className="flex gap-1 items-center">
+
+                      <p className="text-[#7C7C7C] text-sm">
+                        {data.is_offline_available? "Online & Offline":"Online"} 
+                      </p>
+                    </div>
+
                   </div>
                   <Accordion type="single" collapsible>
                     <AccordionItem
