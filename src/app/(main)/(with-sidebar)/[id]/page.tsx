@@ -51,8 +51,69 @@ async function checkIfImageExists(key: string): Promise<boolean> {
   }
 }
 
-async function generateOgImage(expert: any): Promise<Buffer> {
-  const width = 1200;
+// async function generateOgImage(expert: any): Promise<Buffer> {
+//   const width = 1200;
+//   const height = 627;
+//   const canvas = createCanvas(width, height);
+//   const ctx = canvas.getContext("2d");
+
+//   // Load base OG image
+//   const baseImage = await loadImage(
+//     "https://res.cloudinary.com/djocenrah/image/upload/v1740234119/og_profile_s4prh0.png"
+//   );
+//   ctx.drawImage(baseImage, 0, 0, width, height);
+
+//   // Load Profile Image
+//   const profileImage = await loadImage(expert.profile_image);
+  
+//   // Set circle clip for profile image
+//   const centerX = 265; // X-coordinate of circle center
+//   const centerY = 315; // Y-coordinate of circle center
+//   const radius = 165; // Radius of the circle
+
+//   ctx.save(); // Save the current state before clipping
+//   ctx.beginPath();
+//   ctx.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
+//   ctx.closePath();
+//   ctx.clip();
+
+//   // Draw the clipped profile image
+//   ctx.drawImage(profileImage, centerX - radius, centerY - radius, radius * 2, radius * 2);
+  
+//   ctx.restore(); // Restore the previous state to avoid affecting other elements
+
+//   // Add Expert Name
+//   ctx.font = "35px Arial";
+//   ctx.fillStyle = "white";
+//   ctx.fillText(expert.username, 357, 590.5);
+
+//   return canvas.toBuffer("image/png");
+// }
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const id = decodeURIComponent(params.id);
+  const res = await Hosts({ search: id });
+
+  if (!res.success || !res.hosts.hosts[0]) {
+    return {
+      title: "Expert Not Found",
+      description: "The requested expert could not be found.",
+    };
+  }
+
+  const expert = res.hosts.hosts[0];
+  const ogKey = `og_images/${expert.username}.png`;
+  let ogImageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${ogKey}`;
+
+  // Check if OG image already exists
+  const exists = await checkIfImageExists(ogKey);
+  if (!exists) {
+
+    const width = 1200;
   const height = 627;
   const canvas = createCanvas(width, height);
   const ctx = canvas.getContext("2d");
@@ -88,31 +149,7 @@ async function generateOgImage(expert: any): Promise<Buffer> {
   ctx.fillText(expert.username, 357, 590.5);
 
   return canvas.toBuffer("image/png");
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: string };
-}): Promise<Metadata> {
-  const id = decodeURIComponent(params.id);
-  const res = await Hosts({ search: id });
-
-  if (!res.success || !res.hosts.hosts[0]) {
-    return {
-      title: "Expert Not Found",
-      description: "The requested expert could not be found.",
-    };
-  }
-
-  const expert = res.hosts.hosts[0];
-  const ogKey = `og_images/${expert.username}.png`;
-  let ogImageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${ogKey}`;
-
-  // Check if OG image already exists
-  const exists = await checkIfImageExists(ogKey);
-  if (!exists) {
-    const buffer = await generateOgImage(expert);
+    // const buffer = await generateOgImage(expert);
     ogImageUrl = await uploadToS3(buffer, ogKey);
   }
 
