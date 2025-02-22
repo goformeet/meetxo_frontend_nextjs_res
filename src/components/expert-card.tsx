@@ -15,9 +15,13 @@ export default function ExpertCard({
     average_rating: number;
     about_me: string;
     _id: string;
-    username:string
+    username:string;
+    profession_sub_category_id?: {
+      title: string;
+    }
   };
 }) {
+  console.log(prof)
   return (
     <Link
       href={`/${prof?.username ? prof?.username : prof?.name}`}
@@ -34,6 +38,7 @@ export default function ExpertCard({
         </AspectRatio>
       </div>
       <p className="text-sm font-bold">{prof.name}</p>
+      <p className="text-xs text-muted-foreground">{prof.profession_sub_category_id?.title}</p>
       <div className="flex justify-between items-center">
         <p className="text-xs font-semibold">
           {prof.min_session_price ? (
