@@ -20,6 +20,8 @@ import EventCard from "@/components/event-card";
 import { useEffect, useState } from "react";
 import { getAllEvents } from "@/services/api";
 import JoinAsExpert from "@/components/home/join-as-expert";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 
 type EventType= {
@@ -39,6 +41,9 @@ type EventType= {
   created_at: string;
   updated_at: string;
   __v: number;
+  profile_id: {
+    name: string;
+  }
 }
 
 export default function Home() {
@@ -291,6 +296,11 @@ getEvents()
                 <EventCard key={event._id} event={event} />
               ))}
             </div>
+            <div className="flex justify-center mt-8 md:mt-16">
+          <Button className="text-white text-sm md:text-lg/[150%] font-semibold py-3 md:py-[18px] px-4 md:px-7 rounded md:rounded-[14px] h-fit">
+            <Link href={"/events"}>Explore Events</Link>
+          </Button>
+        </div>
           </section>
         )}
 

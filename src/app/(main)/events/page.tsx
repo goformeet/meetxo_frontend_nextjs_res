@@ -1,0 +1,57 @@
+import EventCard from "@/components/event-card";
+import { Input } from "@/components/ui/input";
+import { getAllEvents } from "@/services/api";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+
+type EventType = {
+    _id: string;
+    image: string;
+    title: string;
+    description: string;
+    location: string;
+    start_date: string;
+    profile_id: {
+      name: string;
+    }
+
+  }
+
+export default async function Page() {
+    const { data } = await getAllEvents();
+    const events = data;
+
+    if(!events || !events.length){
+        notFound();
+    }
+
+    return (
+        <main className="px-4 md:px-7 lg:px-10 max-w-5xl mx-auto py-20">
+                  <h1 className="text-lg/5 md:text-[22px]/[28px] font-bold">
+        Select an expert, schedule a session, and receive guidance via video
+        call.
+      </h1>
+      <div className="mt-4 md:mt-6 flex py-[1px] px-3.5 md:px-6 items-center rounded-[38px] border border-[#F1F2F4]">
+        <Image
+          src={"/icons/search-primary.svg"}
+          alt="Search Icon"
+          width={18}
+          height={18}
+        />
+        <Input
+          type="text"
+          placeholder="Search by name, company, role"
+          className="border-none focus-visible:ring-0 h-fit py-3 md:py-4 shadow-none placeholder:text-muted-foreground"
+          // onChange={(e) => {
+          //   getProfessionals(e.target.value,"search");
+          // }}
+        />
+      </div>
+            <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-5">
+              {events.map((event:EventType) => (
+                <EventCard key={event._id} event={event} />
+              ))}
+            </div>
+        </main>
+    )
+}

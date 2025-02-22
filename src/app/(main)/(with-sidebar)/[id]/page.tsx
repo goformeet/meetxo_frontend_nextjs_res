@@ -101,7 +101,7 @@ export default async function Page({
 
           <div className="md:mt-16 flex-shrink-0">
             <h1 className="text-base md:text-[31px]/9 font-bold">{data?.name}</h1>
-            <p className="md:mt-1 text-sm md:text-lg/7">{data?.profession_id?.title}</p>
+            <p className="md:mt-1 text-sm md:text-lg/7">{data?.profession_sub_category_id?.title}</p>
           </div>
         </div>
         {/*           <div className="absolute right-0 md:bottom-4 flex items-center gap-3">
