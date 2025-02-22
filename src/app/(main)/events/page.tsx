@@ -26,7 +26,7 @@ export default async function Page() {
     }
 
     return (
-        <main className="px-4 md:px-7 lg:px-10 max-w-5xl mx-auto py-20">
+        <main className="px-4 md:px-7 lg:px-10 py-20">
                   <h1 className="text-lg/5 md:text-[22px]/[28px] font-bold">
         Select an expert, schedule a session, and receive guidance via video
         call.
