@@ -14,12 +14,14 @@ import { encode } from "punycode";
 import { createCanvas, loadImage } from "canvas";
 import AWS from "aws-sdk";
 
-type Props = {
-  params: Promise<{ id: string }>
-}
 
+
+type Props = {
+  params: Promise<{ id: string }>;
+};
 
 const s3 = new AWS.S3({
+
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   region: process.env.AWS_REGION,
@@ -63,12 +65,27 @@ async function generateOgImage(expert: any): Promise<Buffer> {
 
   // Load Profile Image
   const profileImage = await loadImage(expert.profile_image);
-  ctx.drawImage(profileImage, 100, 150, 330, 330);
+  
+  // Set circle clip for profile image
+  const centerX = 265; // X-coordinate of circle center
+  const centerY = 315; // Y-coordinate of circle center
+  const radius = 165; // Radius of the circle
+
+  ctx.save(); // Save the current state before clipping
+  ctx.beginPath();
+  ctx.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
+  ctx.closePath();
+  ctx.clip();
+
+  // Draw the clipped profile image
+  ctx.drawImage(profileImage, centerX - radius, centerY - radius, radius * 2, radius * 2);
+  
+  ctx.restore(); // Restore the previous state to avoid affecting other elements
 
   // Add Expert Name
-  ctx.font = "33px Arial";
+  ctx.font = "35px Arial";
   ctx.fillStyle = "white";
-  ctx.fillText(expert.username, 357, 566);
+  ctx.fillText(expert.username, 357, 590.5);
 
   return canvas.toBuffer("image/png");
 }
@@ -89,7 +106,7 @@ export async function generateMetadata({
   }
 
   const expert = res.hosts.hosts[0];
-  const ogKey = `og_images/${expert.id}.png`;
+  const ogKey = `og_images/${expert.username}.png`;
   let ogImageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${ogKey}`;
 
   // Check if OG image already exists
