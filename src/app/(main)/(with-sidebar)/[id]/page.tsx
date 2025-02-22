@@ -36,8 +36,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: `Check Out ${expert.name}, a top ${expert.profession_id?.title} expert on MeetXO. Ready to gain insights and level up? Book a session now! | meetxo.ai `,
     metadataBase: new URL("https://meetxo.ai"),
     openGraph: {
-      title: `${expert.name} - Expert Profile`,
-      description: `Learn more about ${expert.name} and their services.`,
+      title: `Schedule and meet with ⁠ ${expert.name} on meetxo.ai`,
+      description: `Check Out ${expert.name}, a top ${expert.profession_id?.title} expert on MeetXO. Ready to gain insights and level up? Book a session now! | meetxo.ai `,
       images: [
         {
           url: `https://res.cloudinary.com/djocenrah/image/upload/l_fetch:${base64ProfileImage},w_330,h_330,c_fill,r_max,g_north_west,x_100,y_150/l_text:Arial_33:${expert.username},co_white,g_north_west,x_357,y_566/og_profile_s4prh0.png`,
