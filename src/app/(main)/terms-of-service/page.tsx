@@ -34,7 +34,7 @@ export default function TermsOfService() {
               <div className="custom-container py-32">
       <p className="text-lg my-4">
         MeetXO Consulting Private Limited, on behalf of itself and its
-        affiliates/group companies under the brand "MeetXO" (“MeetXO”), is
+        affiliates/group companies under the brand &apos;MeetXO&apos; (“MeetXO”), is
         the author and publisher of the internet resource www.meetxo.ai and
         the mobile application MeetXO (together, “Website”).
       </p>
@@ -265,7 +265,7 @@ export default function TermsOfService() {
             <li>
               <span className="font-bold">3.3.2</span> The Services provided by
               MeetXO or any of its licensors or service providers are
-              provided on an "as is" and “as available’ basis, and without any
+              provided on an &apos;as is&apos; and “as available’ basis, and without any
               warranties or conditions (express or implied, including the
               implied warranties of merchantability, accuracy, fitness for a
               particular purpose, title and non-infringement, arising by statute
@@ -316,7 +316,7 @@ export default function TermsOfService() {
             </li>
             <li>
               <span className="font-bold">3.3.6</span> The information published
-              under the head of "Industry wide city-wise Pricing Graph" is
+              under the head of &apos;Industry wide city-wise Pricing Graph&apos; is
               derived from a professional that is determined to be relevant by
               MeetXO in the relevant city. MeetXO has published this
               information for guidance purpose and does not have the ability to
@@ -501,7 +501,7 @@ export default function TermsOfService() {
               </li>
               <li>
                 is grossly harmful, harassing, blasphemous, defamatory, obscene,
-                pornographic, pedophilic, libelous, invasive of another's
+                pornographic, pedophilic, libelous, invasive of another&apos;s
                 privacy, hateful, or racially, ethnically objectionable,
                 disparaging, relating or encouraging money laundering or
                 gambling, or otherwise unlawful in any manner whatever;

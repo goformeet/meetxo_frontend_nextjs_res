@@ -97,11 +97,11 @@ const getEvents= async()=>{
 
   useEffect(() => {
     getServices();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     getEvents();
-  }, []);
+  }, [id]);
   return (
     <>
       <div className="my-5 px-5 py-3 bg-primary-light rounded-[14px] flex gap-3 overflow-x-scroll no-scrollbar">
