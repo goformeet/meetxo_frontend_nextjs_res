@@ -155,3 +155,13 @@ export const eventBooking = async (data: { event_id: string ,user_id:string}) =>
      throw error;
   }
 };
+
+export const getEventsByHost = async (hostId: string) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/events/${hostId}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
