@@ -126,7 +126,7 @@ export default function Page() {
                 </p>
                 <h2 className="text-xl font-semibold mt-4">Who are we?
                 </h2>
-                <p>MeetXO, the accompanying website and app are owned by State of Delaware is located at 16192 Coastal Highway, Lewes, Delaware 19958, County of Sussex.
+                <p>MeetXO, the accompanying website and app are owned Goformeet COnsulting Private Limited HustleHub, 53, 5th Cross Rd, near Sony World Signal, 4th Block, Koramangala, Bengaluru, Karnataka 560034
                     We reserve the right, at our discretion, to make changes to the terms of use and privacy policy at any time. The most updated version is available on our App and Website at all times. Please check the terms of use and privacy policy periodically for changes as all modifications are effective upon publication. Continued use of the MeetXO app and website after revision indicates the user&apos;s acceptance of the terms of use and privacy policy.
                 </p>
 
