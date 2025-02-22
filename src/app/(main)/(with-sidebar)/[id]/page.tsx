@@ -90,13 +90,11 @@ async function checkIfImageExists(key: string): Promise<boolean> {
 //   return canvas.toBuffer("image/png");
 // }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: string };
-}): Promise<Metadata> {
-  const id = decodeURIComponent(params.id);
-  const res = await Hosts({ search: id });
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  // const id = (await params).id.replace(/%20/g, " ");
+  // const id = decodeURIComponent(params.id);
+  const res = await Hosts({ search: "" });
+
 
   if (!res.success || !res.hosts.hosts[0]) {
     return {
