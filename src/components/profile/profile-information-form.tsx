@@ -78,11 +78,11 @@ export default function ProfileInformationForm() {
                     Personal Information
                 </p>
                 <div className="py-8 px-4">
-                    <div className="flex gap-6">
+                    <div className="flex flex-col md:flex-row gap-6">
                         <Avatar className="h-[88px] w-[88px]">
                             <AvatarImage src="/images/avatar.svg" />
                         </Avatar>
-                        <div className="flex flex-col justify-between">
+                        <div className="flex flex-col gap-1 justify-between">
                             {/* Hidden File Input */}
                             <input
                                 type="file"
@@ -114,7 +114,7 @@ export default function ProfileInformationForm() {
                             control={form.control}
                             name="name"
                             render={({ field }) => (
-                                <FormItem className="flex flex-col items-start w-full">
+                                <FormItem className="inline-flex flex-col items-start w-full">
                                     <FormLabel className="text-left text-sm font-plus-jakarta-sans">
                                         Name <span className="text-[#E03137]">*</span>
                                     </FormLabel>
@@ -192,7 +192,7 @@ export default function ProfileInformationForm() {
                             control={form.control}
                             name="about"
                             render={({ field }) => (
-                                <FormItem className="col-span-2">
+                                <FormItem className="lg:col-span-2">
                                     <FormLabel>About me</FormLabel>
                                     <FormControl>
                                         <Textarea
@@ -206,10 +206,10 @@ export default function ProfileInformationForm() {
                             )}
                         />
                         {/* Social Links Section */}
-                        <div className="mt-6 col-span-2">
+                        <div className="mt-6 lg:col-span-2">
                             <p className="text-lg font-semibold">Social Links</p>
                             {fields.map((field, index) => (
-                                <div key={field.id} className="flex items-end gap-4 mt-4">
+                                <div key={field.id} className="flex flex-col lg:flex-row items-end gap-4 mt-4">
                                     <FormField
                                         control={form.control}
                                         name={`socialLinks.${index}.icon`}
