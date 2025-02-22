@@ -10,7 +10,6 @@ import { notFound } from "next/navigation";
 import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Metadata } from "next";
-import { encode } from "punycode";
 import { createCanvas, loadImage } from "canvas";
 import AWS from "aws-sdk";
 
