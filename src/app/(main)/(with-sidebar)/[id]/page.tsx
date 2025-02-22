@@ -46,6 +46,7 @@ async function checkIfImageExists(key: string): Promise<boolean> {
       .promise();
     return true;
   } catch (err) {
+    console.log(err)
     return false;
   }
 }
