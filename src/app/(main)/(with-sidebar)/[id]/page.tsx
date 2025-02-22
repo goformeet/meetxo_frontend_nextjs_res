@@ -10,15 +10,14 @@ import { notFound } from "next/navigation";
 import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Metadata } from "next";
+import { encode } from "punycode";
 
 type Props = {
   params: Promise<{ id: string }>
 }
 
-export async function generateMetadata({
-  params,
-}: Props): Promise<Metadata> {
 
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const id = (await params).id.replace(/%20/g, " ");
   const res = await Hosts({ search: id });
 
@@ -30,9 +29,10 @@ export async function generateMetadata({
   }
 
   const expert = res.hosts.hosts[0];
+  const base64ProfileImage = encode(expert.profile_image || ""); // Base64 encode S3 URL
 
   return {
-    title: `Schedule and meet with ⁠ ${expert.name} on meetxo.ai⁠` ,
+    title: `Schedule and meet with ⁠ ${expert.name} on meetxo.ai⁠`,
     description: `Check Out ${expert.name}, a top ${expert.profession_id?.title} expert on MeetXO. Ready to gain insights and level up? Book a session now! | meetxo.ai `,
     metadataBase: new URL("https://meetxo.ai"),
     openGraph: {
@@ -40,15 +40,50 @@ export async function generateMetadata({
       description: `Learn more about ${expert.name} and their services.`,
       images: [
         {
-          url: expert.profile_image || "/default-avatar.png",
-          width: 800,
-          height: 600,
+          url: `https://res.cloudinary.com/djocenrah/image/upload/l_fetch:${base64ProfileImage},w_330,h_330,c_fill,r_max,g_north_west,x_100,y_150/l_text:Arial_33:${expert.username},co_white,g_north_west,x_357,y_566/og_profile_s4prh0.png`,
+          width: 1200,
+          height: 627,
           alt: `${expert.name}'s Profile Picture`,
         },
       ],
     },
   };
 }
+
+// export async function generateMetadata({
+//   params,
+// }: Props): Promise<Metadata> {
+
+//   const id = (await params).id.replace(/%20/g, " ");
+//   const res = await Hosts({ search: id });
+
+//   if (!res.success || !res.hosts.hosts[0]) {
+//     return {
+//       title: "Expert Not Found",
+//       description: "The requested expert could not be found.",
+//     };
+//   }
+
+//   const expert = res.hosts.hosts[0];
+
+//   return {
+//     title: `Schedule and meet with ⁠ ${expert.name} on meetxo.ai⁠` ,
+//     description: `Check Out ${expert.name}, a top ${expert.profession_id?.title} expert on MeetXO. Ready to gain insights and level up? Book a session now! | meetxo.ai `,
+//     metadataBase: new URL("https://meetxo.ai"),
+//     openGraph: {
+//       title: `${expert.name} - Expert Profile`,
+//       description: `Learn more about ${expert.name} and their services.`,
+//       images: [
+//         {
+//           url: expert.profile_image || "/default-avatar.png",
+//           width: 800,
+//           height: 600,
+//           alt: `${expert.name}'s Profile Picture`,
+//         },
+//       ],
+//     },
+//   };
+// }
 
 
 export default async function Page({
