@@ -11,14 +11,74 @@ import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Metadata } from "next";
 import { encode } from "punycode";
+import { createCanvas, loadImage } from "canvas";
+import AWS from "aws-sdk";
 
 type Props = {
   params: Promise<{ id: string }>
 }
 
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const id = (await params).id.replace(/%20/g, " ");
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
+});
+
+async function uploadToS3(buffer: Buffer, key: string): Promise<string> {
+  const params = {
+    Bucket: process.env.AWS_S3_BUCKET_NAME!,
+    Key: key,
+    Body: buffer,
+    ContentType: "image/png",
+    ACL: "public-read", // Make it publicly accessible
+  };
+
+  await s3.upload(params).promise();
+  return `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+}
+
+async function checkIfImageExists(key: string): Promise<boolean> {
+  try {
+    await s3
+      .headObject({ Bucket: process.env.AWS_S3_BUCKET_NAME!, Key: key })
+      .promise();
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
+async function generateOgImage(expert: any): Promise<Buffer> {
+  const width = 1200;
+  const height = 627;
+  const canvas = createCanvas(width, height);
+  const ctx = canvas.getContext("2d");
+
+  // Load base OG image
+  const baseImage = await loadImage(
+    "https://res.cloudinary.com/djocenrah/image/upload/v1740234119/og_profile_s4prh0.png"
+  );
+  ctx.drawImage(baseImage, 0, 0, width, height);
+
+  // Load Profile Image
+  const profileImage = await loadImage(expert.profile_image);
+  ctx.drawImage(profileImage, 100, 150, 330, 330);
+
+  // Add Expert Name
+  ctx.font = "33px Arial";
+  ctx.fillStyle = "white";
+  ctx.fillText(expert.username, 357, 566);
+
+  return canvas.toBuffer("image/png");
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const id = decodeURIComponent(params.id);
   const res = await Hosts({ search: id });
 
   if (!res.success || !res.hosts.hosts[0]) {
@@ -29,18 +89,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const expert = res.hosts.hosts[0];
-  const base64ProfileImage = encode(expert.profile_image || ""); // Base64 encode S3 URL
+  const ogKey = `og_images/${expert.id}.png`;
+  let ogImageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${ogKey}`;
+
+  // Check if OG image already exists
+  const exists = await checkIfImageExists(ogKey);
+  if (!exists) {
+    const buffer = await generateOgImage(expert);
+    ogImageUrl = await uploadToS3(buffer, ogKey);
+  }
 
   return {
     title: `Schedule and meet with ⁠ ${expert.name} on meetxo.ai⁠`,
-    description: `Check Out ${expert.name}, a top ${expert.profession_id?.title} expert on MeetXO. Ready to gain insights and level up? Book a session now! | meetxo.ai `,
+    description: `Check out ${expert.name}, a top ${expert.profession_id?.title} expert on MeetXO. Ready to gain insights and level up? Book a session now! | meetxo.ai `,
     metadataBase: new URL("https://meetxo.ai"),
     openGraph: {
-      title: `Schedule and meet with ⁠ ${expert.name} on meetxo.ai`,
-      description: `Check Out ${expert.name}, a top ${expert.profession_id?.title} expert on MeetXO. Ready to gain insights and level up? Book a session now! | meetxo.ai `,
+      title: `${expert.name} - Expert Profile`,
+      description: `Learn more about ${expert.name} and their services.`,
       images: [
         {
-          url: `https://res.cloudinary.com/djocenrah/image/upload/l_fetch:${base64ProfileImage},w_330,h_330,c_fill,r_max,g_north_west,x_100,y_150/l_text:Arial_33:${expert.username},co_white,g_north_west,x_357,y_566/og_profile_s4prh0.png`,
+          url: ogImageUrl, // Use the uploaded OG image URL
           width: 1200,
           height: 627,
           alt: `${expert.name}'s Profile Picture`,
