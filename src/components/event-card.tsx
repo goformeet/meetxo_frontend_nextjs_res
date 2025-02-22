@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -114,19 +113,19 @@ const truncatedDescription =
       </div>
       </div>
       {/* <AvatarGroup users={event.participants} max={2} /> */}
-      <div className="bg-primary-light py-[7px] px-2.5 flex justify-between rounded-[8px] mt-[18px]">
+      <div           
+      onClick={(e) => {
+          e.preventDefault();
+            handleNavigate();
+          }} 
+          className="bg-primary-light py-[7px] px-2.5 flex justify-between rounded-[8px] mt-[18px] cursor-pointer">
         <div>
           <p className="text-[#6B7B8A] text-[9px]/[12px]">Host</p>
           <p className="text-[#384853] text-[10px] font-bold leading-[14px]">
             {event.profile_id.name}
           </p>
         </div>
-        <Link
-          href={"/"}
-          onClick={(e) => {
-            e.preventDefault();
-            handleNavigate();
-          }}
+        <div
           className="flex items-center justify-center p-2 bg-[#E3F0FD] rounded-full"
         >
           <Image
@@ -135,7 +134,7 @@ const truncatedDescription =
             width={16}
             height={16}
           />
-        </Link>
+        </div>
       </div>
     </div>
   );
