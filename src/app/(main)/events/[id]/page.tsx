@@ -3,11 +3,11 @@ import { collectAuthData } from '@/app/utils/collectAuthData';
 import { handlePayment } from '@/app/utils/razorpay';
 import LoginModal from '@/components/auth/login-modal';
 import SucessPopup from '@/components/auth/successPopup';
-// import EventBookingModal from '@/components/booking/event-booking-modal';
-// import { Avatar, AvatarImage } from '@/components/ui/avatar'
+
 import { Button } from '@/components/ui/button';
 import { eventBooking, sendOtp, setUpProfile } from '@/services/api';
 import { AuthData } from '@/types/authTypes';
+import { Session } from '@/types/sessionTypes';
 import axios from 'axios';
 import { getSession, signIn } from 'next-auth/react';
 import Image from 'next/image'
@@ -24,8 +24,7 @@ type Event = {
   price: number;
   start_date: string;
   currency:{code:string,symbol:string}
-  // time: string;
-  // host: string;
+
 };
 
 
@@ -71,38 +70,6 @@ export default function Page() {
       const pathname = usePathname();
  
 
- 
-
-
-// const register = async (data:{email:string,name:string}) => {
-//   const dat = {
-//     email: "",
-//     phone_number: "",
-//     name: "",
-//   };
-//   const service = {
-//     name: "",
-//     online_pricing: eventData?.price ? eventData?.price : 1,
-//   };
-//   try {
-//     setIsProcessing(true);
-//     const currency = eventData?.currency.code?eventData?.currency.code:"INR"
-//     await setUpProfile(data)
-//     if(eventData?.price){
-     
-
-// await handlePayment(dat, service, continueToBooking, setIsProcessing, currency);
-
-//     }else{
-//       bookEvent();
-//     }
-    
-//   } catch (error) {
-//     console.error(error);
-//   } finally {
-//     setIsProcessing(false);
-//   }
-// };
     const handlePhoneSubmit = async (phone: string) => {
       setPhone(phone);
 
@@ -120,42 +87,6 @@ export default function Page() {
       }
     };
    
-      //  const handleOtpSubmit = async (otp: string) => {
-      //    setOtp(otp);
-
-      //    try {
-      //      const collectData = await collectAuthData(phone, otp);
-      //      const authData: AuthData = collectData;
-
-      //      const response = await verifyOtp(authData);
-      //      if (response.success) {
-      //        localStorage.setItem("token", response.token);
-      //        localStorage.setItem("user_id", response.user_id);
-      //        setUser(response.user_id);
-      //        if (response.is_new_user) {
-      //         setStep("details")
-      //        }else{
-      //          if (eventData?.price) {
-      //            makePayment();
-      //          } else {
-      //            bookEvent();
-      //          }
-      //        }
-      //      } else {
-      //        alert(response.message);
-      //      }
-      //    } catch (error) {
-      //      console.error(error);
-      //       if (axios.isAxiosError(error)) {
-      //         console.error("Axios error response:", error.response);
-      //         if (error?.response?.data?.message) alert(error?.response?.data?.message);
-      //       } else if (error instanceof Error) {
-      //         console.error("General error:", error.message);
-      //          alert("Something went wrong");
-      //       }
-         
-      //    }
-      //  };
       const handleOtpSubmit = async (otp: string) => {
         try {
           const collectData = await collectAuthData(phone, otp);

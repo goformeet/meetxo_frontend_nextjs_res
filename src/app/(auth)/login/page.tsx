@@ -20,7 +20,7 @@ const Page = () => {
     const [step, setStep] = useState<'phone' | 'otp' | 'details'>('phone');
     const [phone, setPhone] = useState<string>('');
     // const [otp, setOtp] = useState<string>('');
-    const [details, setDetails] = useState<{ userName: string; email: string }>({ userName: '', email: '' });
+    // const [details, setDetails] = useState<{ userName: string; email: string }>({ userName: '', email: '' });
     const [open, setOpen] = useState<boolean>(false);
 
     const handlePhoneSubmit = async (phone: string) => {
@@ -77,7 +77,7 @@ const Page = () => {
       userName: string;
       email: string;
     }) => {
-      setDetails(detals);
+      // setDetails(detals);
       try {
         const session = await getSession();
 
