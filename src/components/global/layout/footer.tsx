@@ -47,7 +47,7 @@ export default function Footer() {
                     <p className='text-2xl md:text-3xl lg:text-[56px]/[100%] font-semibold tracking-[-0.56px] max-w-[762px]'>Join MeetXO—where every conversation opens a new door.</p>
                 </div>
                 <div className='md:col-span-2 flex flex-col'>
-                    <div className='flex gap-3.5 items-center'>
+{/*                     <div className='flex gap-3.5 items-center'>
                         <div className='flex flex-shrink-0 justify-center items-center h-12 w-12 rounded-full bg-white'>
                             <Image src={'/images/map-pin-primary.svg'} alt='Location Icon' width={24} height={24} />
                         </div>
@@ -55,7 +55,7 @@ export default function Footer() {
                             16192 Coastal
                             Highway, Lewes, Delaware 19958, County of Sussex, USA
                         </p>
-                    </div>
+                    </div> */}
                     <Link href={'mailto:info@meetxo.ai'} className='flex gap-3.5 items-center mt-7'>
                         <div className='flex flex-shrink-0 justify-center items-center h-12 w-12 rounded-full bg-white'>
                             <Image src={'/images/envelope-icon.svg'} alt='Envelope Icon' width={24} height={24} />

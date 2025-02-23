@@ -10,6 +10,7 @@ export const collectAuthData = async (
  const deviceDetails = {
    brand: navigator.vendor || "Unknown",
    model: browser?.name || "Unknown",
+  //  version: browser?.version || "Unknown",
    product: navigator.userAgent,
    device: "Unknown",
    hardware: "Unknown",

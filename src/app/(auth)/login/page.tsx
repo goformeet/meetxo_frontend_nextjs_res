@@ -2,22 +2,24 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation'
+import { getSession, signIn } from 'next-auth/react';
 
 import PhoneForm from '@/components/auth/phoneForm';
 import { OtpForm } from '@/components/auth/otpForm';
 import DetailsForm from '@/components/auth/detailsForm';
 import SucessPopup from '@/components/auth/successPopup';
 import Link from 'next/link';
-import { sendOtp, setUpProfile, verifyOtp } from '@/services/api';
+import { sendOtp, setUpProfile } from '@/services/api';
 import { collectAuthData } from '@/app/utils/collectAuthData';
 import { AuthData } from '@/types/authTypes';
+import axios from 'axios';
 
 
 const Page = () => {
     const router = useRouter();
     const [step, setStep] = useState<'phone' | 'otp' | 'details'>('phone');
     const [phone, setPhone] = useState<string>('');
-    const [otp, setOtp] = useState<string>('');
+    // const [otp, setOtp] = useState<string>('');
     const [details, setDetails] = useState<{ userName: string; email: string }>({ userName: '', email: '' });
     const [open, setOpen] = useState<boolean>(false);
 
@@ -33,31 +35,41 @@ const Page = () => {
         }
       } catch (error) {
         console.error(error);
-
-        alert("Something went wrong");
       }
     };
 
     const handleOtpSubmit = async (otp: string) => {
-      setOtp(otp);
-     
+      // setOtp(otp);
+
       try {
         const collectData = await collectAuthData(phone, otp);
         const authData: AuthData = collectData;
 
-        const response = await verifyOtp(authData);
-        if (response.success) {
-             localStorage.setItem("token", response.token);
-             localStorage.setItem("user_id", response.user_id);
-          if (response.is_new_user) {
+        const result = await signIn("credentials", {
+          otp: authData.otp,
+          phone: authData.mobile_number,
+          login_device_details: JSON.stringify(authData.login_device_details),
+          redirect: false,
+        });
+
+        if (result?.ok) {
+          const session = await getSession();
+          if (session?.user?.is_new_user) {
             setStep("details");
-          } 
-        } else {
-          alert(response.message);
+          } else {
+            router.push("/");
+          }
         }
       } catch (error) {
-        console.error(error);
-          alert("Something went wrong");
+          console.error(error);
+          if (axios.isAxiosError(error)) {
+            console.error("Axios error response:", error.response);
+            if (error?.response?.data?.message)
+              alert(error?.response?.data?.message);
+          } else if (error instanceof Error) {
+            console.error("General error:", error.message);
+            alert("Something went wrong");
+          }
       }
     };
 
@@ -67,19 +79,23 @@ const Page = () => {
     }) => {
       setDetails(detals);
       try {
-        const res = await setUpProfile(detals);
-        console.log(res);
-        if(res.success){
-            router.push("/")
-        }else{
-            alert(res.message)
+        const session = await getSession();
+
+        if (!session || !session.accessToken) {
+          throw new Error("User session not found or accessToken missing");
+        }
+        const res = await setUpProfile(detals, session.accessToken);
+
+        if (res.success) {
+          router.push("/");
+        } else {
+          alert(res.message);
         }
         
       } catch (error) {
         console.error(error);
         
       }
-      console.log(phone, otp, details);
     };
     const maskPhoneNumber = (phone: string): string => {
       if (phone.length < 3) return phone; 

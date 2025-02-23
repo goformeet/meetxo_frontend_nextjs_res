@@ -83,10 +83,10 @@ export default function PhoneForm({ handleSubmit }: { handleSubmit: (phone: stri
           </div>
 
           <div className="">
-            <h2 className="text-2xl md:text-[20px] font-bold">
+            <h2 className="text-sm lg:text-2xl md:text-[20px] font-bold">
               Why a mobile number?
             </h2>
-            <p className="text-2xl md:text-[10px] font-bold">
+            <p className=" ">
               {
                 "It's simpler than remembering an email and password, and it also helps confirm that you're a real person."
               }

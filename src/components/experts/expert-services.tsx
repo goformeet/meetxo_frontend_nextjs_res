@@ -7,10 +7,13 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '..
 // import Image from 'next/image';
 // import OneOneCard from '../one-one-card';
 // import EventCard from '../event-card';
-// import Dot from '../dot';
-import { getServicesById } from '@/services/api';
+import Dot from '../dot';
+import { getEventsByHost, getServicesById } from '@/services/api';
 import { useRouter } from 'next/navigation';
 import EmptyData from '../empty-data';
+import EventCard from '../event-card';
+import { getSession } from 'next-auth/react';
+
 type Service = {
   _id: string;
   user_id: string;
@@ -33,9 +36,33 @@ type ExpertServicesProps={
   id:string
  
 }
+type EventType= {
+  _id: string;
+  user_id: string;
+
+  max_participants: number;
+
+  meeting_link: string;
+  title: string;
+  description: string;
+  price: number;
+  image: string;
+  type: string;
+  start_date: string;
+  location: string;
+  created_at: string;
+  updated_at: string;
+  __v: number;
+  profile_id: {
+    name: string;
+  }
+}
+
+
 export default function ExpertServices({ id, username }: ExpertServicesProps) {
   const [category, setCategory] = useState("1:1 Call");
   const [services, setServices] = useState<Service[]>([]);
+  const [events, setEvents] = useState<EventType[]>([]);
   const router = useRouter();
   const categories = [
     { id: 2, name: "1:1 Call" },
@@ -45,7 +72,12 @@ export default function ExpertServices({ id, username }: ExpertServicesProps) {
 
   const getServices = async () => {
     try {
-      const res = await getServicesById(id);
+       const session = await getSession();
+      
+         if (!session || !session.accessToken) {
+           throw new Error("User session not found or accessToken missing");
+         }
+      const res = await getServicesById(id, session.accessToken);
      
 
       if (res.success) {
@@ -55,11 +87,27 @@ export default function ExpertServices({ id, username }: ExpertServicesProps) {
       console.error(error);
     }
   };
+
+const getEvents= async()=>{
+  try {
+    const res = await getEventsByHost(id);
+    if(res.success){
+      setEvents(res.data);
+    }
+  } catch (error) {
+    console.error(error)
+    
+  }
+}
  
 
   useEffect(() => {
     getServices();
-  }, []);
+  }, [id]);
+
+  useEffect(() => {
+    getEvents();
+  }, [id]);
   return (
     <>
       <div className="my-5 px-5 py-3 bg-primary-light rounded-[14px] flex gap-3 overflow-x-scroll no-scrollbar">
@@ -82,7 +130,7 @@ export default function ExpertServices({ id, username }: ExpertServicesProps) {
         ))}
       </div>
       <div className="space-y-[18px] mb-[169px]">
-        {services.length ? (
+        {category === '1:1 Call' && services.length ? (
           services.map((data) => {
             return (
               <div
@@ -116,7 +164,17 @@ export default function ExpertServices({ id, username }: ExpertServicesProps) {
                         {data.duration} Minutes
                       </p>
                     </div>
-{/*                     <Dot /> */}
+                    <Dot />
+
+
+
+                    <div className="flex gap-1 items-center">
+
+                      <p className="text-[#7C7C7C] text-sm">
+                        {data.is_offline_available? "Online & Offline":"Online"} 
+                      </p>
+                    </div>
+
                   </div>
                   <Accordion type="single" collapsible>
                     <AccordionItem
@@ -153,7 +211,16 @@ export default function ExpertServices({ id, username }: ExpertServicesProps) {
               </div>
             );
           })
-        ) : <EmptyData />}
+        ) : 
+        category === 'Events' 
+        && events.length ? (
+                      <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-5">
+                        {events.map((event) => (
+                          <EventCard key={event._id} event={event} />
+                        ))}
+                      </div>
+        ) : 
+        <EmptyData />}
 
 
         {/* <div className='p-4 border border-[#E0E0E0] rounded-[16px] flex justify-between '>

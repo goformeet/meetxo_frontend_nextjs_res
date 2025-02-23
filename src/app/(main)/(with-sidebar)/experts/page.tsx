@@ -31,6 +31,32 @@ type FilterItem ={
   _id: string;
   title: string;
 }
+
+// export const metadata = {
+//   title: "Meta Title: Book Top Experts for 1:1 Advice at MeetXO",
+//   description:
+//     "Connect with the world's most in-demand experts for 1-on-1 guidance. Ask questions, get expert advice, and grow with personalized insights.",
+//     keywords: "Monetize Your Expertise Online, Join as an Expert & Earn, Offer Paid Expert Consultations, Get Clients as an Online Coach, Start Your Virtual Consulting Business, Create Your Expert Profile Free, Grow Your Brand as an Expert, Become a Mentor & Guide Others, Earn Money Sharing Your Knowledge, Find Clients for Consulting Online, Boost Your Career with MeetXO, Get Paid for Your Advice, Online Platform for Industry Experts, Showcase Your Skills & Get Bookings, Work as a Virtual Consultant",
+//   metadataBase: new URL("https://meetxo.ai"),
+//   openGraph: {
+//   title: "Meta Title: Book Top Experts for 1:1 Advice at MeetXO",
+//     description:
+//     "Connect with the world's most in-demand experts for 1-on-1 guidance. Ask questions, get expert advice, and grow with personalized insights.",
+//     url: "https://meetxo.ai",
+//     images: [
+//       {
+//         url: "/og_image.png",
+//         width: 1200,
+//         height: 630,
+//         alt: "MeetXO Logo",
+//       },
+//     ],
+//   },
+
+// };
+
+
+
 export default function Explore() {
   const [filters, setFilters] = useState<string[]>([]);
   const [professionals, setProfessionals] = useState<Professional[]>([]);
@@ -256,7 +282,7 @@ export default function Explore() {
               <div className="flex justify-between items-center">
                 <h2 className="mb-7 text-[22px]/7 font-bold">Mentors</h2>
                 <Link
-                  href={"/mentors"}
+                  href={"/experts"}
                   className="text-primary font-bold text-[15px]/7"
                 >
                   See all
@@ -272,7 +298,7 @@ export default function Explore() {
               <div className="flex justify-between items-center">
                 <h2 className="mb-7 text-[22px]/7 font-bold">Influencers</h2>
                 <Link
-                  href={"/mentors"}
+                  href={"/experts"}
                   className="text-primary font-bold text-[15px]/7"
                 >
                   See all

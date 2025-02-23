@@ -3,12 +3,13 @@ import { collectAuthData } from '@/app/utils/collectAuthData';
 import { handlePayment } from '@/app/utils/razorpay';
 import LoginModal from '@/components/auth/login-modal';
 import SucessPopup from '@/components/auth/successPopup';
-import EventBookingModal from '@/components/booking/event-booking-modal';
+// import EventBookingModal from '@/components/booking/event-booking-modal';
 // import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button';
-import { eventBooking, sendOtp, setUpProfile, verifyOtp } from '@/services/api';
+import { eventBooking, sendOtp, setUpProfile } from '@/services/api';
 import { AuthData } from '@/types/authTypes';
 import axios from 'axios';
+import { getSession, signIn } from 'next-auth/react';
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation';
 import Script from 'next/script';
@@ -27,19 +28,50 @@ type Event = {
   // host: string;
 };
 
+
+// export const metadata = {
+//   title: "Upcoming Events – Live Learning & Networking at Meetxo.ai",
+//   description:
+//     "Join exclusive expert-led events, workshops, and webinars to upskill and grow your network - Meetxo.ai",
+//     keywords: "MeetXO events, live expert sessions, virtual events platform, MeetXO expert workshops, join MeetXO webinars, online learning events, MeetXO live sessions, interactive expert discussions, MeetXO speaker sessions, book an event on MeetXO, MeetXO online conferences, industry-specific webinars, professional growth events, learn from top experts, MeetXO networking events",
+//   metadataBase: new URL("https://meetxo.ai"),
+//   openGraph: {
+//   title: "Upcoming Events – Live Learning & Networking at Meetxo.ai",
+//     description:
+//     "Join exclusive expert-led events, workshops, and webinars to upskill and grow your network - Meetxo.ai",
+//     url: "https://meetxo.ai",
+//     images: [
+//       {
+//         url: "/og_image.png",
+//         width: 1200,
+//         height: 630,
+//         alt: "MeetXO Logo",
+//       },
+//     ],
+//   },
+
+// };
+
+
+
 export default function Page() {
       const router = useRouter();
-  const [open, setOpen] = useState(false);
-  const [eventData, setEventData] = useState<Event | null>(null);
-  const[isProcessing,setIsProcessing]=useState(false)
-   const [phone, setPhone] = useState<string>("");
-   const [step, setStep] = useState<"phone" | "otp" | "details">("phone");
-   const [otp, setOtp] = useState<string>("");
-   const [user,setUser]=useState<string>("")
-     const [details, setDetails] = useState<{ userName: string; email: string }>({ userName: '', email: '' });
-    const [sucessOpen,setSucessOpen]=useState<boolean>(false);
- const pathname = usePathname();
+      const [open, setOpen] = useState(false);
+      const [eventData, setEventData] = useState<Event | null>(null);
+      const [isProcessing, setIsProcessing] = useState(false);
+      const [phone, setPhone] = useState<string>("");
+      const [step, setStep] = useState<"phone" | "otp" | "details">("phone");
+   const [user, setUser] = useState<Session | null>(null);
 
+      const [details, setDetails] = useState<{
+        userName: string;
+        email: string;
+      }>({ userName: "", email: "" });
+      const [sucessOpen, setSucessOpen] = useState<boolean>(false);
+      const pathname = usePathname();
+ 
+
+ 
 
 
 // const register = async (data:{email:string,name:string}) => {
@@ -88,42 +120,78 @@ export default function Page() {
       }
     };
    
-       const handleOtpSubmit = async (otp: string) => {
-         setOtp(otp);
+      //  const handleOtpSubmit = async (otp: string) => {
+      //    setOtp(otp);
 
-         try {
-           const collectData = await collectAuthData(phone, otp);
-           const authData: AuthData = collectData;
+      //    try {
+      //      const collectData = await collectAuthData(phone, otp);
+      //      const authData: AuthData = collectData;
 
-           const response = await verifyOtp(authData);
-           if (response.success) {
-             localStorage.setItem("token", response.token);
-             localStorage.setItem("user_id", response.user_id);
-             setUser(response.user_id);
-             if (response.is_new_user) {
-              setStep("details")
-             }else{
-               if (eventData?.price) {
-                 makePayment();
-               } else {
-                 bookEvent();
-               }
-             }
-           } else {
-             alert(response.message);
-           }
-         } catch (error) {
-           console.error(error);
-            if (axios.isAxiosError(error)) {
-              console.error("Axios error response:", error.response);
-              if (error?.response?.data?.message) alert(error?.response?.data?.message);
-            } else if (error instanceof Error) {
-              console.error("General error:", error.message);
-               alert("Something went wrong");
-            }
+      //      const response = await verifyOtp(authData);
+      //      if (response.success) {
+      //        localStorage.setItem("token", response.token);
+      //        localStorage.setItem("user_id", response.user_id);
+      //        setUser(response.user_id);
+      //        if (response.is_new_user) {
+      //         setStep("details")
+      //        }else{
+      //          if (eventData?.price) {
+      //            makePayment();
+      //          } else {
+      //            bookEvent();
+      //          }
+      //        }
+      //      } else {
+      //        alert(response.message);
+      //      }
+      //    } catch (error) {
+      //      console.error(error);
+      //       if (axios.isAxiosError(error)) {
+      //         console.error("Axios error response:", error.response);
+      //         if (error?.response?.data?.message) alert(error?.response?.data?.message);
+      //       } else if (error instanceof Error) {
+      //         console.error("General error:", error.message);
+      //          alert("Something went wrong");
+      //       }
          
-         }
-       };
+      //    }
+      //  };
+      const handleOtpSubmit = async (otp: string) => {
+        try {
+          const collectData = await collectAuthData(phone, otp);
+          const authData: AuthData = collectData;
+
+          const result = await signIn("credentials", {
+            otp: authData.otp,
+            phone: authData.mobile_number,
+            login_device_details: JSON.stringify(authData.login_device_details),
+            redirect: false,
+          });
+
+          if (result?.ok) {
+            const session = await getSession();
+            if (session?.user?.is_new_user) {
+              setStep("details");
+            } else {
+              if (eventData?.price) {
+                makePayment();
+              } else {
+                bookEvent();
+              }
+            }
+          }
+        } catch (error) {
+          console.error(error);
+          if (axios.isAxiosError(error)) {
+            console.error("Axios error response:", error.response);
+            if (error?.response?.data?.message)
+              alert(error?.response?.data?.message);
+          } else if (error instanceof Error) {
+            console.error("General error:", error.message);
+            alert("Something went wrong");
+          }
+        }
+      };
 
        const handleDetailsSubmit = async (detals: {
          userName: string;
@@ -131,14 +199,19 @@ export default function Page() {
        }) => {
          setDetails(detals);
          try {
-           const res = await setUpProfile(detals);
+           const session = await getSession();
+
+           if (!session || !session.accessToken) {
+             throw new Error("User session not found or accessToken missing");
+           }
+
+           const res = await setUpProfile(detals, session.accessToken);
            if (res.success) {
-            if (eventData?.price) {
-              makePayment();
-            } else {
-              bookEvent();
-            }
-           
+             if (eventData?.price) {
+               makePayment();
+             } else {
+               bookEvent();
+             }
            } else {
              alert(res.message);
            }
@@ -156,7 +229,13 @@ const continueToBooking = (
   bookEvent();
 };
 const bookEvent = async () => {
-  const userId = localStorage.getItem("user_id") || "";
+   const session = await getSession();
+
+   if (!session || !session.accessToken) {
+     throw new Error("User session not found or accessToken missing");
+   }
+
+  const userId = session?.user.user_id
   const eventId = eventData?._id || "";
   try {
     const data = {
@@ -166,7 +245,7 @@ const bookEvent = async () => {
       booking_amount: eventData?.price || 0,
       booking_status: "pending",
     };
-    await eventBooking(data);
+    await eventBooking(data, session.accessToken);
 
     setSucessOpen(true);
     router.push("/");
@@ -214,28 +293,37 @@ const makePayment=async()=>{
     
   }
 }
-const registerNow=async()=>{
-  const user=false
-  if (user) {
-    if (eventData?.price) {
-      await makePayment();
+const registerNow = async () => {
+  try {
+    setIsProcessing(true)
+    if (user) {
+      if (eventData?.price) {
+        await makePayment();
+      } else {
+        await bookEvent();
+      }
     } else {
-      bookEvent();
+      setOpen(true);
     }
-  } else {
-    setOpen(true);
+  } catch (error) {
+    console.error(error);
+    
+  }finally{
+    setIsProcessing(false)
   }
+  
+};
+function replaceUnderscoreWithSpaces(input: string): string {
+  return input.replace(/_+/g, " ");
 }
 useEffect(() => {
   const storedData = localStorage.getItem("eventData");
- 
 
   if (storedData) {
     const event = JSON.parse(storedData);
-    const decodedTitle = decodeURIComponent(pathname.split("/").pop() || "");
+    const decodedTitle = replaceUnderscoreWithSpaces(pathname.split("/").pop() || "");
 
     if (event.title === decodedTitle) {
-      event.price=0
       setEventData(event);
 
       //  router.push("/")
@@ -244,10 +332,14 @@ useEffect(() => {
     // router.push("/")
   }
 }, [pathname]);
+const getUser=async()=>{
+ const session = await getSession();
+ setUser(session as Session);
+}
 useEffect(()=>{
- const userId = localStorage.getItem("user_id") || "";
- setUser(userId);
+  getUser()
 },[])
+ 
   return (
     <main className="px-4 md:px-7 lg:px-10 max-w-5xl mx-auto py-20">
       <div className="flex gap-2.5 items-center mb-2 bg-primary-light rounded-md w-fit py-1 px-2">
@@ -378,9 +470,15 @@ useEffect(()=>{
             Welcome! To join the event, please register below.
           </p>
           {/* <Button onClick={() => setOpen(true)} className="text-white w-full"> */}
-          <Button onClick={() => registerNow()} className="text-white w-full">
-            Register Now
-          </Button>
+          {isProcessing ? (
+            <Button disabled={true} className="text-white w-full">
+              Processing...
+            </Button>
+          ) : (
+            <Button onClick={() => registerNow()} className="text-white w-full">
+              Register Now
+            </Button>
+          )}
         </div>
       </div>
       <div className="mt-10">
@@ -402,6 +500,7 @@ useEffect(()=>{
         handlePhoneSubmit={handlePhoneSubmit}
         handleOtpSubmit={handleOtpSubmit}
         handleDetailsSubmit={handleDetailsSubmit}
+        phone={phone}
       />
       {/* )} */}
       <SucessPopup open={sucessOpen} setOpen={setSucessOpen} />

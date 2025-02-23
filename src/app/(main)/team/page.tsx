@@ -3,6 +3,31 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
 
+
+
+export const metadata = {
+  title: "Meet the Team – Experts Behind MeetXO",
+  description:
+    "Get to know the team driving MeetXO’s mission to connect experts with the right audience.",
+    keywords: "MeetXO team, founders of MeetXO, MeetXO leadership, MeetXO core team, who built MeetXO, MeetXO executives, expert-driven platform, our journey MeetXO, meet the team MeetXO, people behind MeetXO, MeetXO vision and mission, leadership at MeetXO, founding members MeetXO, innovators behind MeetXO, our story at MeetXO",
+  metadataBase: new URL("https://meetxo.ai"),
+  openGraph: {
+  title: "Meet the Team – Experts Behind MeetXO",
+    description:
+    "Get to know the team driving MeetXO’s mission to connect experts with the right audience.",
+    url: "https://meetxo.ai",
+    images: [
+      {
+        url: "/og_image.png",
+        width: 1200,
+        height: 630,
+        alt: "MeetXO Logo",
+      },
+    ],
+  },
+
+};
+
 const Team = () => {
     // Declare image locations as constants
     const images = {
@@ -43,7 +68,7 @@ const Team = () => {
             </div>
 
             {/* Second Row with 5 Members */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 ">
                 <TeamImage
                     name="Shashank Chaurasia"
                     designation="Investor Relationship Manager"

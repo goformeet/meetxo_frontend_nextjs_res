@@ -17,6 +17,7 @@ interface ChildProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   step: "phone" | "otp" | "details";
+  phone:string;
   handlePhoneSubmit: (phone: string) => void;
   handleOtpSubmit: (otp: string) => void;
   handleDetailsSubmit: (details: { userName: string; email: string }) => void;
@@ -25,6 +26,7 @@ export default function LoginModal({
   open,
   setOpen,
   step,
+  phone,
   handlePhoneSubmit,
   handleOtpSubmit,
   handleDetailsSubmit,
@@ -41,7 +43,11 @@ export default function LoginModal({
         return <PhoneForm handleSubmit={handlePhoneSubmit} />;
     }
   };
+   const maskPhoneNumber = (phone: string): string => {
+     if (phone.length < 3) return phone;
 
+     return phone[0] + phone[1] + phone[2] + "****" + phone.slice(-3);
+   };
   return (
     <Dialog open={open} onOpenChange={() => setOpen(!open)}>
       <DialogContent className="max-w-lg">
@@ -58,7 +64,8 @@ export default function LoginModal({
 
         {step === "otp" && (
           <p className="text-center text-muted-foreground my-7 font-plus-jakarta-sans text-sm font-medium leading-[22px] tracking-[0.07px]">
-            We have just sent you 4 digit code via your Mobile 9****989
+            We have just sent you 6 digit code via your Mobile{" "}
+            {maskPhoneNumber(phone ? phone : "")}
           </p>
         )}
         {renderForm(step)}
