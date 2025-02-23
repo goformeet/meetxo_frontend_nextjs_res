@@ -8,7 +8,7 @@ export interface DeviceVersion {
 export interface DeviceDetails {
   brand: string;
   model: string;
-  version: string;
+  // version: string;
   product: string;
   device: string;
   hardware: string;

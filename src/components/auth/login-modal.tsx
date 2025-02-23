@@ -10,6 +10,7 @@ import {
 
 import PhoneForm from "./phoneForm";
 import { OtpForm } from "./otpForm";
+import DetailsForm from "./detailsForm";
 
 
 interface ChildProps {
@@ -18,7 +19,7 @@ interface ChildProps {
   step: "phone" | "otp" | "details";
   handlePhoneSubmit: (phone: string) => void;
   handleOtpSubmit: (otp: string) => void;
-//   handleDetailsSubmit: (details: { userName: string; email: string }) => void;
+  handleDetailsSubmit: (details: { userName: string; email: string }) => void;
 }
 export default function LoginModal({
   open,
@@ -26,7 +27,7 @@ export default function LoginModal({
   step,
   handlePhoneSubmit,
   handleOtpSubmit,
-//   handleDetailsSubmit,
+  handleDetailsSubmit,
 }: ChildProps) {
   const renderForm = (step: string) => {
     switch (step) {
@@ -34,8 +35,8 @@ export default function LoginModal({
         return <PhoneForm handleSubmit={handlePhoneSubmit} />;
       case "otp":
         return <OtpForm handleSubmit={handleOtpSubmit} />;
-    //   case "details":
-    //     return <DetailsForm handleSubmit={handleDetailsSubmit} />;
+      case "details":
+        return <DetailsForm handleSubmit={handleDetailsSubmit} />;
       default:
         return <PhoneForm handleSubmit={handlePhoneSubmit} />;
     }

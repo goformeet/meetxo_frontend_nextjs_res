@@ -8,6 +8,7 @@ import EventBookingModal from '@/components/booking/event-booking-modal';
 import { Button } from '@/components/ui/button';
 import { eventBooking, sendOtp, setUpProfile, verifyOtp } from '@/services/api';
 import { AuthData } from '@/types/authTypes';
+import axios from 'axios';
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation';
 import Script from 'next/script';
@@ -35,55 +36,57 @@ export default function Page() {
    const [step, setStep] = useState<"phone" | "otp" | "details">("phone");
    const [otp, setOtp] = useState<string>("");
    const [user,setUser]=useState<string>("")
-    //  const [details, setDetails] = useState<{ userName: string; email: string }>({ userName: '', email: '' });
+     const [details, setDetails] = useState<{ userName: string; email: string }>({ userName: '', email: '' });
     const [sucessOpen,setSucessOpen]=useState<boolean>(false);
  const pathname = usePathname();
 
-const register = async (data:{email:string,name:string}) => {
-  const dat = {
-    email: "",
-    phone_number: "",
-    name: "",
-  };
-  const service = {
-    name: "",
-    online_pricing: eventData?.price ? eventData?.price : 1,
-  };
-  try {
-    setIsProcessing(true);
-    const currency = eventData?.currency.code?eventData?.currency.code:"INR"
-    await setUpProfile(data)
-    if(eventData?.price){
+
+
+// const register = async (data:{email:string,name:string}) => {
+//   const dat = {
+//     email: "",
+//     phone_number: "",
+//     name: "",
+//   };
+//   const service = {
+//     name: "",
+//     online_pricing: eventData?.price ? eventData?.price : 1,
+//   };
+//   try {
+//     setIsProcessing(true);
+//     const currency = eventData?.currency.code?eventData?.currency.code:"INR"
+//     await setUpProfile(data)
+//     if(eventData?.price){
      
 
-await handlePayment(dat, service, continueToBooking, setIsProcessing, currency);
+// await handlePayment(dat, service, continueToBooking, setIsProcessing, currency);
 
-    }else{
-      bookEvent();
-    }
+//     }else{
+//       bookEvent();
+//     }
     
-  } catch (error) {
-    console.error(error);
-  } finally {
-    setIsProcessing(false);
-  }
-};
+//   } catch (error) {
+//     console.error(error);
+//   } finally {
+//     setIsProcessing(false);
+//   }
+// };
     const handlePhoneSubmit = async (phone: string) => {
-         setPhone(phone);
-   
-         try {
-           const res = await sendOtp(phone);
-           if (res.success) {
-             setStep("otp");
-           } else {
-             alert(res.message);
-           }
-         } catch (error) {
-           console.error(error);
-   
-           alert("Something went wrong");
-         }
-       };
+      setPhone(phone);
+
+      try {
+        const res = await sendOtp(phone);
+        if (res.success) {
+          setStep("otp");
+        } else {
+          alert(res.message);
+        }
+      } catch (error) {
+        console.error(error);
+
+        alert("Something went wrong");
+      }
+    };
    
        const handleOtpSubmit = async (otp: string) => {
          setOtp(otp);
@@ -97,36 +100,52 @@ await handlePayment(dat, service, continueToBooking, setIsProcessing, currency);
              localStorage.setItem("token", response.token);
              localStorage.setItem("user_id", response.user_id);
              setUser(response.user_id);
-             if(response.is_new_user){
-
+             if (response.is_new_user) {
+              setStep("details")
+             }else{
+               if (eventData?.price) {
+                 makePayment();
+               } else {
+                 bookEvent();
+               }
              }
-             
            } else {
              alert(response.message);
            }
          } catch (error) {
            console.error(error);
-           alert("Something went wrong");
+            if (axios.isAxiosError(error)) {
+              console.error("Axios error response:", error.response);
+              if (error?.response?.data?.message) alert(error?.response?.data?.message);
+            } else if (error instanceof Error) {
+              console.error("General error:", error.message);
+               alert("Something went wrong");
+            }
+         
          }
        };
-console.log(otp);
 
-      //  const handleDetailsSubmit = async (detals: {
-      //    userName: string;
-      //    email: string;
-      //  }) => {
-      //    setDetails(detals);
-      //    try {
-      //      const res = await setUpProfile(detals);
-      //      console.log(res);
-      //      if (res.success) {
-      //      } else {
-      //        alert(res.message);
-      //      }
-      //    } catch (error) {
-      //      console.error(error);
-      //    }
-      //  };
+       const handleDetailsSubmit = async (detals: {
+         userName: string;
+         email: string;
+       }) => {
+         setDetails(detals);
+         try {
+           const res = await setUpProfile(detals);
+           if (res.success) {
+            if (eventData?.price) {
+              makePayment();
+            } else {
+              bookEvent();
+            }
+           
+           } else {
+             alert(res.message);
+           }
+         } catch (error) {
+           console.error(error);
+         }
+       };
      
 const continueToBooking = (
   dat: { email: string; name: string; phone_number: string },
@@ -142,7 +161,10 @@ const bookEvent = async () => {
   try {
     const data = {
       event_id: eventId,
-      user_id: userId,
+      user_id: userId ?? "",
+      status: "pending",
+      booking_amount: eventData?.price || 0,
+      booking_status: "pending",
     };
     await eventBooking(data);
 
@@ -156,8 +178,8 @@ const bookEvent = async () => {
 const formatDateTime = (dateTimeStr: string) => {
   const dateObj = new Date(dateTimeStr);
 
-  const month = dateObj.toLocaleString("en-US", { month: "short" }); // "February"
-  const date = dateObj.getDate(); // 14
+  const month = dateObj.toLocaleString("en-US", { month: "short" }); 
+  const date = dateObj.getDate(); 
   const time = dateObj.toLocaleString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
@@ -166,7 +188,44 @@ const formatDateTime = (dateTimeStr: string) => {
 
   return { month, date, time };
 };
-
+const makePayment=async()=>{
+  try {
+     const dat = {
+       email: details.email||"",
+       phone_number: phone||"",
+       name: details.userName||"",
+     };
+      const service = {
+        name: details.userName||"",
+        online_pricing: eventData?.price ? eventData?.price : 0,
+      };
+     const currency = eventData?.currency.code
+       ? eventData?.currency.code
+       : "INR";
+    await handlePayment(
+      dat,
+      service,
+      continueToBooking,
+      setIsProcessing,
+      currency
+    );
+  } catch (error) {
+    console.error(error);
+    
+  }
+}
+const registerNow=async()=>{
+  const user=false
+  if (user) {
+    if (eventData?.price) {
+      await makePayment();
+    } else {
+      bookEvent();
+    }
+  } else {
+    setOpen(true);
+  }
+}
 useEffect(() => {
   const storedData = localStorage.getItem("eventData");
  
@@ -176,6 +235,7 @@ useEffect(() => {
     const decodedTitle = decodeURIComponent(pathname.split("/").pop() || "");
 
     if (event.title === decodedTitle) {
+      event.price=0
       setEventData(event);
 
       //  router.push("/")
@@ -317,7 +377,8 @@ useEffect(()=>{
           <p className="text-base font-semibold mb-3">
             Welcome! To join the event, please register below.
           </p>
-          <Button onClick={() => setOpen(true)} className="text-white w-full">
+          {/* <Button onClick={() => setOpen(true)} className="text-white w-full"> */}
+          <Button onClick={() => registerNow()} className="text-white w-full">
             Register Now
           </Button>
         </div>
@@ -326,22 +387,23 @@ useEffect(()=>{
         <p className="font-semibold mb-4">About the event:</p>
         <p className="whitespace-pre-line">{eventData?.description}</p>
       </div>
-      {user ? (
+      {/* {user ? (
         <EventBookingModal
           open={open}
           setOpen={setOpen}
           register={register}
           isProcessing={isProcessing}
         />
-      ) : (
-        <LoginModal
-          open={open}
-          setOpen={setOpen}
-          step={step}
-          handlePhoneSubmit={handlePhoneSubmit}
-          handleOtpSubmit={handleOtpSubmit}
-        />
-      )}
+      ) : ( */}
+      <LoginModal
+        open={open}
+        setOpen={setOpen}
+        step={step}
+        handlePhoneSubmit={handlePhoneSubmit}
+        handleOtpSubmit={handleOtpSubmit}
+        handleDetailsSubmit={handleDetailsSubmit}
+      />
+      {/* )} */}
       <SucessPopup open={sucessOpen} setOpen={setSucessOpen} />
     </main>
   );
