@@ -21,7 +21,6 @@ export default function ExpertCard({
     }
   };
 }) {
-  console.log(prof)
   return (
     <Link
       href={`/${prof?.username ? prof?.username : prof?.name}`}

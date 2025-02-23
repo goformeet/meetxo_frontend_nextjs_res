@@ -18,11 +18,11 @@ export const collectAuthData = async (
    id: "device_id",
    is_physical_device: true,
    manufacturer: navigator.vendor || "Unknown",
-   serial_number: "Unknown", // Add this
+   serial_number: "Unknown", 
    version_details: {
-     codename: "Unknown", // Add this
-     release: "Unknown", // Add this
-     sdkInt: "Unknown", // Add this
+     codename: browser?.version ?? "Unknown",
+     release: "Unknown", 
+     sdkInt: "Unknown", 
    },
  };
 

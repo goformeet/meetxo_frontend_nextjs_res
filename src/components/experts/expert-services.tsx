@@ -12,6 +12,7 @@ import { getEventsByHost, getServicesById } from '@/services/api';
 import { useRouter } from 'next/navigation';
 import EmptyData from '../empty-data';
 import EventCard from '../event-card';
+import { getSession } from 'next-auth/react';
 
 type Service = {
   _id: string;
@@ -71,7 +72,12 @@ export default function ExpertServices({ id, username }: ExpertServicesProps) {
 
   const getServices = async () => {
     try {
-      const res = await getServicesById(id);
+       const session = await getSession();
+      
+         if (!session || !session.accessToken) {
+           throw new Error("User session not found or accessToken missing");
+         }
+      const res = await getServicesById(id, session.accessToken);
      
 
       if (res.success) {

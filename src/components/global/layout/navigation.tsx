@@ -18,6 +18,7 @@ export default function Navigation() {
         </aside>
         <aside className='flex shrink-0 items-center gap-7 relative'>
           {/* <ModeToggle /> */}
+          
           <LoginButton />
           <BecomeExpertButton />
           {/* <div className='flex justify-center items-center bg-[#E3E6EA] dark:bg-muted-foreground flex-shrink-0 p-1.5 rounded-full h-full relative'>

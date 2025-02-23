@@ -13,6 +13,7 @@ import { convertToISOString, formatSlots, getNext30Days } from '@/app/utils/book
 
 import Script from 'next/script';
 import { handlePayment } from '@/app/utils/razorpay';
+import { getSession } from 'next-auth/react';
 type ServiceType = {
   _id: string;
   user_id: string;
@@ -72,7 +73,12 @@ export default function Page() {
   const handleDateClick = async (date: string) => {
     setSelectedDate(date);
     // const selectedDateObject = dates.find(d => d.date === date);
-    const fetchSlot = await getTiming(id, date);
+     const session = await getSession();
+    
+       if (!session || !session.accessToken) {
+         throw new Error("User session not found or accessToken missing");
+       }
+    const fetchSlot = await getTiming(id, date, session.accessToken);
 
     setAllSlots(formatSlots(fetchSlot));
 
@@ -104,7 +110,12 @@ export default function Page() {
   };
   const getService = async () => {
     try {
-      const res = await getSingleService(id);
+      const session = await getSession();
+
+      if (!session || !session.accessToken) {
+        throw new Error("User session not found or accessToken missing");
+      }
+      const res = await getSingleService(id, session.accessToken);
 
       if (res.success) {
         setService(res.service);
@@ -132,6 +143,11 @@ export default function Page() {
     response: { razorpay_order_id: string }
   ) => {
     try {
+       const session = await getSession();
+      
+         if (!session || !session.accessToken) {
+           throw new Error("User session not found or accessToken missing");
+         }
       const mtTime =
         selectedDate && selectedSlot
           ? convertToISOString(selectedDate, selectedSlot)
@@ -146,7 +162,7 @@ export default function Page() {
         email: data.email,
         phone_number: data.phone_number,
       };
-      const res = await bookMeeting(postData);
+      const res = await bookMeeting(postData, session.accessToken);
       if (res.success) {
         alert(res.message);
         router.push(`/${username}`);

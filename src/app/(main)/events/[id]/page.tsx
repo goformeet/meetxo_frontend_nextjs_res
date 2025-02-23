@@ -3,11 +3,13 @@ import { collectAuthData } from '@/app/utils/collectAuthData';
 import { handlePayment } from '@/app/utils/razorpay';
 import LoginModal from '@/components/auth/login-modal';
 import SucessPopup from '@/components/auth/successPopup';
-import EventBookingModal from '@/components/booking/event-booking-modal';
+// import EventBookingModal from '@/components/booking/event-booking-modal';
 // import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button';
-import { eventBooking, sendOtp, setUpProfile, verifyOtp } from '@/services/api';
+import { eventBooking, sendOtp, setUpProfile } from '@/services/api';
 import { AuthData } from '@/types/authTypes';
+import axios from 'axios';
+import { getSession, signIn } from 'next-auth/react';
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation';
 import Script from 'next/script';
@@ -54,105 +56,169 @@ type Event = {
 
 export default function Page() {
       const router = useRouter();
-  const [open, setOpen] = useState(false);
-  const [eventData, setEventData] = useState<Event | null>(null);
-  const[isProcessing,setIsProcessing]=useState(false)
-   const [phone, setPhone] = useState<string>("");
-   const [step, setStep] = useState<"phone" | "otp" | "details">("phone");
-   const [otp, setOtp] = useState<string>("");
-   const [user,setUser]=useState<string>("")
-    //  const [details, setDetails] = useState<{ userName: string; email: string }>({ userName: '', email: '' });
-    const [sucessOpen,setSucessOpen]=useState<boolean>(false);
- const pathname = usePathname();
+      const [open, setOpen] = useState(false);
+      const [eventData, setEventData] = useState<Event | null>(null);
+      const [isProcessing, setIsProcessing] = useState(false);
+      const [phone, setPhone] = useState<string>("");
+      const [step, setStep] = useState<"phone" | "otp" | "details">("phone");
+   const [user, setUser] = useState<Session | null>(null);
 
-const register = async (data:{email:string,name:string}) => {
-  const dat = {
-    email: "",
-    phone_number: "",
-    name: "",
-  };
-  const service = {
-    name: "",
-    online_pricing: eventData?.price ? eventData?.price : 1,
-  };
-  try {
-    setIsProcessing(true);
-    const currency = eventData?.currency.code?eventData?.currency.code:"INR"
-    await setUpProfile(data)
-    if(eventData?.price){
+      const [details, setDetails] = useState<{
+        userName: string;
+        email: string;
+      }>({ userName: "", email: "" });
+      const [sucessOpen, setSucessOpen] = useState<boolean>(false);
+      const pathname = usePathname();
+ 
+
+ 
+
+
+// const register = async (data:{email:string,name:string}) => {
+//   const dat = {
+//     email: "",
+//     phone_number: "",
+//     name: "",
+//   };
+//   const service = {
+//     name: "",
+//     online_pricing: eventData?.price ? eventData?.price : 1,
+//   };
+//   try {
+//     setIsProcessing(true);
+//     const currency = eventData?.currency.code?eventData?.currency.code:"INR"
+//     await setUpProfile(data)
+//     if(eventData?.price){
      
 
-await handlePayment(dat, service, continueToBooking, setIsProcessing, currency);
+// await handlePayment(dat, service, continueToBooking, setIsProcessing, currency);
 
-    }else{
-      bookEvent();
-    }
+//     }else{
+//       bookEvent();
+//     }
     
-  } catch (error) {
-    console.error(error);
-  } finally {
-    setIsProcessing(false);
-  }
-};
+//   } catch (error) {
+//     console.error(error);
+//   } finally {
+//     setIsProcessing(false);
+//   }
+// };
     const handlePhoneSubmit = async (phone: string) => {
-         setPhone(phone);
+      setPhone(phone);
+
+      try {
+        const res = await sendOtp(phone);
+        if (res.success) {
+          setStep("otp");
+        } else {
+          alert(res.message);
+        }
+      } catch (error) {
+        console.error(error);
+
+        alert("Something went wrong");
+      }
+    };
    
+      //  const handleOtpSubmit = async (otp: string) => {
+      //    setOtp(otp);
+
+      //    try {
+      //      const collectData = await collectAuthData(phone, otp);
+      //      const authData: AuthData = collectData;
+
+      //      const response = await verifyOtp(authData);
+      //      if (response.success) {
+      //        localStorage.setItem("token", response.token);
+      //        localStorage.setItem("user_id", response.user_id);
+      //        setUser(response.user_id);
+      //        if (response.is_new_user) {
+      //         setStep("details")
+      //        }else{
+      //          if (eventData?.price) {
+      //            makePayment();
+      //          } else {
+      //            bookEvent();
+      //          }
+      //        }
+      //      } else {
+      //        alert(response.message);
+      //      }
+      //    } catch (error) {
+      //      console.error(error);
+      //       if (axios.isAxiosError(error)) {
+      //         console.error("Axios error response:", error.response);
+      //         if (error?.response?.data?.message) alert(error?.response?.data?.message);
+      //       } else if (error instanceof Error) {
+      //         console.error("General error:", error.message);
+      //          alert("Something went wrong");
+      //       }
+         
+      //    }
+      //  };
+      const handleOtpSubmit = async (otp: string) => {
+        try {
+          const collectData = await collectAuthData(phone, otp);
+          const authData: AuthData = collectData;
+
+          const result = await signIn("credentials", {
+            otp: authData.otp,
+            phone: authData.mobile_number,
+            login_device_details: JSON.stringify(authData.login_device_details),
+            redirect: false,
+          });
+
+          if (result?.ok) {
+            const session = await getSession();
+            if (session?.user?.is_new_user) {
+              setStep("details");
+            } else {
+              if (eventData?.price) {
+                makePayment();
+              } else {
+                bookEvent();
+              }
+            }
+          }
+        } catch (error) {
+          console.error(error);
+          if (axios.isAxiosError(error)) {
+            console.error("Axios error response:", error.response);
+            if (error?.response?.data?.message)
+              alert(error?.response?.data?.message);
+          } else if (error instanceof Error) {
+            console.error("General error:", error.message);
+            alert("Something went wrong");
+          }
+        }
+      };
+
+       const handleDetailsSubmit = async (detals: {
+         userName: string;
+         email: string;
+       }) => {
+         setDetails(detals);
          try {
-           const res = await sendOtp(phone);
+           const session = await getSession();
+
+           if (!session || !session.accessToken) {
+             throw new Error("User session not found or accessToken missing");
+           }
+
+           const res = await setUpProfile(detals, session.accessToken);
            if (res.success) {
-             setStep("otp");
+             if (eventData?.price) {
+               makePayment();
+             } else {
+               bookEvent();
+             }
            } else {
              alert(res.message);
            }
          } catch (error) {
            console.error(error);
-   
-           alert("Something went wrong");
          }
        };
-   
-       const handleOtpSubmit = async (otp: string) => {
-         setOtp(otp);
-
-         try {
-           const collectData = await collectAuthData(phone, otp);
-           const authData: AuthData = collectData;
-
-           const response = await verifyOtp(authData);
-           if (response.success) {
-             localStorage.setItem("token", response.token);
-             localStorage.setItem("user_id", response.user_id);
-             setUser(response.user_id);
-             if(response.is_new_user){
-
-             }
-             
-           } else {
-             alert(response.message);
-           }
-         } catch (error) {
-           console.error(error);
-           alert("Something went wrong");
-         }
-       };
-console.log(otp);
-
-      //  const handleDetailsSubmit = async (detals: {
-      //    userName: string;
-      //    email: string;
-      //  }) => {
-      //    setDetails(detals);
-      //    try {
-      //      const res = await setUpProfile(detals);
-      //      console.log(res);
-      //      if (res.success) {
-      //      } else {
-      //        alert(res.message);
-      //      }
-      //    } catch (error) {
-      //      console.error(error);
-      //    }
-      //  };
      
 const continueToBooking = (
   dat: { email: string; name: string; phone_number: string },
@@ -163,14 +229,23 @@ const continueToBooking = (
   bookEvent();
 };
 const bookEvent = async () => {
-  const userId = localStorage.getItem("user_id") || "";
+   const session = await getSession();
+
+   if (!session || !session.accessToken) {
+     throw new Error("User session not found or accessToken missing");
+   }
+
+  const userId = session?.user.user_id
   const eventId = eventData?._id || "";
   try {
     const data = {
       event_id: eventId,
-      user_id: userId,
+      user_id: userId ?? "",
+      status: "pending",
+      booking_amount: eventData?.price || 0,
+      booking_status: "pending",
     };
-    await eventBooking(data);
+    await eventBooking(data, session.accessToken);
 
     setSucessOpen(true);
     router.push("/");
@@ -182,8 +257,8 @@ const bookEvent = async () => {
 const formatDateTime = (dateTimeStr: string) => {
   const dateObj = new Date(dateTimeStr);
 
-  const month = dateObj.toLocaleString("en-US", { month: "short" }); // "February"
-  const date = dateObj.getDate(); // 14
+  const month = dateObj.toLocaleString("en-US", { month: "short" }); 
+  const date = dateObj.getDate(); 
   const time = dateObj.toLocaleString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
@@ -192,14 +267,61 @@ const formatDateTime = (dateTimeStr: string) => {
 
   return { month, date, time };
 };
-
+const makePayment=async()=>{
+  try {
+     const dat = {
+       email: details.email||"",
+       phone_number: phone||"",
+       name: details.userName||"",
+     };
+      const service = {
+        name: details.userName||"",
+        online_pricing: eventData?.price ? eventData?.price : 0,
+      };
+     const currency = eventData?.currency.code
+       ? eventData?.currency.code
+       : "INR";
+    await handlePayment(
+      dat,
+      service,
+      continueToBooking,
+      setIsProcessing,
+      currency
+    );
+  } catch (error) {
+    console.error(error);
+    
+  }
+}
+const registerNow = async () => {
+  try {
+    setIsProcessing(true)
+    if (user) {
+      if (eventData?.price) {
+        await makePayment();
+      } else {
+        await bookEvent();
+      }
+    } else {
+      setOpen(true);
+    }
+  } catch (error) {
+    console.error(error);
+    
+  }finally{
+    setIsProcessing(false)
+  }
+  
+};
+function replaceUnderscoreWithSpaces(input: string): string {
+  return input.replace(/_+/g, " ");
+}
 useEffect(() => {
   const storedData = localStorage.getItem("eventData");
- 
 
   if (storedData) {
     const event = JSON.parse(storedData);
-    const decodedTitle = decodeURIComponent(pathname.split("/").pop() || "");
+    const decodedTitle = replaceUnderscoreWithSpaces(pathname.split("/").pop() || "");
 
     if (event.title === decodedTitle) {
       setEventData(event);
@@ -210,10 +332,14 @@ useEffect(() => {
     // router.push("/")
   }
 }, [pathname]);
+const getUser=async()=>{
+ const session = await getSession();
+ setUser(session as Session);
+}
 useEffect(()=>{
- const userId = localStorage.getItem("user_id") || "";
- setUser(userId);
+  getUser()
 },[])
+ 
   return (
     <main className="px-4 md:px-7 lg:px-10 max-w-5xl mx-auto py-20">
       <div className="flex gap-2.5 items-center mb-2 bg-primary-light rounded-md w-fit py-1 px-2">
@@ -343,31 +469,40 @@ useEffect(()=>{
           <p className="text-base font-semibold mb-3">
             Welcome! To join the event, please register below.
           </p>
-          <Button onClick={() => setOpen(true)} className="text-white w-full">
-            Register Now
-          </Button>
+          {/* <Button onClick={() => setOpen(true)} className="text-white w-full"> */}
+          {isProcessing ? (
+            <Button disabled={true} className="text-white w-full">
+              Processing...
+            </Button>
+          ) : (
+            <Button onClick={() => registerNow()} className="text-white w-full">
+              Register Now
+            </Button>
+          )}
         </div>
       </div>
       <div className="mt-10">
         <p className="font-semibold mb-4">About the event:</p>
         <p className="whitespace-pre-line">{eventData?.description}</p>
       </div>
-      {user ? (
+      {/* {user ? (
         <EventBookingModal
           open={open}
           setOpen={setOpen}
           register={register}
           isProcessing={isProcessing}
         />
-      ) : (
-        <LoginModal
-          open={open}
-          setOpen={setOpen}
-          step={step}
-          handlePhoneSubmit={handlePhoneSubmit}
-          handleOtpSubmit={handleOtpSubmit}
-        />
-      )}
+      ) : ( */}
+      <LoginModal
+        open={open}
+        setOpen={setOpen}
+        step={step}
+        handlePhoneSubmit={handlePhoneSubmit}
+        handleOtpSubmit={handleOtpSubmit}
+        handleDetailsSubmit={handleDetailsSubmit}
+        phone={phone}
+      />
+      {/* )} */}
       <SucessPopup open={sucessOpen} setOpen={setSucessOpen} />
     </main>
   );

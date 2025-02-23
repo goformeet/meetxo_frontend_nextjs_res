@@ -10,8 +10,8 @@ export const api = axios.create({
   },
 });
 // const token =localStorage.getItem("token")
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjc0MTk2OGI4MDUxNGY1NGNlY2Q1NTcxIiwicGhvbmVfbnVtYmVyIjoiKzkxNzkwNzc1MzE2MyIsImlhdCI6MTczMjM1NDQ2OH0.g-Z5LfT_6LCXO2stpH18jMm6B2ifbEusRUsyhbrbAvY";
+// const token =
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjc0MTk2OGI4MDUxNGY1NGNlY2Q1NTcxIiwicGhvbmVfbnVtYmVyIjoiKzkxNzkwNzc1MzE2MyIsImlhdCI6MTczMjM1NDQ2OH0.g-Z5LfT_6LCXO2stpH18jMm6B2ifbEusRUsyhbrbAvY";
   
 
 export const Hosts = async (filters: Record<string, string | boolean>) => {
@@ -43,7 +43,7 @@ export const ProfessionSubCategories = async (id: string) => {
     throw error;
   }
 };
-export const getServicesById = async (id: string) => {
+export const getServicesById = async (id: string,token: string) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/services/host/${id}`, {
       headers: {
@@ -56,7 +56,7 @@ export const getServicesById = async (id: string) => {
     throw error;
   }
 };
-export const getSingleService = async (id: string) => {
+export const getSingleService = async (id: string,token:string) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/services/single/${id}`, {
       headers: {
@@ -69,7 +69,7 @@ export const getSingleService = async (id: string) => {
     throw error;
   }
 };
-export const getTiming = async (id: string, date: string) => {
+export const getTiming = async (id: string, date: string,token:string) => {
   try {
      const [day, month, year] = date.split("/");
     const response = await axios.post(
@@ -90,7 +90,7 @@ export const getTiming = async (id: string, date: string) => {
     throw error;
   }
 };
-export const bookMeeting = async (data: Record<string, string | boolean>) => {
+export const bookMeeting = async (data: Record<string, string | boolean>,token:string) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/meetings/book`, data, {
       headers: {
@@ -130,10 +130,11 @@ export const verifyOtp = async (authData: AuthData) => {
     return response.data
   } catch (error) {
     console.error(error);
+    
     throw error;
   }
 };
-export const setUpProfile = async (data: Record<string, unknown>) => {
+export const setUpProfile = async (data: Record<string, unknown>,token:string) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/profile/`, data, {
       headers: {
@@ -146,13 +147,20 @@ export const setUpProfile = async (data: Record<string, unknown>) => {
     throw error;
   }
 };
-export const eventBooking = async (data: { event_id: string ,user_id:string}) => {
+export const eventBooking = async (data: {
+  event_id: string;
+  user_id: string;
+},token:string) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/event-bookings`,data);
-    return response.data
+    const response = await axios.post(`${API_BASE_URL}/event-bookings`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
   } catch (error) {
-     console.error(error);
-     throw error;
+    console.error(error);
+    throw error;
   }
 };
 
