@@ -2,13 +2,14 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation'
+import { getSession, signIn } from 'next-auth/react';
 
 import PhoneForm from '@/components/auth/phoneForm';
 import { OtpForm } from '@/components/auth/otpForm';
 import DetailsForm from '@/components/auth/detailsForm';
 import SucessPopup from '@/components/auth/successPopup';
 import Link from 'next/link';
-import { sendOtp, setUpProfile, verifyOtp } from '@/services/api';
+import { sendOtp, setUpProfile } from '@/services/api';
 import { collectAuthData } from '@/app/utils/collectAuthData';
 import { AuthData } from '@/types/authTypes';
 
@@ -33,8 +34,6 @@ const Page = () => {
         }
       } catch (error) {
         console.error(error);
-
-        alert("Something went wrong");
       }
     };
 
@@ -45,16 +44,22 @@ const Page = () => {
         const collectData = await collectAuthData(phone, otp);
         const authData: AuthData = collectData;
 
-        const response = await verifyOtp(authData);
-        if (response.success) {
-             localStorage.setItem("token", response.token);
-             localStorage.setItem("user_id", response.user_id);
-          if (response.is_new_user) {
-            setStep("details");
-          } 
-        } else {
-          alert(response.message);
+        const result = await signIn('credentials', {
+          otp: authData.otp,
+          phone: authData.mobile_number,
+          login_device_details: JSON.stringify(authData.login_device_details),
+          redirect: false,
+        });
+        
+        if(result?.ok){
+          const session = await getSession();
+          if(session?.user?.is_new_user){
+            setStep('details');
+          }else {
+            router.push('/');
+          }
         }
+
       } catch (error) {
         console.error(error);
           alert("Something went wrong");
