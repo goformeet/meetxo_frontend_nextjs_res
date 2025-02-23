@@ -8,6 +8,7 @@ import SucessPopup from '@/components/auth/successPopup';
 import { Button } from '@/components/ui/button';
 import { eventBooking, sendOtp, setUpProfile } from '@/services/api';
 import { AuthData } from '@/types/authTypes';
+import { Session } from '@/types/sessionTypes';
 import axios from 'axios';
 import { getSession, signIn } from 'next-auth/react';
 import Image from 'next/image'
