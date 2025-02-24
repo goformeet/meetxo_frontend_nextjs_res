@@ -104,7 +104,7 @@ export async function generateMetadata({ params }: {params: Params}): Promise<Me
     metadataBase: new URL("https://meetxo.ai"),
     openGraph: {
       title: `Schedule and meet with ${expert.name} on meetxo.ai`,
-      description: `Check out ${expert.name}, a top ${expert.profession_id?.title} expert on MeetXO. Book a session now!`,
+      description: `Check out ${expert.name, expert.username}, a top ${expert.profession_id?.title} expert on MeetXO. Book a session now!`,
       images: [{
         url: ogImageUrl,
         width: 1200,
