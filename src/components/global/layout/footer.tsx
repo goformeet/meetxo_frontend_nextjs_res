@@ -56,6 +56,15 @@ export default function Footer() {
                             Highway, Lewes, Delaware 19958, County of Sussex, USA
                         </p>
                     </div> */}
+
+                                        <div className='flex gap-3.5 items-center'>
+                        <div className='flex flex-shrink-0 justify-center items-center h-12 w-12 rounded-full bg-white'>
+                            <Image src={'/images/map-pin-primary.svg'} alt='Location Icon' width={24} height={24} />
+                        </div>
+                        <p className='font-inter text-sm md:text-base/7'>
+                            HustleHub, 53, 5th Cross Rd, near Sony World Signal, 4th Block, Koramangala, Bengaluru, Karnataka 560034
+                        </p>
+                    </div>
                     <Link href={'mailto:info@meetxo.ai'} className='flex gap-3.5 items-center mt-7'>
                         <div className='flex flex-shrink-0 justify-center items-center h-12 w-12 rounded-full bg-white'>
                             <Image src={'/images/envelope-icon.svg'} alt='Envelope Icon' width={24} height={24} />
