@@ -28,8 +28,7 @@ export default async function Page() {
     return (
       <main className="px-4 md:px-7 lg:px-10 py-20">
         <h1 className="text-lg/5 md:text-[22px]/[28px] font-bold">
-          Select an expert, schedule a session, and receive guidance via video
-          call.
+         Discover, Connect, and Experience Events That Inspire and Excite!
         </h1>
         <div className="mt-4 md:mt-6 flex py-[1px] px-3.5 md:px-6 items-center rounded-[38px] border border-[#F1F2F4]">
           <Image
