@@ -60,6 +60,7 @@ export default function Page() {
       const [isProcessing, setIsProcessing] = useState(false);
       const [phone, setPhone] = useState<string>("");
       const [step, setStep] = useState<"phone" | "otp" | "details">("phone");
+      const [loading,setLoading]=useState(false)
    const [user, setUser] = useState<Session | null>(null);
 
       const [details, setDetails] = useState<{
@@ -74,6 +75,7 @@ export default function Page() {
       setPhone(phone);
 
       try {
+        setLoading(true)
         const res = await sendOtp(phone);
         if (res.success) {
           setStep("otp");
@@ -84,11 +86,14 @@ export default function Page() {
         console.error(error);
 
         alert("Something went wrong");
+      }finally{
+         setLoading(false);
       }
     };
    
       const handleOtpSubmit = async (otp: string) => {
         try {
+           setLoading(true);
           const collectData = await collectAuthData(phone, otp);
           const authData: AuthData = collectData;
 
@@ -121,6 +126,8 @@ export default function Page() {
             console.error("General error:", error.message);
             alert("Something went wrong");
           }
+        }finally{
+           setLoading(false);
         }
       };
 
@@ -249,7 +256,7 @@ const registerNow = async () => {
 // }
 
 function replaceSpacesWithUnderscore(input: string): string {
-  return input.replace(/\s+/g, "-");
+  return input.replace(/\s+/g, "_");
 }
 useEffect(() => {
   const storedData = localStorage.getItem("eventData");
@@ -439,6 +446,7 @@ useEffect(()=>{
         handleOtpSubmit={handleOtpSubmit}
         handleDetailsSubmit={handleDetailsSubmit}
         phone={phone}
+        loading={loading}
       />
       {/* )} */}
       <SucessPopup open={sucessOpen} setOpen={setSucessOpen} />

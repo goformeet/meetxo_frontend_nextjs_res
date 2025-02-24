@@ -27,8 +27,11 @@ const FormSchema = z.object({
         message: 'Your one-time password must be 6 characters.',
     }),
 })
-
-export const OtpForm = ({ handleSubmit }: { handleSubmit: (otp: string) => void}) => {
+type OtpProps = {
+  handleSubmit: (otp: string) => void;
+  loading:boolean
+};
+export const OtpForm = ({ handleSubmit,loading }: OtpProps) => {
         const form = useForm<z.infer<typeof FormSchema>>({
             resolver: zodResolver(FormSchema),
             defaultValues: {
@@ -43,30 +46,45 @@ export const OtpForm = ({ handleSubmit }: { handleSubmit: (otp: string) => void}
     const isButtonDisabled = !form.watch('otp');
     
   return (
-      <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-              <FormField
-                  control={form.control}
-                  name='otp'
-                  render={({ field }) => (
-                      <FormItem className='flex flex-col items-start w-full'>
-                          <FormLabel className='text-left text-sm font-plus-jakarta-sans'>Enter OTP <span className='text-[#E03137]'>*</span></FormLabel>
-                          <FormControl>
-                              <InputOTP pattern={REGEXP_ONLY_DIGITS} maxLength={6} {...field}>
-                                  {Array.from({ length: 6 }).map((_, index) => (
-                                      <InputOTPGroup  key={index}>
-                                          <InputOTPSlot inputMode='numeric' className='py-4 px-5 h-11 md:h-14 w-12 md:w-[68px]' index={index} />
-                                      </InputOTPGroup>
-                                  ))}
-                              </InputOTP>
-                          </FormControl>
-                          <FormMessage />
-                      </FormItem>
-                  )}
-              />
-              <OtpResendTimer    />
-              <Button disabled={isButtonDisabled} className={clsx('bg-primary text-white w-full px-6 py-6 font-plus-jakarta-sans text-base font-bold leading-[150%] tracking-[0.3px]', { '': isButtonDisabled == true })} type='submit'>Continue</Button>
-          </form>
-      </Form>
-  )
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <FormField
+          control={form.control}
+          name="otp"
+          render={({ field }) => (
+            <FormItem className="flex flex-col items-start w-full">
+              <FormLabel className="text-left text-sm font-plus-jakarta-sans">
+                Enter OTP <span className="text-[#E03137]">*</span>
+              </FormLabel>
+              <FormControl>
+                <InputOTP pattern={REGEXP_ONLY_DIGITS} maxLength={6} {...field}>
+                  {Array.from({ length: 6 }).map((_, index) => (
+                    <InputOTPGroup key={index}>
+                      <InputOTPSlot
+                        inputMode="numeric"
+                        className="py-4 px-5 h-11 md:h-14 w-12 md:w-[68px]"
+                        index={index}
+                      />
+                    </InputOTPGroup>
+                  ))}
+                </InputOTP>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <OtpResendTimer />
+        <Button
+          disabled={isButtonDisabled || loading}
+          className={clsx(
+            "bg-primary text-white w-full px-6 py-6 font-plus-jakarta-sans text-base font-bold leading-[150%] tracking-[0.3px]",
+            { "": isButtonDisabled == true }
+          )}
+          type="submit"
+        >
+          {loading ? "Loading..." : "Continue"}
+        </Button>
+      </form>
+    </Form>
+  );
 }

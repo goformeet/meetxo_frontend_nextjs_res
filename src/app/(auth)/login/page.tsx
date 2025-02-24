@@ -19,6 +19,7 @@ const Page = () => {
     const router = useRouter();
     const [step, setStep] = useState<'phone' | 'otp' | 'details'>('phone');
     const [phone, setPhone] = useState<string>('');
+    const [loading,setLoading]=useState(false)
     // const [otp, setOtp] = useState<string>('');
     // const [details, setDetails] = useState<{ userName: string; email: string }>({ userName: '', email: '' });
     const [open, setOpen] = useState<boolean>(false);
@@ -27,6 +28,7 @@ const Page = () => {
       setPhone(phone);
 
       try {
+        setLoading(true)
         const res = await sendOtp(phone);
         if (res.success) {
           setStep("otp");
@@ -35,6 +37,8 @@ const Page = () => {
         }
       } catch (error) {
         console.error(error);
+      }finally{
+        setLoading(false)
       }
     };
 
@@ -42,6 +46,7 @@ const Page = () => {
       // setOtp(otp);
 
       try {
+        setLoading(true)
         const collectData = await collectAuthData(phone, otp);
         const authData: AuthData = collectData;
 
@@ -70,6 +75,8 @@ const Page = () => {
             console.error("General error:", error.message);
             alert("Something went wrong");
           }
+      }finally{
+        setLoading(false)
       }
     };
 
@@ -79,6 +86,7 @@ const Page = () => {
     }) => {
       // setDetails(detals);
       try {
+        setLoading(true)
         const session = await getSession();
 
         if (!session || !session.accessToken) {
@@ -95,6 +103,8 @@ const Page = () => {
       } catch (error) {
         console.error(error);
         
+      }finally{
+        setLoading(false)
       }
     };
     const maskPhoneNumber = (phone: string): string => {
@@ -105,13 +115,15 @@ const Page = () => {
     const renderForm = (step: string) => {
       switch (step) {
         case "phone":
-          return <PhoneForm handleSubmit={handlePhoneSubmit} />;
+          return (
+            <PhoneForm loading={loading} handleSubmit={handlePhoneSubmit} />
+          );
         case "otp":
-          return <OtpForm handleSubmit={handleOtpSubmit} />;
+          return <OtpForm loading={loading} handleSubmit={handleOtpSubmit} />;
         case "details":
           return <DetailsForm handleSubmit={handleDetailsSubmit} />;
         default:
-          return <PhoneForm handleSubmit={handlePhoneSubmit} />;
+          return <PhoneForm handleSubmit={handlePhoneSubmit} loading={loading} />;
       }
     };
     return (

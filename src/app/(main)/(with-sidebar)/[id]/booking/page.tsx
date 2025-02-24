@@ -7,13 +7,17 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button';
 import DateAndSlotSelection from '@/components/booking/date-and-slotp-selection';
 import BookingForm, { BookingFormRef } from '@/components/booking/booking-form';
-import {  bookMeeting, getSingleService, getTiming, Hosts } from '@/services/api';
+import {  bookMeetingApi, getSingleService, getTiming, Hosts, sendOtp, setUpProfile } from '@/services/api';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { convertToISOString, formatSlots, getNext30Days } from '@/app/utils/booking';
 
 import Script from 'next/script';
 import { handlePayment } from '@/app/utils/razorpay';
-import { getSession } from 'next-auth/react';
+import { getSession, signIn } from 'next-auth/react';
+import axios from 'axios';
+import { AuthData } from '@/types/authTypes';
+import { collectAuthData } from '@/app/utils/collectAuthData';
+import LoginModal from '@/components/auth/login-modal';
 type ServiceType = {
   _id: string;
   user_id: string;
@@ -27,11 +31,19 @@ type ServiceType = {
   keywords: string[];
   location: number[];
   is_active: boolean;
+  currency: { code: string; symbol: string };
   created_at: string;
   updated_at: string;
   __v: number;
 };
 
+type Response = {
+  email: string;
+  name:string;
+  phone_number:string
+  razorpay_order_id: string;
+
+};
 export default function Page() {
  
   const formRef = useRef<BookingFormRef>(null);
@@ -44,10 +56,24 @@ export default function Page() {
   const [allSlots, setAllSlots] = useState<{ stime: string; etime: string }[]>(
     []
   );
-  
+  const [loading,setLoading]=useState(false)
   const [user, setUser] = useState({ name: "", profile_image: "" });
-  const[isProcessing,setIsProcessing]=useState(false)
-  // const [open,setOpen]=useState(false)
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [phone, setPhone] = useState<string>("");
+  const [step, setStep] = useState<"phone" | "otp" | "details">("phone");
+  // const [details, setDetails] = useState<{
+  //   userName: string;
+  //   email: string;
+  // }>({ userName: "", email: "" });
+  // const [sucessOpen, setSucessOpen] = useState<boolean>(false);
+  const [response, setResponse] = useState<Response>({
+    name: "",
+    email: "",
+    phone_number: "",
+    razorpay_order_id: "",
+  });
+  
   const [service, setService] = useState<ServiceType>({
     _id: "",
     user_id: "",
@@ -61,6 +87,10 @@ export default function Page() {
     keywords: [],
     location: [0, 0],
     is_active: false,
+    currency: {
+      code: "",
+      symbol: "",
+    },
     created_at: "",
     updated_at: "",
     __v: 0,
@@ -71,15 +101,135 @@ export default function Page() {
   const username = segments[0]; 
   const dates=getNext30Days()
 
+
+  const handlePhoneSubmit = async (phone: string) => {
+    setPhone(phone);
+
+    try {
+      setLoading(true);
+      const res = await sendOtp(phone);
+      if (res.success) {
+        setStep("otp");
+      } else {
+        alert(res.message);
+      }
+    } catch (error) {
+      console.error(error);
+
+      alert("Something went wrong");
+    }finally{
+      setLoading(false);
+    }
+  };
+   
+   const handleOtpSubmit = async (otp: string) => {
+     try {
+      setLoading(true)
+       const collectData = await collectAuthData(phone, otp);
+       const authData: AuthData = collectData;
+
+       const result = await signIn("credentials", {
+         otp: authData.otp,
+         phone: authData.mobile_number,
+         login_device_details: JSON.stringify(authData.login_device_details),
+         redirect: false,
+       });
+
+       if (result?.ok) {
+         const session = await getSession();
+         if (session?.user?.is_new_user) {
+           setStep("details");
+         } else {
+           if (service?.online_pricing) {
+             makePayment();
+           } else {
+             bookMeeting()
+           }
+         }
+       }
+     } catch (error) {
+       console.error(error);
+       if (axios.isAxiosError(error)) {
+         console.error("Axios error response:", error.response);
+         if (error?.response?.data?.message)
+           alert(error?.response?.data?.message);
+       } else if (error instanceof Error) {
+         console.error("General error:", error.message);
+         alert("Something went wrong");
+       }
+     }finally{
+      setLoading(false);
+     }
+   };
+  const handleDetailsSubmit = async (detals: {
+         userName: string;
+         email: string;
+       }) => {
+        //  setDetails(detals);
+         try {
+           const session = await getSession();
+
+           if (!session || !session.accessToken) {
+             throw new Error("User session not found or accessToken missing");
+           }
+
+           const res = await setUpProfile(detals, session.accessToken);
+           if (res.success) {
+             if (service?.online_pricing) {
+              
+              makePayment()
+              console.log(service);
+              
+             } else {
+              bookMeeting()
+             }
+           } else {
+             alert(res.message);
+           }
+         } catch (error) {
+           console.error(error);
+         }
+       };
+const makePayment=async()=>{
+  try {
+    setIsProcessing(true)
+     const dat = {
+       email: response.email||"",
+       phone_number: phone||"",
+       name: response.name||"",
+     };
+      const s = {
+        name: response.name || "",
+        online_pricing: service?.online_pricing
+          ? service?.online_pricing
+          : 0,
+      };
+     const currency = service?.currency.code
+       ? service?.currency.code
+       : "INR";
+    await handlePayment(
+      dat,
+      s,
+      continueToBooking,
+      setIsProcessing,
+      currency
+    );
+  } catch (error) {
+    console.error(error);
+    
+  }finally{
+    setIsProcessing(false)
+  }
+}
   const handleDateClick = async (date: string) => {
     setSelectedDate(date);
     // const selectedDateObject = dates.find(d => d.date === date);
-     const session = await getSession();
+    //  const session = await getSession();
     
-       if (!session || !session.accessToken) {
-         throw new Error("User session not found or accessToken missing");
-       }
-    const fetchSlot = await getTiming(id, date, session.accessToken);
+    //    if (!session || !session.accessToken) {
+    //      throw new Error("User session not found or accessToken missing");
+    //    }
+    const fetchSlot = await getTiming(id, date);
 
     setAllSlots(formatSlots(fetchSlot));
 
@@ -98,26 +248,35 @@ export default function Page() {
     recive_details?: boolean;
   }) => {
     try {
-      const dat = {
-          email: data.email,
-          phone_number: data.phone,
-          name: data.name,
-      };
+      setIsProcessing(true)
+      const session = await getSession();
 
+      setResponse({
+        email: data.email,
+        phone_number: data.phone,
+        name: data.name,
+        razorpay_order_id: "",
+      });
 
-       await handlePayment(dat, service, continueToBooking, setIsProcessing,"INR");
+      if (!session || !session.accessToken) {
+        setOpen(true);
+      } else {
+        if (service.online_pricing) {
+          //  await handlePayment(dat, service, continueToBooking, setIsProcessing,"INR");
+          await makePayment();
+        } else {
+          bookMeeting();
+        }
+      }
     } catch (error) {
       console.error(error);
+    }finally{
+      setIsProcessing(false)
     }
   };
   const getService = async () => {
     try {
-      const session = await getSession();
-
-      if (!session || !session.accessToken) {
-        throw new Error("User session not found or accessToken missing");
-      }
-      const res = await getSingleService(id, session.accessToken);
+      const res = await getSingleService(id);
 
       if (res.success) {
         setService(res.service);
@@ -144,37 +303,79 @@ export default function Page() {
     data: { email: string; name: string; phone_number: string },
     response: { razorpay_order_id: string }
   ) => {
-    try {
-       const session = await getSession();
+    setResponse({
+      email:data.email,
+      name:data.name,
+      phone_number:data.phone_number,
+      razorpay_order_id:response.razorpay_order_id
+
+
+    })
+    bookMeeting()
+    // try {
+    //    const session = await getSession();
       
-         if (!session || !session.accessToken) {
-           throw new Error("User session not found or accessToken missing");
-         }
-      const mtTime =
-        selectedDate && selectedSlot
-          ? convertToISOString(selectedDate, selectedSlot)
-          : "";
-      const postData = {
-        host_id: service.user_id,
-        meeting_time: mtTime,
-        meeting_type: "Online",
-        meeting_description: service.name,
-        service_id: service._id,
-        razorpay_payment_id: response.razorpay_order_id,
-        email: data.email,
-        phone_number: data.phone_number,
-      };
-      const res = await bookMeeting(postData, session.accessToken);
-      if (res.success) {
-        alert(res.message);
-        router.push(`/${username}`);
-      }
-    } catch (error) {
-      console.error(error);
+    //      if (!session || !session.accessToken) {
+    //        throw new Error("User session not found or accessToken missing");
+    //      }
+    //   const mtTime =
+    //     selectedDate && selectedSlot
+    //       ? convertToISOString(selectedDate, selectedSlot)
+    //       : "";
+    //   const postData = {
+    //     host_id: service.user_id,
+    //     meeting_time: mtTime,
+    //     meeting_type: "Online",
+    //     meeting_description: service.name,
+    //     service_id: service._id,
+    //     razorpay_payment_id: response.razorpay_order_id,
+    //     email: data.email,
+    //     phone_number: data.phone_number,
+    //   };
+    //   const res = await bookMeetingApi(postData, session.accessToken);
+    //   if (res.success) {
+    //     alert(res.message);
+    //     router.push(`/${username}`);
+    //   }
+    // } catch (error) {
+    //   console.error(error);
    
-      alert("Something went wrong. Please try again.");
-    }
+    //   alert("Something went wrong. Please try again.");
+    // }
   };
+
+  const bookMeeting=async()=>{
+try {
+  const session = await getSession();
+
+  if (!session || !session.accessToken) {
+    throw new Error("User session not found or accessToken missing");
+  }
+  const mtTime =
+    selectedDate && selectedSlot
+      ? convertToISOString(selectedDate, selectedSlot)
+      : "";
+  const postData = {
+    host_id: service.user_id,
+    meeting_time: mtTime,
+    meeting_type: "Online",
+    meeting_description: service.name,
+    service_id: service._id,
+    razorpay_payment_id: response.razorpay_order_id,
+    email: response.email,
+    phone_number: response.phone_number,
+  };
+  const res = await bookMeetingApi(postData, session.accessToken);
+  if (res.success) {
+    alert(res.message);
+    router.push(`/${username}`);
+  }
+} catch (error) {
+  console.error(error);
+
+  alert("Something went wrong. Please try again.");
+}
+  }
   
   useEffect(() => {
     getService();
@@ -228,7 +429,7 @@ export default function Page() {
                       $ {(service.online_pricing * 1.2).toFixed(2)}
                     </p> */}
                     <p className="text-base/5 font-bold">
-                      ${service.online_pricing.toFixed(2)}
+                      {service.currency.symbol?service.currency.symbol:"$"}{service.online_pricing.toFixed(2)}
                     </p>
                   </div>
                 </div>
@@ -268,7 +469,9 @@ export default function Page() {
                 selectedDate={selectedDate}
                 allSlots={allSlots}
                 price={service.online_pricing}
+                currency={service.currency}
                 handleChangeClick={handleChangeClick}
+
                 />
 
                 </>
@@ -321,6 +524,16 @@ export default function Page() {
           </Button>
         </div>
       </div>
+       <LoginModal
+              open={open}
+              setOpen={setOpen}
+              step={step}
+              handlePhoneSubmit={handlePhoneSubmit}
+              handleOtpSubmit={handleOtpSubmit}
+              handleDetailsSubmit={handleDetailsSubmit}
+              phone={phone}
+              loading={loading}
+            />
     </div>
   );
 }

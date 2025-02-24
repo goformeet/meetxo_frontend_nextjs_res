@@ -43,43 +43,31 @@ export const ProfessionSubCategories = async (id: string) => {
     throw error;
   }
 };
-export const getServicesById = async (id: string,token: string) => {
+export const getServicesById = async (id: string) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/services/host/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(`${API_BASE_URL}/services/host/${id}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching service by ID:", error);
     throw error;
   }
 };
-export const getSingleService = async (id: string,token:string) => {
+export const getSingleService = async (id: string) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/services/single/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(`${API_BASE_URL}/services/single/${id}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching service by ID:", error);
     throw error;
   }
 };
-export const getTiming = async (id: string, date: string,token:string) => {
+export const getTiming = async (id: string, date: string) => {
   try {
      const [day, month, year] = date.split("/");
     const response = await axios.post(
       `${API_BASE_URL}/services/get-timings?service_id=${id}&date=${year}-${month}-${day}`,
       {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+    
     );
     if (response.data.success){
       
@@ -90,7 +78,7 @@ export const getTiming = async (id: string, date: string,token:string) => {
     throw error;
   }
 };
-export const bookMeeting = async (data: Record<string, string | boolean>,token:string) => {
+export const bookMeetingApi = async (data: Record<string, string | boolean>,token:string) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/meetings/book`, data, {
       headers: {
