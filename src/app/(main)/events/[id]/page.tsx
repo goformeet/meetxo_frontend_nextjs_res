@@ -244,17 +244,24 @@ const registerNow = async () => {
   }
   
 };
-function replaceUnderscoreWithSpaces(input: string): string {
-  return input.replace(/_+/g, " ");
+// function replaceUnderscoreWithSpaces(input: string): string {
+//   return input.replace(/-+/g, " ");
+// }
+
+function replaceSpacesWithUnderscore(input: string): string {
+  return input.replace(/\s+/g, "-");
 }
 useEffect(() => {
   const storedData = localStorage.getItem("eventData");
 
   if (storedData) {
     const event = JSON.parse(storedData);
-    const decodedTitle = replaceUnderscoreWithSpaces(pathname.split("/").pop() || "");
+    // const decodedTitle = replaceUnderscoreWithSpaces(pathname.split("/").pop() || "");
+    const pathTitle = pathname.split("/").pop() || "";
+    const eventTitle = replaceSpacesWithUnderscore(event.title);
 
-    if (event.title === decodedTitle) {
+
+    if (eventTitle === pathTitle) {
       setEventData(event);
 
       //  router.push("/")

@@ -47,6 +47,7 @@ export default function Page() {
   
   const [user, setUser] = useState({ name: "", profile_image: "" });
   const[isProcessing,setIsProcessing]=useState(false)
+  // const [open,setOpen]=useState(false)
   const [service, setService] = useState<ServiceType>({
     _id: "",
     user_id: "",
@@ -102,6 +103,7 @@ export default function Page() {
           phone_number: data.phone,
           name: data.name,
       };
+
 
        await handlePayment(dat, service, continueToBooking, setIsProcessing,"INR");
     } catch (error) {
