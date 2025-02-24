@@ -31,7 +31,7 @@ export default function Footer() {
             url: "https://www.youtube.com/@MeetXO",
         },
         {
-            icon: "/images/twitter.svg",
+            icon: "/images/x.png",
             url: "https://x.com/meetxoAI",
         },
         {
