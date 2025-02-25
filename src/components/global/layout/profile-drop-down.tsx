@@ -9,7 +9,7 @@ import {
 
 
 export default function ProfileDropDown({ user }: { user: { profile_image: string; id: string; } }) {
-
+console.log(user)
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>

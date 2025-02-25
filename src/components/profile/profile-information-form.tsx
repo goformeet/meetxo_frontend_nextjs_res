@@ -66,12 +66,13 @@ export default function ProfileInformationForm({user}:{user: {name: string; emai
     };
 
     const onSubmit = (data: z.infer<typeof FormSchema>) => {
-       const obj = {
-        profession_id: data.professionCategory,
-        profession_sub_category_id: data.profession,
-        about_me: data?.about || '',
+        console.log(data)
+    //    const obj = {
+    //     profession_id: data.professionCategory,
+    //     profession_sub_category_id: data.profession,
+    //     about_me: data?.about || '',
 
-       }
+    //    }
     };
 
 
