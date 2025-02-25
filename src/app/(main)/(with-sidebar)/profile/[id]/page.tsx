@@ -11,7 +11,6 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { User } from '@/services/api';
-import { string } from 'zod';
 
 const items = [
   {
@@ -105,7 +104,7 @@ export default function ProfileSettings() {
   const handleGetUser = async () => {
     const session = await getSession();
     if(session?.accessToken){
-      let token = session.accessToken || '';
+      const token = session.accessToken || '';
       const response = await User(token);
       setUser(response.profile);
     }else{
