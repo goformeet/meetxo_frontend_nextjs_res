@@ -12,7 +12,7 @@ import { getEventsByHost, getServicesById } from '@/services/api';
 import { useRouter } from 'next/navigation';
 import EmptyData from '../empty-data';
 import EventCard from '../event-card';
-import { getSession } from 'next-auth/react';
+// import { getSession } from 'next-auth/react';
 
 type Service = {
   _id: string;
@@ -25,8 +25,9 @@ type Service = {
   offline_pricing: number;
   is_offline_available: boolean;
   keywords: string[];
-  location: [number, number]; // Tuple for latitude & longitude
+  location: [number, number];
   is_active: boolean;
+  currency: { code: string; symbol: string };
   created_at: string;
   updated_at: string;
   __v: number;
@@ -72,12 +73,12 @@ export default function ExpertServices({ id, username }: ExpertServicesProps) {
 
   const getServices = async () => {
     try {
-       const session = await getSession();
+      //  const session = await getSession();
       
-         if (!session || !session.accessToken) {
-           throw new Error("User session not found or accessToken missing");
-         }
-      const res = await getServicesById(id, session.accessToken);
+      //    if (!session || !session.accessToken) {
+      //      throw new Error("User session not found or accessToken missing");
+      //    }
+      const res = await getServicesById(id);
      
 
       if (res.success) {
@@ -197,7 +198,7 @@ const getEvents= async()=>{
                 </div>
                 <div className="flex flex-col justify-between items-end">
                   <p className="text-[32px]/[120%] font-medium font-roboto">
-                    ${data.online_pricing}
+                    {data.currency.symbol?data.currency.symbol:"$"}{data.online_pricing}
                   </p>
                   <Button
                     onClick={() => router.push(`${username}/booking?id=${data._id}`)}

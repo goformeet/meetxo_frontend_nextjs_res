@@ -14,10 +14,11 @@ import DetailsForm from "./detailsForm";
 
 
 interface ChildProps {
+  loading:boolean;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   step: "phone" | "otp" | "details";
-  phone:string;
+  phone: string;
   handlePhoneSubmit: (phone: string) => void;
   handleOtpSubmit: (otp: string) => void;
   handleDetailsSubmit: (details: { userName: string; email: string }) => void;
@@ -30,17 +31,18 @@ export default function LoginModal({
   handlePhoneSubmit,
   handleOtpSubmit,
   handleDetailsSubmit,
+  loading
 }: ChildProps) {
   const renderForm = (step: string) => {
     switch (step) {
       case "phone":
-        return <PhoneForm handleSubmit={handlePhoneSubmit} />;
+        return <PhoneForm loading={loading}  handleSubmit={handlePhoneSubmit} />;
       case "otp":
-        return <OtpForm handleSubmit={handleOtpSubmit} />;
+        return <OtpForm loading={loading} handleSubmit={handleOtpSubmit} />;
       case "details":
         return <DetailsForm handleSubmit={handleDetailsSubmit} />;
       default:
-        return <PhoneForm handleSubmit={handlePhoneSubmit} />;
+        return <PhoneForm loading={loading}  handleSubmit={handlePhoneSubmit} />;
     }
   };
    const maskPhoneNumber = (phone: string): string => {
@@ -49,7 +51,7 @@ export default function LoginModal({
      return phone[0] + phone[1] + phone[2] + "****" + phone.slice(-3);
    };
   return (
-    <Dialog open={open} onOpenChange={() => setOpen(!open)}>
+    <Dialog open={open} onOpenChange={() => setOpen(!open)} >
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle>LOG IN</DialogTitle>
@@ -69,15 +71,6 @@ export default function LoginModal({
           </p>
         )}
         {renderForm(step)}
-        {/* <Button
-              disabled={isButtonDisabled}
-              className={cn(
-                "bg-primary text-white w-full mt-7 md:mt-8 px-6 py-6 font-plus-jakarta-sans text-base font-bold leading-[150%] tracking-[0.3px]",
-                { "opacity-50 cursor-not-allowed": isButtonDisabled }
-              )}
-            >
-              Continue
-            </Button> */}
       </DialogContent>
     </Dialog>
   );
