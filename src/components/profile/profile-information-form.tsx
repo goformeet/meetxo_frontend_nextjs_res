@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,14 +16,11 @@ import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea"
+import { Professions, ProfessionSubCategories } from "@/services/api";
 
 const FormSchema = z.object({
     name: z.string().min(6, { message: "Your name must be at least 6 characters." }),
     email: z.string().email({ message: "Please enter a valid email address." }),
-    phone: z.string()
-        .min(10, { message: "Phone number must be at least 10 digits." })
-        .max(15, { message: "Phone number can't exceed 15 digits." })
-        .regex(/^\d+$/, { message: "Phone number must contain only digits." }),
     professionCategory: z.string().min(1, { message: "Select a category." }),
     profession: z.string().min(1, { message: "Select a profession." }),
     about: z.string().optional(),
@@ -35,21 +32,27 @@ const FormSchema = z.object({
             })
         )
         .optional(),
-    profileImage: z.any().optional(),
 });
 
-export default function ProfileInformationForm() {
+export default function ProfileInformationForm({user}:{user: {name: string; email: string; profession_id: string; profession_sub_category_id: string; about_me: string;}}) {
+    console.log(user);
+
+
+
+    const [professions, setProfessions] = useState([]);
+    const [subCategories, setSubCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState("");
+
+
+
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            name: "",
+            name: user.name,
             email: "",
-            phone: "",
             professionCategory: "",
             profession: "",
             about: "",
-            socialLinks: [],
-            profileImage: null,
         },
     });
 
@@ -63,13 +66,57 @@ export default function ProfileInformationForm() {
     };
 
     const onSubmit = (data: z.infer<typeof FormSchema>) => {
-        console.log("Form Data:", data);
+        console.log(data)
+    //    const obj = {
+    //     profession_id: data.professionCategory,
+    //     profession_sub_category_id: data.profession,
+    //     about_me: data?.about || '',
+
+    //    }
     };
+
 
     const { fields, append, remove } = useFieldArray({
         control: form.control,
         name: "socialLinks",
     });
+
+    const handleGetProfessions = async () => {
+        const response = await Professions();
+        if (response.success) {
+            setProfessions(response.professions);
+        }
+    }
+
+    const handleGetSubProfesstions = async () => {
+        const response = await ProfessionSubCategories(selectedCategory);
+        if(response.success){
+            setSubCategories(response.sub_categories);
+        }
+    }
+
+    useEffect(() => {
+        handleGetProfessions();
+    }, []);
+
+    useEffect(()=>{
+        if(selectedCategory) {
+            handleGetSubProfesstions()
+        }
+    }, [selectedCategory]);
+
+    useEffect(() => {
+        if (user) {
+        setSelectedCategory(user.profession_id);
+          form.reset({
+            name: user.name || '',
+            email: user.email || '',
+            professionCategory: user.profession_sub_category_id,
+            profession: user.profession_id,
+            about: user.about_me,
+          });
+        }
+      }, [user, form]);
 
     return (
         <Form {...form}>
@@ -139,8 +186,9 @@ export default function ProfileInformationForm() {
                                     </FormLabel>
                                     <FormControl>
                                         <Input
+                                            readOnly
                                             className="py-4 px-5 h-11 md:h-14"
-                                            placeholder="Enter your name"
+                                            placeholder="Enter your mail"
                                             {...field}
                                         />
                                     </FormControl>
@@ -154,14 +202,21 @@ export default function ProfileInformationForm() {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Profession Category <span className="text-[#E03137]">*</span></FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <Select onValueChange={(value) => {
+                                        field.onChange(value);
+                                        setSelectedCategory(value);
+                                    }} defaultValue={field.value}>
                                         <SelectTrigger className="py-4 px-5 h-11 md:h-14">
                                             <SelectValue placeholder="Select a category" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="tech">Tech</SelectItem>
-                                            <SelectItem value="healthcare">Healthcare</SelectItem>
-                                            <SelectItem value="education">Education</SelectItem>
+                                            {
+                                                professions.map((profession: { _id: string; title: string }) => (
+                                                    <SelectItem key={profession._id} value={profession._id}>
+                                                        {profession.title}
+                                                    </SelectItem>
+                                                ))
+                                            }
                                         </SelectContent>
                                     </Select>
                                     <FormMessage />
@@ -179,9 +234,13 @@ export default function ProfileInformationForm() {
                                             <SelectValue placeholder="Select a profession" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="developer">Developer</SelectItem>
-                                            <SelectItem value="doctor">Doctor</SelectItem>
-                                            <SelectItem value="teacher">Teacher</SelectItem>
+                                        {
+                                                subCategories.map((categ: { _id: string; title: string }) => (
+                                                    <SelectItem key={categ._id} value={categ._id}>
+                                                        {categ.title}
+                                                    </SelectItem>
+                                                ))
+                                            }
                                         </SelectContent>
                                     </Select>
                                     <FormMessage />
@@ -250,7 +309,7 @@ export default function ProfileInformationForm() {
                                 </div>
                             ))}
                             <Button type="button" variant={'link'} className="mt-4" onClick={() => append({ icon: "", url: "" })}>
-                               + Add More
+                                + Add More
                             </Button>
                         </div>
                     </div>

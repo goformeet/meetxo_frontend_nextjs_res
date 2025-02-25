@@ -161,3 +161,17 @@ export const getEventsByHost = async (hostId: string) => {
     throw error;
   }
 }
+
+export const User = async (token: string)=> {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/profile`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
