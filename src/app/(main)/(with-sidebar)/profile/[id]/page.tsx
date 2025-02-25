@@ -7,6 +7,11 @@ import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { ChevronLeft } from 'lucide-react';
 import CalendarAvailability from '@/components/profile/calander-availablity';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { getSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { User } from '@/services/api';
+import { string } from 'zod';
 
 const items = [
   {
@@ -38,8 +43,19 @@ const items = [
 export default function ProfileSettings() {
   const [selectedTab, setSelectedTab] = useState<string | null>(null);
   const [showMobileContent, setShowMobileContent] = useState(false);
+  const isMobile = useIsMobile();
+  const [user, setUser] = useState({name: '', email: '', profession_id: '', profession_sub_category_id:'', about_me: ''});
+  
+  const router = useRouter();
+
 
   const SelectedComponent = items.find((item) => item.value === selectedTab)?.component;
+
+  useEffect(()=>{
+    if(!selectedTab && !isMobile){
+      setSelectedTab('personal-information')
+    }
+  },[isMobile]);
 
   // Sync URL with selectedTab
   useEffect(() => {
@@ -82,6 +98,24 @@ export default function ProfileSettings() {
     window.history.back(); // Navigate back in history
   };
 
+  useEffect(()=>{
+    handleGetUser();
+  }, [])
+
+  const handleGetUser = async () => {
+    const session = await getSession();
+    if(session?.accessToken){
+      let token = session.accessToken || '';
+      const response = await User(token);
+      setUser(response.profile);
+    }else{
+      router.push('/login');
+    }
+  }
+
+  console.log(user);
+  
+
   const MobileList = () => (
     <div className="space-y-4 p-4">
       {items.map((item) => (
@@ -118,7 +152,7 @@ export default function ProfileSettings() {
           {items.find((item) => item.value === selectedTab)?.title}
         </h2>
       </div>
-      <div className="p-4">{SelectedComponent && <SelectedComponent />}</div>
+      <div className="p-4">{SelectedComponent && <SelectedComponent user={user} />}</div>
     </div>
   );
 
@@ -159,7 +193,7 @@ export default function ProfileSettings() {
             ))}
           </TabsList>
           <div className="flex-1 p-6">
-            {SelectedComponent && <SelectedComponent />}
+            {SelectedComponent && <SelectedComponent user={user} />}
           </div>
         </Tabs>
       </div>
