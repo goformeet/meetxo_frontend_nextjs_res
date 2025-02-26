@@ -65,14 +65,12 @@ export default function Navigation() {
           <BecomeExpertButton />
           <LoginButton />
 
-          {user && (
+          {user?.name && (
             <Link href={`/profile/${normalizeUsername(user.name)}/?item=personal-information`}>
-              <Avatar className='max-w-[48px]'>
-                <AvatarImage src={user.profile_image || ''} />
-                <AvatarFallback className='text-white bg-primary'>
-                  {user.name ? getFallbackLetters(user.name) : (
-                    <Skeleton className='h-full w-full rounded-full' />
-                  )}
+              <Avatar className="max-w-[48px]">
+                <AvatarImage src={user.profile_image || ""} />
+                <AvatarFallback className="text-white bg-primary">
+                  {getFallbackLetters(user.name)}
                 </AvatarFallback>
               </Avatar>
             </Link>
