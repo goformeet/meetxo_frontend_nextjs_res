@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 // import { ModeToggle } from '../toggle-mode'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -13,26 +13,36 @@ import { authOptions } from '@/lib/auth'
 import axios from 'axios'
 import { getFallbackLetters, normalizeUsername } from '@/lib/utils'
 
-export default async function Navigation() {
-  const session  = await getSession(authOptions);
+export default function Navigation() {
 
-  const [user, setUser] = useState(null);
+const [user, setUser] = useState(null);
 
-  if(session?.accessToken){
+async function handleGetUser() { // Add async here
+  const session = await getSession();
+  if (session?.accessToken) {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/profile`, {
-        headers: {
-          Authorization: `Bearer ${session?.accessToken}`,
-        },
-      });
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/profile`,
+        {
+          headers: {
+            Authorization: `Bearer ${session?.accessToken}`,
+          },
+        }
+      );
 
-      if(response.data.success){ 
-        setUser(response?.data?.profile)
+      if (response.data.success) {
+        setUser(response?.data?.profile);
       }
     } catch (error) {
       console.log("🚀 ~ Navigation ~ error:", error);
     }
   }
+}
+
+  useEffect(()=>{
+    handleGetUser();
+},[])
+  
   
   return (
     <>
