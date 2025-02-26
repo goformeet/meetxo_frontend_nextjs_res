@@ -1,4 +1,5 @@
-import React from 'react'
+"use client"
+import React, { useState } from 'react'
 // import { ModeToggle } from '../toggle-mode'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -7,15 +8,15 @@ import MobileNavigation from './mobileNavigation'
 import BecomeExpertButton from './become-expert-button'
 import LoginButton from './login-button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { getServerSession } from 'next-auth'
+import { getSession } from "next-auth/react";
 import { authOptions } from '@/lib/auth'
 import axios from 'axios'
 import { getFallbackLetters, normalizeUsername } from '@/lib/utils'
 
 export default async function Navigation() {
-  const session  = await getServerSession(authOptions);
+  const session  = await getSession(authOptions);
 
-  let user = null;
+  const [user, setUser] = useState(null);
 
   if(session?.accessToken){
     try {
@@ -26,7 +27,7 @@ export default async function Navigation() {
       });
 
       if(response.data.success){ 
-        user = response?.data?.profile;
+        setUser(response?.data?.profile)
       }
     } catch (error) {
       console.log("🚀 ~ Navigation ~ error:", error);
@@ -53,12 +54,12 @@ export default async function Navigation() {
           </div> */}
           {
             user && (
-              <Link href={`/profile/${normalizeUsername(user.name)}/?item=personal-information`}>
+              <Link href={`/profile/${normalizeUsername(user?.name)}/?item=personal-information`}>
                <Avatar className='max-w-[48px]'>
               <AvatarImage src={user.profile_image || ''} />
               <AvatarFallback className='text-white bg-primary'>
                 {
-                  user.name ? getFallbackLetters(user.name) : (
+                  user.name ? getFallbackLetters(user?.name) : (
                     <Skeleton className="h-full w-full rounded-full" />
                   )
                 }
