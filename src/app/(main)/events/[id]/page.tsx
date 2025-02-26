@@ -255,7 +255,8 @@ const registerNow = async () => {
 //   return input.replace(/-+/g, " ");
 // }
 
-function replaceSpacesWithUnderscore(input: string): string {
+function replaceSpacesWithUnderscore(input: string) {
+  if(!input) return;
   return input.replace(/\s+/g, "_");
 }
 useEffect(() => {
