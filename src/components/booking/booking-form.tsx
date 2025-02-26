@@ -48,9 +48,9 @@ type Props = {
   price: number;
   currency: {
     symbol: string;
-    code:string
+    code: string;
   };
-  allSlots: { stime: string; etime: string }[];
+  allSlots: { stime: string; etime: string; is_available:boolean }[];
 };
 // Use forwardRef to allow the parent to trigger submission
 const BookingForm = forwardRef<BookingFormRef, Props>(

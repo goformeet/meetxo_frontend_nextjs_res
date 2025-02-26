@@ -21,7 +21,7 @@ export const formatSlots = (
   timings: { end_time: string; start_time: string; is_available: boolean }[]
 ): { stime: string; etime: string }[] => {
   return timings
-    .filter((slot) => slot.is_available) 
+    // .filter((slot) => slot.is_available) 
     .map((slot) => {
       const sdate = new Date(slot.start_time);
       const edate = new Date(slot.end_time);
@@ -37,6 +37,7 @@ export const formatSlots = (
           minute: "2-digit",
           hour12: true,
         }),
+        is_available:slot.is_available
       };
     });
 };

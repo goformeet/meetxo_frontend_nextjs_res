@@ -14,6 +14,7 @@ body {
   padding: 0px !important;
   margin-right: auto !important;
   margin-left: auto !important;
+  pointer-events: auto !important;
 }
 
 @layer base {

@@ -141,15 +141,14 @@ const getEvents= async()=>{
                 <div>
                   <p className="text-xl/[130%] font-medium mb-2">
                     {/* Building a successful business - 1:1 Mentoring */}
-                                          {data.name}
-
+                    {data.name}
                   </p>
                   <div className="flex items-center gap-2">
                     <p className="text-[#7C7C7C] text-base/[150%]">
                       {/* By Sen Janson */}
-                    {data.short_description}
+                      {data.short_description}
                     </p>
-{/*                     <Dot /> */}
+                    {/*                     <Dot /> */}
 
                     {/* <div className="flex items-center gap-1">
                       <Star className="h-5 w-5 text-[#FBBC05]" />
@@ -167,15 +166,13 @@ const getEvents= async()=>{
                     </div>
                     <Dot />
 
-
-
                     <div className="flex gap-1 items-center">
-
                       <p className="text-[#7C7C7C] text-sm">
-                        {data.is_offline_available? "Online & Offline":"Online"} 
+                        {data.is_offline_available
+                          ? "Online & Offline"
+                          : "Online"}
                       </p>
                     </div>
-
                   </div>
                   <Accordion type="single" collapsible>
                     <AccordionItem
@@ -197,11 +194,19 @@ const getEvents= async()=>{
                   </Accordion>
                 </div>
                 <div className="flex flex-col justify-between items-end">
-                  <p className="text-[32px]/[120%] font-medium font-roboto">
-                    {data?.currency?.symbol?data?.currency?.symbol:"$"}{data.online_pricing}
-                  </p>
+                  {data.online_pricing ? (
+                    <p className="text-[32px]/[120%] font-medium font-roboto">
+                      {data?.currency?.symbol ? data?.currency?.symbol : "$"}
+                      {data.online_pricing}
+                    </p>
+                  ) : (
+                    <span className="text-[#52c627]">Free</span>
+                  )}
+
                   <Button
-                    onClick={() => router.push(`${username}/booking?id=${data._id}`)}
+                    onClick={() =>
+                      router.push(`${username}/booking?id=${data._id}`)
+                    }
                     className={cn(
                       "font-roboto text-sm/normal font-semibold capitalize py-[9px] px-[16px] leading-normal rounded-[8px] h-fit text-white shadow-none"
                     )}

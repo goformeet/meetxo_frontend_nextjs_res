@@ -15,7 +15,9 @@ const weekdays = [
   { id: "sunday", label: "Sunday" },
 ];
 
-const CalendarAvailability = () => {
+const CalendarAvailability = ({user}:{user: {name: string;}}) => {
+  console.log(user);
+
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [availability, setAvailability] = useState<{
     [key: string]: { start: string; end: string };
