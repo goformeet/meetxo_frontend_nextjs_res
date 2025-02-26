@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const normalizeUsername = (name: string): string => {
-  return name.replace(/\s+/g, "").toLowerCase() ?? '';
+  return name?.replace(/\s+/g, "").toLowerCase() ?? '';
 };
 
 export const getFallbackLetters = (name: string): string => {
