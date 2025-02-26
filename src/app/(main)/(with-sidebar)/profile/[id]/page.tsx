@@ -1,12 +1,12 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import ProfileInformationForm from '@/components/profile/profile-information-form';
-import ProfileServices from '@/components/profile/profile-services';
+// import ProfileServices from '@/components/profile/profile-services';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { ChevronLeft } from 'lucide-react';
-import CalendarAvailability from '@/components/profile/calander-availablity';
+// import CalendarAvailability from '@/components/profile/calander-availablity';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -19,24 +19,24 @@ const items = [
     value: 'personal-information',
     component: ProfileInformationForm,
   },
-  {
-    icon: '/images/meeting-icon.svg',
-    title: 'Add Services',
-    value: 'add-services',
-    component: ProfileServices,
-  },
-  {
-    icon: '/images/calander-icon.svg',
-    title: 'Calendar',
-    value: 'calander',
-    component: CalendarAvailability,
-  },
-  {
-    icon: '/images/description-icon.svg',
-    title: 'Portfolio',
-    value: 'portfolio',
-    component: () => <div>Portfolio Content</div>,
-  },
+  // {
+  //   icon: '/images/meeting-icon.svg',
+  //   title: 'Add Services',
+  //   value: 'add-services',
+  //   component: ProfileServices,
+  // },
+  // {
+  //   icon: '/images/calander-icon.svg',
+  //   title: 'Calendar',
+  //   value: 'calander',
+  //   component: CalendarAvailability,
+  // },
+  // {
+  //   icon: '/images/description-icon.svg',
+  //   title: 'Portfolio',
+  //   value: 'portfolio',
+  //   component: () => <div>Portfolio Content</div>,
+  // },
 ];
 
 export default function ProfileSettings() {
@@ -151,7 +151,7 @@ export default function ProfileSettings() {
           {items.find((item) => item.value === selectedTab)?.title}
         </h2>
       </div>
-      <div className="p-4">{SelectedComponent && <SelectedComponent user={user} />}</div>
+      <div className="p-4">{SelectedComponent && <SelectedComponent  />}</div>
     </div>
   );
 
@@ -192,7 +192,7 @@ export default function ProfileSettings() {
             ))}
           </TabsList>
           <div className="flex-1 p-6">
-            {SelectedComponent && <SelectedComponent user={user} />}
+            {SelectedComponent && <SelectedComponent />}
           </div>
         </Tabs>
       </div>
