@@ -19,27 +19,29 @@ export const getNext30Days = (): { date: string }[] => {
 
 export const formatSlots = (
   timings: { end_time: string; start_time: string; is_available: boolean }[]
-): { stime: string; etime: string }[] => {
-  return timings
-    // .filter((slot) => slot.is_available) 
-    .map((slot) => {
-      const sdate = new Date(slot.start_time);
-      const edate = new Date(slot.end_time);
+): { stime: string; etime: string; is_available:boolean }[] => {
+  return (
+    timings
+      // .filter((slot) => slot.is_available)
+      .map((slot) => {
+        const sdate = new Date(slot.start_time);
+        const edate = new Date(slot.end_time);
 
-      return {
-        stime: sdate.toLocaleTimeString("en-US", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        }),
-        etime: edate.toLocaleTimeString("en-US", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        }),
-        is_available:slot.is_available
-      };
-    });
+        return {
+          stime: sdate.toLocaleTimeString("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          }),
+          etime: edate.toLocaleTimeString("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          }),
+          is_available: slot.is_available,
+        };
+      })
+  );
 };
 export const convertToISOString = (date: string, time: string) => {
   

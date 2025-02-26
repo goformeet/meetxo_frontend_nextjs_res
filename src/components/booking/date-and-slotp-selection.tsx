@@ -14,62 +14,58 @@ import { Button } from '../ui/button';
 import Image from 'next/image';
 
 export default function DateAndSlotSelection({
-    dates,
-    selectedDate,
-    handleDateClick,
-    selectedSlots,
-    handleSlotClick,
-    selectedSlot
+  dates,
+  selectedDate,
+  handleDateClick,
+  selectedSlots,
+  handleSlotClick,
+  selectedSlot,
 }: {
-        dates: Array<{ date: string }>;
-        selectedDate: string | null;
-        handleDateClick: (date: string) => void;
-        selectedSlots: Array<string>;
-        handleSlotClick: (slot: string) => void;
-        selectedSlot: string;
+  dates: Array<{ date: string }>;
+  selectedDate: string | null;
+  handleDateClick: (date: string) => void;
+  selectedSlots: Array<{ slot: string; is_available: boolean }>;
+  handleSlotClick: (slot: string) => void;
+  selectedSlot: string;
 }) {
-
-
-
   const [timezone, setTimezone] = useState<string>("ist");
-    // Function to convert "DD/MM/YYYY" to "YYYY-MM-DD" (ISO format)
-    const convertDate = (dateStr: string) => {
-        const [day, month, year] = dateStr.split('/');
-        return `${year}-${month}-${day}`; 
-    };
-
-useEffect(() => {
-  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  console.log("User Timezone:", userTimezone);
-
- 
-  const timezoneMap: { [key: string]: string } = {
-    "Asia/Kolkata": "ist",
-    "America/New_York": "est",
-    "America/Chicago": "cst",
-    "America/Denver": "mst",
-    "America/Los_Angeles": "pst",
-    "America/Anchorage": "akst",
-    "America/Honolulu": "hst",
-    "Europe/London": "gmt",
-    "Europe/Paris": "cet",
-    "Europe/Berlin": "cet",
-    "Europe/Moscow": "msk",
-    "Asia/Shanghai": "cst_china",
-    "Asia/Tokyo": "jst",
-    "Asia/Seoul": "kst",
-    "Australia/Sydney": "aest",
-    "Australia/Perth": "awst",
-    "Pacific/Auckland": "nzst",
-    "Pacific/Fiji": "fjt",
-    "America/Argentina/Buenos_Aires": "art",
-    "America/Sao_Paulo": "brt",
+  // Function to convert "DD/MM/YYYY" to "YYYY-MM-DD" (ISO format)
+  const convertDate = (dateStr: string) => {
+    const [day, month, year] = dateStr.split("/");
+    return `${year}-${month}-${day}`;
   };
 
-  if (timezoneMap[userTimezone]) {
-    setTimezone(timezoneMap[userTimezone]);
-  }
-}, []);
+  useEffect(() => {
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    console.log("User Timezone:", userTimezone);
+
+    const timezoneMap: { [key: string]: string } = {
+      "Asia/Kolkata": "ist",
+      "America/New_York": "est",
+      "America/Chicago": "cst",
+      "America/Denver": "mst",
+      "America/Los_Angeles": "pst",
+      "America/Anchorage": "akst",
+      "America/Honolulu": "hst",
+      "Europe/London": "gmt",
+      "Europe/Paris": "cet",
+      "Europe/Berlin": "cet",
+      "Europe/Moscow": "msk",
+      "Asia/Shanghai": "cst_china",
+      "Asia/Tokyo": "jst",
+      "Asia/Seoul": "kst",
+      "Australia/Sydney": "aest",
+      "Australia/Perth": "awst",
+      "Pacific/Auckland": "nzst",
+      "Pacific/Fiji": "fjt",
+      "America/Argentina/Buenos_Aires": "art",
+      "America/Sao_Paulo": "brt",
+    };
+
+    if (timezoneMap[userTimezone]) {
+      setTimezone(timezoneMap[userTimezone]);
+    }
+  }, []);
 
   return (
     <div className="lg:w-2/5 rounded-[16px] border border-[#E3E6EA] p-[26px]">
@@ -191,14 +187,15 @@ useEffect(() => {
           {selectedSlots.map((slot, index) => (
             <Button
               key={index}
-              onClick={() => handleSlotClick(slot)}
+              onClick={() => handleSlotClick(slot.slot)}
+              disabled={!slot.is_available}
               variant="link"
               className={cn(
                 "py-4 px-9 inline-flex justify-center items-center rounded-[9px] border border-[#E3E6EA] h-fit hover:no-underline text-foreground",
-                { "border-primary text-primary": slot === selectedSlot }
+                { "border-primary text-primary": slot.slot === selectedSlot }
               )}
             >
-              <p className="text-base/6 text-center font-bold">{slot}</p>
+              <p className="text-base/6 text-center font-bold">{slot.slot}</p>
             </Button>
           ))}
         </div>

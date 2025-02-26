@@ -47,8 +47,8 @@ export default function EventCard({
     localStorage.setItem("eventData", JSON.stringify(event)); // Save object
     router.push(`/events/${replaceSpacesWithUnderscore(event.title)}`);
   };
-function replaceSpacesWithUnderscore(input: string): string {
-  return input.replace(/\s+/g, "_");
+function replaceSpacesWithUnderscore(input: string) {
+  return input.replace(/\s+/g, "_") ?? "";
 }
 const maxLength = 90;
 const truncatedDescription =

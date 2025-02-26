@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useTransition } from 'react'
+import React, { useTransition } from 'react'
 import { AspectRatio } from './ui/aspect-ratio'
 import Image from 'next/image'
 import { Star } from 'lucide-react'

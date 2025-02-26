@@ -2,11 +2,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import DateAndSlotSelection from "@/components/booking/date-and-slotp-selection";
-import BookingForm, { BookingFormRef } from "@/components/booking/booking-form";
+// import BookingForm, { BookingFormRef } from "@/components/booking/booking-form";
 import {
   bookMeetingApi,
   getSingleService,
@@ -49,23 +49,25 @@ type ServiceType = {
   __v: number;
 };
 
-type Response = {
-  email: string;
-  name: string;
-  phone_number: string;
-  razorpay_order_id: string;
-};
+// type Response = {
+//   email: string;
+//   name: string;
+//   phone_number: string;
+//   razorpay_order_id: string;
+// };
 export default function Page() {
-  const formRef = useRef<BookingFormRef>(null);
+  // const formRef = useRef<BookingFormRef>(null);
   const searchParams = useSearchParams();
   const id = searchParams.get("id") || "";
 
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [selectedSlots, setSelectedSlots] = useState<string[]>([]);
+  const [selectedSlots, setSelectedSlots] = useState<
+    { slot: string; is_available: boolean }[]
+  >([]);
   const [selectedSlot, setSelectedSlot] = useState<string>("");
-  const [allSlots, setAllSlots] = useState<{ stime: string; etime: string }[]>(
-    []
-  );
+  // const [allSlots, setAllSlots] = useState<{ stime: string; etime: string }[]>(
+  //   []
+  // );
   const [loading, setLoading] = useState(false);
   const [expert, setExpert] = useState({ name: "", profile_image: "" });
   const [user, setUser] = useState({
@@ -84,12 +86,12 @@ export default function Page() {
   //   email: string;
   // }>({ userName: "", email: "" });
   // const [sucessOpen, setSucessOpen] = useState<boolean>(false);
-  const [response, setResponse] = useState<Response>({
-    name: "",
-    email: "",
-    phone_number: "",
-    razorpay_order_id: "",
-  });
+  // const [response, setResponse] = useState<Response>({
+  //   name: "",
+  //   email: "",
+  //   phone_number: "",
+  //   razorpay_order_id: "",
+  // });
   
 
   const [service, setService] = useState<ServiceType>({
@@ -239,9 +241,15 @@ export default function Page() {
     //    }
     const fetchSlot = await getTiming(id, date);
 
-    setAllSlots(formatSlots(fetchSlot));
+    // setAllSlots(formatSlots(fetchSlot));
 
-    setSelectedSlots(formatSlots(fetchSlot).map((slot) => slot.stime));
+    // setSelectedSlots(formatSlots(fetchSlot).map((slot) => slot.stime));
+    setSelectedSlots(
+      formatSlots(fetchSlot).map((slot) => ({
+        slot: slot.stime,
+        is_available: slot.is_available,
+      }))
+    );
     // setSelectedSlots(selectedDateObject ? selectedDateObject.slots : []);
   };
 

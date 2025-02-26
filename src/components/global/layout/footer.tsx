@@ -62,7 +62,7 @@ export default function Footer() {
                             <Image src={'/images/map-pin-primary.svg'} alt='Location Icon' width={24} height={24} />
                         </div>
                         <p className='font-inter text-sm md:text-base/7'>
-                            HustleHub, 53, 5th Cross Rd, near Sony World Signal, 4th Block, Koramangala, Bengaluru, Karnataka 560034
+16192 COASTAL HIGHWAY, LEWES, DELAWARE 19958, USA
                         </p>
                     </div>
                     <Link href={'mailto:info@meetxo.ai'} className='flex gap-3.5 items-center mt-7'>
