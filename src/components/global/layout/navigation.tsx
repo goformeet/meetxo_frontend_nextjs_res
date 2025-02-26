@@ -6,7 +6,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import MobileNavigation from './mobileNavigation';
 import BecomeExpertButton from './become-expert-button';
 import LoginButton from './login-button';
-import { Skeleton } from '@/components/ui/skeleton';
 import { getSession } from 'next-auth/react';
 import axios from 'axios';
 import { getFallbackLetters, normalizeUsername } from '@/lib/utils';
