@@ -256,8 +256,7 @@ const registerNow = async () => {
 // }
 
 function replaceSpacesWithUnderscore(input: string) {
-  if(!input) return;
-  return input.replace(/\s+/g, "_");
+  return input.replace(/\s+/g, "_") ?? '';
 }
 useEffect(() => {
   const storedData = localStorage.getItem("eventData");
