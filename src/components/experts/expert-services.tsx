@@ -198,7 +198,7 @@ const getEvents= async()=>{
                 </div>
                 <div className="flex flex-col justify-between items-end">
                   <p className="text-[32px]/[120%] font-medium font-roboto">
-                    {data.currency.symbol?data.currency.symbol:"$"}{data.online_pricing}
+                    {data?.currency?.symbol?data?.currency?.symbol:"$"}{data.online_pricing}
                   </p>
                   <Button
                     onClick={() => router.push(`${username}/booking?id=${data._id}`)}

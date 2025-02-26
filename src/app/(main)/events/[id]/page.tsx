@@ -216,8 +216,8 @@ const makePayment=async()=>{
         name: details.userName||"",
         online_pricing: eventData?.price ? eventData?.price : 0,
       };
-     const currency = eventData?.currency.code
-       ? eventData?.currency.code
+     const currency = eventData?.currency?.code
+       ? eventData?.currency?.code
        : "INR";
     await handlePayment(
       dat,
@@ -404,7 +404,7 @@ useEffect(()=>{
                 (GMT +05:30)
               </p>
               {eventData?.price ? (
-                <p>{`${eventData?.currency.symbol} ${eventData?.price}`}</p>
+                <p>{`${eventData?.currency?.symbol?eventData?.currency?.symbol:"$"} ${eventData?.price}`}</p>
               ) : (
                 <p className="text-green-500">Free</p>
               )}

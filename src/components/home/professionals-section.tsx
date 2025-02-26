@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import Image from "next/image";
 
 import { Button } from "../ui/button";
@@ -8,6 +8,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import ExpertCard from "../expert-card";
 import { Hosts, Professions } from "@/services/api";
+import { useRouter } from "next/navigation";
 
 type Professional= {
   _id: string;
@@ -87,6 +88,17 @@ export default function ProfessionalsSection() {
   //     getProfessionals(id, "profession_id");
   //   }
   // };
+    const router = useRouter();
+    const [isPending, startTransition] = useTransition();
+  
+     const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+       e.preventDefault();
+  console.log("kkkkkkkkkkkkkkkkkk");
+  
+       startTransition(() => {
+         router.push(`/experts`); 
+       });
+     };
   useEffect(() => {
     // getProfessionals("","search");
     getProfessions();
@@ -98,11 +110,8 @@ getProfessionals()
   return (
     <section className="px-4 md:px-7 lg:px-10 pt-[91px] pb-[55px]">
       <h5 className="text-center text-xl md:text-[28px]/[51px] font-bold capitalize">
-        
         {/* <span className="text-primary">1.5k+</span> sp */}
-        Search among Our
-        Experts and
-        find your favorite Expert
+        Search among Our Experts and find your favorite Expert
       </h5>
       <div className="flex flex-col md:flex-row gap-4 items-center justify-center mt-4">
         <div className="bg-destructive-foreground rounded-[10px] py-1.5 px-2 md:px-4 flex gap-3 items-center max-w-[567px] w-full">
@@ -137,7 +146,8 @@ getProfessionals()
           className={cn(
             "bg-gray dark:bg-destructive-foreground dark:text-white font-roboto text-sm/normal font-medium capitalize py-2.5 md:py-5 px-3.5 md:px-7 leading-normal rounded-[12px] h-fit hover:text-white shadow-none",
             {
-              "bg-primary/35 dark:bg-primary/75 text-primary": category === true,
+              "bg-primary/35 dark:bg-primary/75 text-primary":
+                category === true,
             }
           )}
         >
@@ -165,7 +175,10 @@ getProfessionals()
           <h3 className="text-sm md:text-2xl/[215%] capitalize font-bold">
             Discover to the world’s Top Experts
           </h3>
-          <Link className="text-primary font-medium text-xs md:text-sm" href={"/experts"}>
+          <Link
+            className="text-primary font-medium text-xs md:text-sm"
+            href={"/experts"}
+          >
             View All
           </Link>
         </div>
@@ -175,8 +188,11 @@ getProfessionals()
           ))}
         </div>
         <div className="flex justify-center mt-8 md:mt-16">
-          <Button className="text-white text-sm md:text-lg/[150%] font-semibold py-3 md:py-[18px] px-4 md:px-7 rounded md:rounded-[14px] h-fit">
-            <Link href={"/experts"}>Explore Experts</Link>
+          <Button disabled={isPending} className="text-white text-sm md:text-lg/[150%] font-semibold py-3 md:py-[18px] px-4 md:px-7 rounded md:rounded-[14px] h-fit">
+            <Link onClick={handleClick} href={"/experts"}>
+              {" "}
+              {isPending ? "Loading..." : "Explore Experts"}
+            </Link>
           </Button>
         </div>
       </div>

@@ -204,8 +204,8 @@ const makePayment=async()=>{
           ? service?.online_pricing
           : 0,
       };
-     const currency = service?.currency.code
-       ? service?.currency.code
+     const currency = service?.currency?.code
+       ? service?.currency?.code
        : "INR";
     await handlePayment(
       dat,
@@ -344,38 +344,41 @@ const makePayment=async()=>{
     // }
   };
 
-  const bookMeeting=async()=>{
-try {
-  const session = await getSession();
+  const bookMeeting = async () => {
+    try {
+      setIsProcessing(true);
+      const session = await getSession();
 
-  if (!session || !session.accessToken) {
-    throw new Error("User session not found or accessToken missing");
-  }
-  const mtTime =
-    selectedDate && selectedSlot
-      ? convertToISOString(selectedDate, selectedSlot)
-      : "";
-  const postData = {
-    host_id: service.user_id,
-    meeting_time: mtTime,
-    meeting_type: "Online",
-    meeting_description: service.name,
-    service_id: service._id,
-    razorpay_payment_id: response.razorpay_order_id,
-    email: response.email,
-    phone_number: response.phone_number,
+      if (!session || !session.accessToken) {
+        throw new Error("User session not found or accessToken missing");
+      }
+      const mtTime =
+        selectedDate && selectedSlot
+          ? convertToISOString(selectedDate, selectedSlot)
+          : "";
+      const postData = {
+        host_id: service.user_id,
+        meeting_time: mtTime,
+        meeting_type: "Online",
+        meeting_description: service.name,
+        service_id: service._id,
+        razorpay_payment_id: response.razorpay_order_id,
+        email: response.email,
+        phone_number: response.phone_number,
+      };
+      const res = await bookMeetingApi(postData, session.accessToken);
+      if (res.success) {
+        alert(res.message);
+        router.push(`/${username}`);
+      }
+    } catch (error) {
+      console.error(error);
+
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setIsProcessing(false);
+    }
   };
-  const res = await bookMeetingApi(postData, session.accessToken);
-  if (res.success) {
-    alert(res.message);
-    router.push(`/${username}`);
-  }
-} catch (error) {
-  console.error(error);
-
-  alert("Something went wrong. Please try again.");
-}
-  }
   
   useEffect(() => {
     getService();
@@ -386,7 +389,7 @@ try {
     <div className="px-4 md:px-7 lg:px-10 w-full relative flex flex-col justify-between">
       <Script src="https://checkout.razorpay.com/v1/checkout.js" />
       <div>
-        <Link href={"/"} className="flex gap-1.5 items-center py-5">
+        <Link href={`/${username}`} className="flex gap-1.5 items-center py-5">
           <Image
             src={"/images/back-icon.svg"}
             alt="Back Icon"
@@ -429,7 +432,7 @@ try {
                       $ {(service.online_pricing * 1.2).toFixed(2)}
                     </p> */}
                     <p className="text-base/5 font-bold">
-                      {service.currency.symbol?service.currency.symbol:"$"}{service.online_pricing.toFixed(2)}
+                      {service?.currency?.symbol?service?.currency?.symbol:"$"}{service.online_pricing.toFixed(2)}
                     </p>
                   </div>
                 </div>
