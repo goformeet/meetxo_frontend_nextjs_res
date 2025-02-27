@@ -4,17 +4,17 @@ import React from 'react'
 export default function SupportSection() {
     const supportItem = [
         {
-            icon: '/images/chat-icon.png',
+            icon: '/icons/expert_icon.png',
             title: 'Personalized Expert Profile.',
             paragraph: 'Your name, your brand. Get a unique MeetXO profile that showcases your expertise, experience, and availability—all in one place.'
         },
         {
-            icon: '/images/head-phone-icon.png',
+            icon: '/icons/pay_icon.png',
             title: 'Seamless Booking & Payments',
             paragraph: 'No hassle, no back-and-forth. Clients can book sessions instantly, and payments are securely processed through MeetXO.'
         },
         {
-            icon: '/images/send-icon.png',
+            icon: '/icons/web_icon.png',
             title: 'Global Visibility & Growth.',
             paragraph: 'Expand your reach beyond borders. Connect with individuals and businesses worldwide looking for your expertise.'
         }
