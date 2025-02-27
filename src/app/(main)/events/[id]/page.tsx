@@ -281,103 +281,69 @@ const getUser=async()=>{
  const session = await getSession();
  setUser(session as Session);
 }
-useEffect(()=>{
-  getUser()
-},[])
- 
+
+
+
+
+
+
+
+
+
+  
+  useEffect(() => {
+    getUser();
+  }, []);
   return (
-    <main className="px-4 md:px-7 lg:px-10 max-w-5xl mx-auto py-20">
-      <div className="flex gap-2.5 items-center mb-2 bg-primary-light rounded-md w-fit py-1 px-2">
-        <Script src="https://checkout.razorpay.com/v1/checkout.js" />
-        <Image
-          src={"/images/event-label.svg"}
-          height={18}
-          width={18}
-          alt="Event Label"
-        />
-        <p className="text-sm font-semibold text-[#1D8FD1]">Private Event</p>
-      </div>
-      <Image
-        src={eventData?.image ? eventData?.image : "/images/event-item.png"}
-        alt={"event banner"}
-        width={1435}
-        height={655}
-        className="h-[400px] w-auto max-w-full object-cover rounded-[10px] mb-4"
-      />
-      <h1 className="text-xl sm:text-2xl md:text-5xl font-bold mb-3">
-        {eventData?.title}
-      </h1>
-      <div className="flex gap-3 items-center flex-shrink-0 mb-3">
-        <div className="flex flex-shrink-0 flex-col justify-center gap-0.5 rounded-lg overflow-hidden border border-[#DEDEDF] bg-[#F6F6F6] text-muted-foreground font-bold text-sm">
-          <p className="px-3 pt-1 text-xs">
-            {" "}
-            {formatDateTime(eventData?.start_date ?? "").month}
-          </p>
-          <div className="pb-1 bg-white">
-            <p className="text-center"> </p>
+    <main className="px-4 md:px-7 lg:px-10 max-w-8xl mx-auto py-20">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        {/* Left Section: Banner & About Event */}
+        <div className="flex flex-col gap-6">
+          <div className="w-full max-w-[1066px] aspect-[1066/418]">
+            <Image
+              src={
+                eventData?.image ? eventData?.image : "/images/event-item.png"
+              }
+              alt="event banner"
+              width={1066}
+              height={418}
+              className="w-full h-full object-cover rounded-[10px]"
+            />
+          </div>
+          <div>
+            <p className="font-semibold mb-4">About the event:</p>
+            <p className="whitespace-pre-line">{eventData?.description}</p>
           </div>
         </div>
-        <div className="flex flex-col gap-0.5 text-muted-foreground text-sm">
-          <p className="font-bold">
-            {" "}
-            {new Date(eventData?.start_date ?? "").toLocaleDateString("en-US", {
-              weekday: "short",
-            })}
-            ,{" "}
-            {new Date(eventData?.start_date ?? "").toLocaleDateString("en-US", {
-              day: "2-digit",
-              month: "short",
-            })}
-          </p>
-          <p>
-            {" "}
-            {new Date(eventData?.start_date ?? "").toLocaleString("en-US", {
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: true,
-            })}{" "}
-            (GMT +05:30)
-          </p>
-        </div>
-      </div>
-      <div className="flex items-center gap-2.5 mb-3">
-        <div className="border border-muted-foreground/70 w-fit p-2 rounded-lg">
-          <Image
-            src={"/images/google-meet-icon.png"}
-            alt="Google Meet"
-            width={50}
-            height={50}
-            className="h-6 w-6"
-          />
-        </div>
-        <p className="text-base font-semibold text-muted-foreground">
-          Google Meet
-        </p>
-      </div>
-      {/*       <div className="flex items-center gap-2.5 mb-3">
-        <Avatar className="h-8 w-8">
-          <AvatarImage
-            src="/images/avatar.svg"
-            className="object-cover object-center"
-          />
-        </Avatar>
-        <p className="text-base font-semibold text-muted-foreground">
-          Hosted By Sen Janson
-        </p>
-      </div> */}
-      <div className="rounded-lg border border-muted-foreground/70 overflow-hidden max-w-md">
-        <p className="p-2 font-semibold bg-primary-light">Registration</p>
-        <div className="p-2">
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-muted rounded-lg">
-              <Image
-                alt="Calander Icon"
-                src={"/images/calander-icon-rounded.svg"}
-                height={24}
-                width={24}
-              />
+
+        {/* Right Section: Event Details & Registration */}
+        <div>
+          <div className="flex gap-2.5 items-center mb-2 bg-primary-light rounded-md w-fit py-1 px-2">
+            <Script src="https://checkout.razorpay.com/v1/checkout.js" />
+            <Image
+              src="/images/event-label.svg"
+              height={18}
+              width={18}
+              alt="Event Label"
+            />
+            <p className="text-sm font-semibold text-[#1D8FD1]">
+              Private Event
+            </p>
+          </div>
+          <h1 className="text-xl sm:text-2xl md:text-4xl font-bold mb-3">
+            {eventData?.title}
+          </h1>
+          <div className="flex gap-3 items-center flex-shrink-0 mb-3">
+            <div className="flex flex-shrink-0 flex-col justify-center gap-0.5 rounded-lg overflow-hidden border border-[#DEDEDF] bg-[#F6F6F6] text-muted-foreground font-bold text-sm">
+              <p className="px-3 pt-1 text-xs">
+                {formatDateTime(eventData?.start_date ?? "").month}
+              </p>
+              <div className="pb-1 bg-white">
+                <p className="text-center"> </p>
+              </div>
             </div>
-            <div className="flex flex-col gap-0.5 text-muted-foreground text-xs">
+
+            <div className="flex flex-col gap-0.5 text-muted-foreground text-sm">
               <p className="font-bold">
                 {" "}
                 {new Date(eventData?.start_date ?? "").toLocaleDateString(
@@ -396,6 +362,7 @@ useEffect(()=>{
                 )}
               </p>
               <p>
+                {" "}
                 {new Date(eventData?.start_date ?? "").toLocaleString("en-US", {
                   hour: "2-digit",
                   minute: "2-digit",
@@ -403,42 +370,88 @@ useEffect(()=>{
                 })}{" "}
                 (GMT +05:30)
               </p>
-              {eventData?.price ? (
-                <p>{`${eventData?.currency.symbol} ${eventData?.price}`}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2.5 mb-3">
+            <div className="border border-muted-foreground/70 w-fit p-2 rounded-lg">
+              <Image
+                src="/images/google-meet-icon.png"
+                alt="Google Meet"
+                width={50}
+                height={50}
+                className="h-6 w-6"
+              />
+            </div>
+            <p className="text-base font-semibold text-muted-foreground">
+              Google Meet
+            </p>
+          </div>
+          <div className="rounded-lg border border-muted-foreground/70 overflow-hidden max-w-md">
+            <p className="p-2 font-semibold bg-primary-light">Registration</p>
+            <div className="p-2">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 bg-muted rounded-lg">
+                  <Image
+                    alt="Calander Icon"
+                    src="/images/calander-icon-rounded.svg"
+                    height={24}
+                    width={24}
+                  />
+                </div>
+                <div className="flex flex-col gap-0.5 text-muted-foreground text-xs">
+                  <p className="font-bold">
+                    {new Date(eventData?.start_date ?? "").toLocaleDateString(
+                      "en-US",
+                      {
+                        weekday: "short",
+                      }
+                    )}
+                    ,{" "}
+                    {new Date(eventData?.start_date ?? "").toLocaleDateString(
+                      "en-US",
+                      {
+                        day: "2-digit",
+                        month: "short",
+                      }
+                    )}
+                  </p>
+                  <p>
+                    {new Date(eventData?.start_date ?? "").toLocaleString(
+                      "en-US",
+                      {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                      }
+                    )}{" "}
+                    (GMT +05:30)
+                  </p>
+                  {eventData?.price ? (
+                    <p>{`${eventData?.currency.symbol} ${eventData?.price}`}</p>
+                  ) : (
+                    <p className="text-green-500">Free</p>
+                  )}
+                </div>
+              </div>
+              <div className="h-[1px] w-full bg-muted-foreground/50 my-3"></div>
+              <p className="text-base font-semibold mb-3">
+                Welcome! To join the event, please register below.
+              </p>
+              {isProcessing ? (
+                <Button disabled className="text-white w-full">
+                  Processing...
+                </Button>
               ) : (
-                <p className="text-green-500">Free</p>
+                <Button
+                  onClick={() => registerNow()}
+                  className="text-white w-full"
+                >
+                  Register Now
+                </Button>
               )}
             </div>
           </div>
-          <div className="h-[1px] w-full bg-muted-foreground/50 my-3"></div>
-          <p className="text-base font-semibold mb-3">
-            Welcome! To join the event, please register below.
-          </p>
-          {/* <Button onClick={() => setOpen(true)} className="text-white w-full"> */}
-          {isProcessing ? (
-            <Button disabled={true} className="text-white w-full">
-              Processing...
-            </Button>
-          ) : (
-            <Button onClick={() => registerNow()} className="text-white w-full">
-              Register Now
-            </Button>
-          )}
-        </div>
-      </div>
-      <div className="mt-10">
-        <p className="font-semibold mb-4">About the event:</p>
-        <p className="whitespace-pre-line">{eventData?.description}</p>
-      </div>
-      {/* {user ? (
-        <EventBookingModal
-          open={open}
-          setOpen={setOpen}
-          register={register}
-          isProcessing={isProcessing}
-        />
-      ) : ( */}
-      <LoginModal
+          <LoginModal
         open={open}
         setOpen={setOpen}
         step={step}
@@ -448,8 +461,180 @@ useEffect(()=>{
         phone={phone}
         loading={loading}
       />
-      {/* )} */}
-      <SucessPopup open={sucessOpen} setOpen={setSucessOpen} />
+          <SucessPopup open={sucessOpen} setOpen={setSucessOpen} />
+        </div>
+      </div>
     </main>
   );
+// useEffect(()=>{
+//   getUser()
+// },[])
+ 
+//   return (
+//     <main className="px-4 md:px-7 lg:px-10 max-w-5xl mx-auto py-20">
+//       <div className="flex gap-2.5 items-center mb-2 bg-primary-light rounded-md w-fit py-1 px-2">
+//         <Script src="https://checkout.razorpay.com/v1/checkout.js" />
+//         <Image
+//           src={"/images/event-label.svg"}
+//           height={18}
+//           width={18}
+//           alt="Event Label"
+//         />
+//         <p className="text-sm font-semibold text-[#1D8FD1]">Private Event</p>
+//       </div>
+//       <Image
+//         src={eventData?.image ? eventData?.image : "/images/event-item.png"}
+//         alt={"event banner"}
+//         width={1435}
+//         height={655}
+//         className="h-[400px] w-auto max-w-full object-cover rounded-[10px] mb-4"
+//       />
+//       <h1 className="text-xl sm:text-2xl md:text-5xl font-bold mb-3">
+//         {eventData?.title}
+//       </h1>
+//       <div className="flex gap-3 items-center flex-shrink-0 mb-3">
+//         <div className="flex flex-shrink-0 flex-col justify-center gap-0.5 rounded-lg overflow-hidden border border-[#DEDEDF] bg-[#F6F6F6] text-muted-foreground font-bold text-sm">
+//           <p className="px-3 pt-1 text-xs">
+//             {" "}
+//             {formatDateTime(eventData?.start_date ?? "").month}
+//           </p>
+//           <div className="pb-1 bg-white">
+//             <p className="text-center"> </p>
+//           </div>
+//         </div>
+//         <div className="flex flex-col gap-0.5 text-muted-foreground text-sm">
+//           <p className="font-bold">
+//             {" "}
+//             {new Date(eventData?.start_date ?? "").toLocaleDateString("en-US", {
+//               weekday: "short",
+//             })}
+//             ,{" "}
+//             {new Date(eventData?.start_date ?? "").toLocaleDateString("en-US", {
+//               day: "2-digit",
+//               month: "short",
+//             })}
+//           </p>
+//           <p>
+//             {" "}
+//             {new Date(eventData?.start_date ?? "").toLocaleString("en-US", {
+//               hour: "2-digit",
+//               minute: "2-digit",
+//               hour12: true,
+//             })}{" "}
+//             (GMT +05:30)
+//           </p>
+//         </div>
+//       </div>
+//       <div className="flex items-center gap-2.5 mb-3">
+//         <div className="border border-muted-foreground/70 w-fit p-2 rounded-lg">
+//           <Image
+//             src={"/images/google-meet-icon.png"}
+//             alt="Google Meet"
+//             width={50}
+//             height={50}
+//             className="h-6 w-6"
+//           />
+//         </div>
+//         <p className="text-base font-semibold text-muted-foreground">
+//           Google Meet
+//         </p>
+//       </div>
+//       {/*       <div className="flex items-center gap-2.5 mb-3">
+//         <Avatar className="h-8 w-8">
+//           <AvatarImage
+//             src="/images/avatar.svg"
+//             className="object-cover object-center"
+//           />
+//         </Avatar>
+//         <p className="text-base font-semibold text-muted-foreground">
+//           Hosted By Sen Janson
+//         </p>
+//       </div> */}
+//       <div className="rounded-lg border border-muted-foreground/70 overflow-hidden max-w-md">
+//         <p className="p-2 font-semibold bg-primary-light">Registration</p>
+//         <div className="p-2">
+//           <div className="flex items-center gap-2.5">
+//             <div className="p-2 bg-muted rounded-lg">
+//               <Image
+//                 alt="Calander Icon"
+//                 src={"/images/calander-icon-rounded.svg"}
+//                 height={24}
+//                 width={24}
+//               />
+//             </div>
+//             <div className="flex flex-col gap-0.5 text-muted-foreground text-xs">
+//               <p className="font-bold">
+//                 {" "}
+//                 {new Date(eventData?.start_date ?? "").toLocaleDateString(
+//                   "en-US",
+//                   {
+//                     weekday: "short",
+//                   }
+//                 )}
+//                 ,{" "}
+//                 {new Date(eventData?.start_date ?? "").toLocaleDateString(
+//                   "en-US",
+//                   {
+//                     day: "2-digit",
+//                     month: "short",
+//                   }
+//                 )}
+//               </p>
+//               <p>
+//                 {new Date(eventData?.start_date ?? "").toLocaleString("en-US", {
+//                   hour: "2-digit",
+//                   minute: "2-digit",
+//                   hour12: true,
+//                 })}{" "}
+//                 (GMT +05:30)
+//               </p>
+//               {eventData?.price ? (
+//                 <p>{`${eventData?.currency.symbol} ${eventData?.price}`}</p>
+//               ) : (
+//                 <p className="text-green-500">Free</p>
+//               )}
+//             </div>
+//           </div>
+//           <div className="h-[1px] w-full bg-muted-foreground/50 my-3"></div>
+//           <p className="text-base font-semibold mb-3">
+//             Welcome! To join the event, please register below.
+//           </p>
+//           {/* <Button onClick={() => setOpen(true)} className="text-white w-full"> */}
+//           {isProcessing ? (
+//             <Button disabled={true} className="text-white w-full">
+//               Processing...
+//             </Button>
+//           ) : (
+//             <Button onClick={() => registerNow()} className="text-white w-full">
+//               Register Now
+//             </Button>
+//           )}
+//         </div>
+//       </div>
+//       <div className="mt-10">
+//         <p className="font-semibold mb-4">About the event:</p>
+//         <p className="whitespace-pre-line">{eventData?.description}</p>
+//       </div>
+//       {/* {user ? (
+//         <EventBookingModal
+//           open={open}
+//           setOpen={setOpen}
+//           register={register}
+//           isProcessing={isProcessing}
+//         />
+//       ) : ( */}
+//       <LoginModal
+//         open={open}
+//         setOpen={setOpen}
+//         step={step}
+//         handlePhoneSubmit={handlePhoneSubmit}
+//         handleOtpSubmit={handleOtpSubmit}
+//         handleDetailsSubmit={handleDetailsSubmit}
+//         phone={phone}
+//         loading={loading}
+//       />
+//       {/* )} */}
+//       <SucessPopup open={sucessOpen} setOpen={setSucessOpen} />
+//     </main>
+//   );
 }
