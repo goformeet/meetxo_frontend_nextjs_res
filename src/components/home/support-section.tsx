@@ -20,7 +20,9 @@ export default function SupportSection() {
         }
     ];
   return (
-      <section className="px-4 md:px-7 lg:px-10 bg-[url('/images/customer-support.png')] bg-cover bg-center pt-[92px] pb-[60px]">
+      // <section className="px-4 md:px-7 lg:px-10 bg-[url('/images/customer-support.png')] bg-cover bg-center pt-[92px] pb-[60px]">
+          <section className="px-4 md:px-7 lg:px-10 bg-[url('/images/customer-support.png')] bg-cover bg-center pt-[92px] pb-[60px] border-4 border-white rounded-[50px] mx-2 lg:mx-8">
+
           <div className="flex flex-col gap-14 max-w-[872px]">
               <h3 className="text-white text-3xl md:text-[56px]/[67px]">
                   Why Experts Love MeetXO for Growth and Success
