@@ -61,7 +61,7 @@ export default function Navigation() {
           </Link>
         </aside>
         <aside className='flex shrink-0 items-center gap-7 relative'>
-          <BecomeExpertButton />
+{/*           <BecomeExpertButton />  */}
           <LoginButton />
 
           {user?.name && (
