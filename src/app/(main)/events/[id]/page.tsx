@@ -300,8 +300,8 @@ useEffect(()=>{
       <Image
         src={eventData?.image ? eventData?.image : "/images/event-item.png"}
         alt={"event banner"}
-        width={287}
-        height={131}
+        width={1435}
+        height={655}
         className="h-[400px] w-auto max-w-full object-cover rounded-[10px] mb-4"
       />
       <h1 className="text-xl sm:text-2xl md:text-5xl font-bold mb-3">
