@@ -153,12 +153,16 @@ const Page = () => {
           {step === "otp" && (
             <p className="text-center text-muted-foreground my-7 font-plus-jakarta-sans text-sm font-medium leading-[22px] tracking-[0.07px]">
               We have just sent you 4 digit code via your Mobile{" "}
-              {maskPhoneNumber(phone?phone:"")}
+              {maskPhoneNumber(phone ? phone : "")}
             </p>
           )}
           {renderForm(step)}
         </div>
-        <SucessPopup open={open} setOpen={setOpen} />
+        <SucessPopup
+          open={open}
+          setOpen={setOpen}
+          message={"Successfully Logged in"}
+        />
       </div>
     );
 }

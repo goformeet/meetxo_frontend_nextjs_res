@@ -12,7 +12,7 @@ export default function LoginButton() {
    const pathname = usePathname();
   const getUser = async () => {
     const session = await getSession();
-    console.log("🚀 ~ getUser ~ session:", session)
+    // console.log("🚀 ~ getUser ~ session:", session)
     setUser(session as Session);
     setLoading(false);
   };

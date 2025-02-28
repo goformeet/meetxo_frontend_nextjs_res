@@ -62,7 +62,7 @@ export default function Page() {
       const [step, setStep] = useState<"phone" | "otp" | "details">("phone");
       const [loading,setLoading]=useState(false)
    const [user, setUser] = useState<Session | null>(null);
-
+ const [successMessage, setSuccessMessage] = useState("");
       const [details, setDetails] = useState<{
         userName: string;
         email: string;
@@ -75,7 +75,7 @@ export default function Page() {
       setPhone(phone);
 
       try {
-        setLoading(true)
+        setLoading(true);
         const res = await sendOtp(phone);
         if (res.success) {
           setStep("otp");
@@ -86,8 +86,8 @@ export default function Page() {
         console.error(error);
 
         alert("Something went wrong");
-      }finally{
-         setLoading(false);
+      } finally {
+        setLoading(false);
       }
     };
    
@@ -183,10 +183,13 @@ const bookEvent = async () => {
       booking_amount: eventData?.price || 0,
       booking_status: "pending",
     };
-    await eventBooking(data, session.accessToken);
-
-    setSucessOpen(true);
-    router.push("/");
+    const res=await eventBooking(data, session.accessToken);
+    if(res.success){
+      setSuccessMessage(res.message)
+  setSucessOpen(true);
+    }
+  
+   
   } catch (error) {
     console.log(error);
   }
@@ -216,8 +219,8 @@ const makePayment=async()=>{
         name: details.userName||"",
         online_pricing: eventData?.price ? eventData?.price : 0,
       };
-     const currency = eventData?.currency.code
-       ? eventData?.currency.code
+     const currency = eventData?.currency?.code
+       ? eventData?.currency?.code
        : "INR";
     await handlePayment(
       dat,
@@ -258,6 +261,15 @@ const registerNow = async () => {
 function replaceSpacesWithUnderscore(input: string) {
   return input.replace(/\s+/g, "_") ?? '';
 }
+useEffect(() => {
+  if (sucessOpen) {
+    const timer = setTimeout(() => {
+      router.push(`/`)
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }
+}, [sucessOpen]);
 useEffect(() => {
   const storedData = localStorage.getItem("eventData");
 
@@ -427,7 +439,11 @@ const getUser=async()=>{
                     (GMT +05:30)
                   </p>
                   {eventData?.price ? (
-                    <p>{`${eventData?.currency.symbol} ${eventData?.price}`}</p>
+                    <p>{`${
+                      eventData?.currency?.symbol
+                        ? eventData?.currency?.symbol
+                        : "$"
+                    } ${eventData?.price}`}</p>
                   ) : (
                     <p className="text-green-500">Free</p>
                   )}
@@ -452,16 +468,16 @@ const getUser=async()=>{
             </div>
           </div>
           <LoginModal
-        open={open}
-        setOpen={setOpen}
-        step={step}
-        handlePhoneSubmit={handlePhoneSubmit}
-        handleOtpSubmit={handleOtpSubmit}
-        handleDetailsSubmit={handleDetailsSubmit}
-        phone={phone}
-        loading={loading}
-      />
-          <SucessPopup open={sucessOpen} setOpen={setSucessOpen} />
+            open={open}
+            setOpen={setOpen}
+            step={step}
+            handlePhoneSubmit={handlePhoneSubmit}
+            handleOtpSubmit={handleOtpSubmit}
+            handleDetailsSubmit={handleDetailsSubmit}
+            phone={phone}
+            loading={loading}
+          />
+          <SucessPopup open={sucessOpen} setOpen={setSucessOpen} message={successMessage} />
         </div>
       </div>
     </main>

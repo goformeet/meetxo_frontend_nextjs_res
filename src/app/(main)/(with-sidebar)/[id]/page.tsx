@@ -7,14 +7,54 @@ import { Metadata } from "next";
 import { createCanvas, loadImage } from "canvas";
 import AWS from "aws-sdk";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
+
+interface ApiSocialMediaLink {
+  platform: string;
+  url: string;
+  _id: string;
+}
+
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   region: process.env.AWS_REGION,
 });
-
+const socialMediaIcons = [
+  {
+    name: "Linkedin",
+    icon: "https://cdn-icons-png.flaticon.com/512/174/174857.png",
+  },
+  {
+    name: "Instagram",
+    icon: "https://cdn-icons-png.flaticon.com/512/2111/2111463.png",
+  },
+  {
+    name: "Facebook",
+    icon: "https://cdn-icons-png.flaticon.com/512/5968/5968764.png",
+  },
+  {
+    name: "X",
+    icon: "https://cdn-icons-png.flaticon.com/512/5968/5968830.png",
+  },
+  {
+    name: "Youtube",
+    icon: "https://cdn-icons-png.flaticon.com/512/1384/1384060.png",
+  },
+  {
+    name: "Github",
+    icon: "https://cdn-icons-png.flaticon.com/512/733/733609.png",
+  },
+  {
+    name: "Behance",
+    icon: "https://cdn-icons-png.flaticon.com/512/145/145799.png",
+  },
+  {
+    name: "Tiktok",
+    icon: "https://cdn-icons-png.flaticon.com/512/3046/3046124.png",
+  },
+];
 async function uploadToS3(buffer: Buffer, key: string): Promise<string> {
   const params = {
     Bucket: process.env.AWS_S3_BUCKET_NAME!,
@@ -80,7 +120,7 @@ type Params = Promise<{ id: string }>
 
 export async function generateMetadata({ params }: {params: Params}): Promise<Metadata> {
   const id = decodeURIComponent((await params).id);
-  const res = await Hosts({ search: id });
+  const res = await Hosts({ user_name: id });
 
   if (!res.success || !res.hosts.hosts[0]) {
     return {
@@ -117,27 +157,46 @@ export async function generateMetadata({ params }: {params: Params}): Promise<Me
 
 export default async function Page({ params }: {params: Params}) {
   const id = decodeURIComponent((await params).id);
-  const res = await Hosts({ search: id });
+  const res = await Hosts({ user_name: id });
 
   if (!res.success || !res.hosts.hosts[0]) {
-    return notFound();
+    redirect("/")
   }
 
   const data = res.hosts.hosts[0];
+  const apiSocialMediaLinks = res?.hosts?.hosts[0]?.social_media_links?res?.hosts?.hosts[0]?.social_media_links:[]
+ const filteredSocialMedia = socialMediaIcons
+   .filter((icon) =>
+     apiSocialMediaLinks.some(
+       (apiLink: ApiSocialMediaLink) => apiLink.platform === icon.name
+     )
+   )
+   .map((icon) => ({
+     ...icon,
+     url:
+       apiSocialMediaLinks.find(
+         (apiLink: ApiSocialMediaLink) => apiLink.platform === icon.name
+       )?.url || "#",
+   }));
+
+
   const tabHeaders = [{ title: "Overview", value: "overview" }];
 
   return (
     <div className="flex-grow mx-4 md:mx-7 lg:mx-10">
       <div className="relative pb-20 md:pb-[110px]">
-        <Image 
-          src={data?.cover_image || "https://res.cloudinary.com/djocenrah/image/upload/v1739182656/Untitled_design_33_esnuv5.png"}
+        <Image
+          src={
+            data?.cover_image ||
+            "https://res.cloudinary.com/djocenrah/image/upload/v1739182656/Untitled_design_33_esnuv5.png"
+          }
           alt="Expert cover image"
           width={1318}
           height={180}
           className="w-full h-28 md:h-[180px] object-cover object-center"
         />
 
-        <div className="flex flex-col md:flex-row gap-2 md:gap-4 absolute bottom-0 md:left-8 md:items-center">
+        <div className="flex flex-col md:flex-row gap-2 md:gap-4 absolute bottom-0 md:left-8 md:items-center justify-between">
           <Avatar className="h-20 w-20 md:h-[190px] md:w-[190px] border-4 border-background">
             <AvatarImage
               src={data.profile_image}
@@ -147,12 +206,35 @@ export default async function Page({ params }: {params: Params}) {
               <Skeleton className="h-full w-full rounded-full" />
             </AvatarFallback>
           </Avatar>
+          <div>
 
+            
+          </div>
           <div className="md:mt-16 flex-shrink-0">
-            <h1 className="text-base md:text-[31px]/9 font-bold">{data?.name}</h1>
+            <h1 className="text-base md:text-[31px]/9 font-bold">
+              {data?.name}
+            </h1>
             <p className="md:mt-1 text-sm md:text-lg/7">
               {data?.profession_sub_category_id?.title}
             </p>
+          </div>
+          <div className="flex gap-3 md:gap-4 items-end">
+            {filteredSocialMedia.map((social, index) => (
+              <a
+                key={index}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Image
+                  src={social.icon}
+                  alt={social.name}
+                  width={24}
+                  height={24}
+                  className="w-6 h-6 md:w-8 md:h-8 object-contain transition-transform hover:scale-110"
+                />
+              </a>
+            ))}
           </div>
         </div>
       </div>
@@ -175,12 +257,9 @@ export default async function Page({ params }: {params: Params}) {
             <div className="py-3 md:py-4 px-4 md:px-6 mt-4 md:mt-6 rounded-lg md:rounded-[16px] border border-[#F1F2F4] text-base/7 md:text-lg/8 font-medium">
               <p>{data?.about_me}</p>
             </div>
-            
+
             {data?.user_id && (
-              <ExpertServices
-                id={data.user_id._id}
-                username={data.username}
-              />
+              <ExpertServices id={data.user_id._id} username={data.username} />
             )}
           </TabsContent>
         </Tabs>

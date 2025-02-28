@@ -48,9 +48,9 @@ type Props = {
   price: number;
   currency: {
     symbol: string;
-    code:string
+    code: string;
   };
-  allSlots: { stime: string; etime: string }[];
+  allSlots: { stime: string; etime: string; is_available:boolean }[];
 };
 // Use forwardRef to allow the parent to trigger submission
 const BookingForm = forwardRef<BookingFormRef, Props>(
@@ -85,7 +85,7 @@ const BookingForm = forwardRef<BookingFormRef, Props>(
     return (
       <div className="lg:w-2/5 rounded-[16px] border border-[#E3E6EA] p-5 md:p-[26px]">
         <h3 className="text-lg md:text-2xl/8 font-extrabold">
-          Breaking into Product Management ({currency.symbol?currency.symbol:"$"}{price})
+          Breaking into Product Management ({currency?.symbol?currency?.symbol:"$"}{price})
         </h3>
 
         <div className="bg-primary-light rounded-[12px] flex flex-col gap-8 md:gap-0 md:flex-row md:items-center justify-between mt-6 p-3.5 md:p-4">
