@@ -188,26 +188,30 @@ export default function DateAndSlotSelection({
             <Button
               key={index}
               onClick={() => {
-                  if (slot.is_available) {
-                    handleSlotClick(slot.slot);
-                  }
+                if (slot.is_available) {
+                  handleSlotClick(slot.slot);
+                }
               }}
               variant="link"
+              
               className={cn(
-                "py-4 px-9 inline-flex justify-center items-center rounded-[9px] border border-[#E3E6EA] h-fit hover:no-underline text-foreground",
+                "w-35 h-16 flex flex-col justify-center items-center rounded-[9px] border border-[#E3E6EA] hover:no-underline text-foreground", // ✅ Fixed width & height
                 { "border-primary text-primary": slot.slot === selectedSlot },
                 {
-                  "text-red-600 border-red-400 opacity-50 cursor-not-allowed":
+                  "text-red-600 border-red-400  cursor-not-allowed":
                     !slot.is_available,
                 }
               )}
             >
-              <p className="text-base/6 text-center font-bold">{slot.slot}</p>
-              {/* {!slot.is_available && (
-                <p className="text-xs text-red-500 font-medium mt-1">
+              <p className="text-sm font-bold text-center">{slot.slot}</p>{" "}
+              {/* ✅ Set uniform font size */}
+              {!slot.is_available && (
+                <p className="text-[10px] text-red-500 font-medium mt-0.5">
+                  {" "}
+                  {/* ✅ Smaller "Not Available" text */}
                   Not Available
                 </p>
-              )} */}
+              )}
             </Button>
           ))}
         </div>

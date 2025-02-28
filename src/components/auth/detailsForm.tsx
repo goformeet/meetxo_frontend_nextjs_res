@@ -17,8 +17,8 @@ import { Input } from "@/components/ui/input"
 import clsx from "clsx";
 
 const FormSchema = z.object({
-  userName: z.string().min(6, {
-    message: 'Your one-time password must be 6 characters.',
+  userName: z.string().min(4, {
+    message: 'Name must be minimum 4 characters.',
   }),
   email: z.string().email({
     message: 'Please enter a valid email address.',

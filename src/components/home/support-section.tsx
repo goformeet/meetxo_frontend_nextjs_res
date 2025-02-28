@@ -4,23 +4,25 @@ import React from 'react'
 export default function SupportSection() {
     const supportItem = [
         {
-            icon: '/images/chat-icon.png',
+            icon: '/icons/expert_icon.png',
             title: 'Personalized Expert Profile.',
             paragraph: 'Your name, your brand. Get a unique MeetXO profile that showcases your expertise, experience, and availability—all in one place.'
         },
         {
-            icon: '/images/head-phone-icon.png',
+            icon: '/icons/pay_icon.png',
             title: 'Seamless Booking & Payments',
             paragraph: 'No hassle, no back-and-forth. Clients can book sessions instantly, and payments are securely processed through MeetXO.'
         },
         {
-            icon: '/images/send-icon.png',
+            icon: '/icons/web_icon.png',
             title: 'Global Visibility & Growth.',
             paragraph: 'Expand your reach beyond borders. Connect with individuals and businesses worldwide looking for your expertise.'
         }
     ];
   return (
-      <section className="px-4 md:px-7 lg:px-10 bg-[url('/images/customer-support.png')] bg-cover bg-center pt-[92px] pb-[60px]">
+      // <section className="px-4 md:px-7 lg:px-10 bg-[url('/images/customer-support.png')] bg-cover bg-center pt-[92px] pb-[60px]">
+          <section className="px-4 md:px-7 lg:px-10 bg-[url('/images/customer-support.png')] bg-cover bg-center pt-[92px] pb-[60px] border-4 border-white rounded-[50px] mx-2 lg:mx-8">
+
           <div className="flex flex-col gap-14 max-w-[872px]">
               <h3 className="text-white text-3xl md:text-[56px]/[67px]">
                   Why Experts Love MeetXO for Growth and Success
