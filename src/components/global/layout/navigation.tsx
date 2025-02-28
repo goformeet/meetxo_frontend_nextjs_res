@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import MobileNavigation from './mobileNavigation';
-import BecomeExpertButton from './become-expert-button';
+// import BecomeExpertButton from './become-expert-button';
 import LoginButton from './login-button';
 import { getSession } from 'next-auth/react';
 import axios from 'axios';
@@ -61,7 +61,7 @@ export default function Navigation() {
           </Link>
         </aside>
         <aside className='flex shrink-0 items-center gap-7 relative'>
-          <BecomeExpertButton />
+{/*           <BecomeExpertButton />  */}
           <LoginButton />
 
           {user?.name && (

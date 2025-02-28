@@ -30,6 +30,7 @@ import axios from "axios";
 import { AuthData } from "@/types/authTypes";
 import { collectAuthData } from "@/app/utils/collectAuthData";
 import LoginModal from "@/components/auth/login-modal";
+import SucessPopup from "@/components/auth/successPopup";
 type ServiceType = {
   _id: string;
   user_id: string;
@@ -81,6 +82,9 @@ export default function Page() {
   const [open, setOpen] = useState(false);
   const [phone, setPhone] = useState<string>("");
   const [step, setStep] = useState<"phone" | "otp" | "details">("phone");
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+ 
   // const [details, setDetails] = useState<{
   //   userName: string;
   //   email: string;
@@ -345,34 +349,55 @@ export default function Page() {
 
   const bookMeeting = async (razId:string) => {
     try {
-     await getUser()
-     if(!user.token)alert("Please Login")
+       const session = await getSession();
+       if (!session?.accessToken) {
+         alert("Please Login");
+         return;
+       }
+
+       const profile = await User(session.accessToken);
+       if (!profile.success) {
+         alert("Failed to fetch user profile");
+         return;
+       }
       const mtTime =
         selectedDate && selectedSlot
           ? convertToISOString(selectedDate, selectedSlot)
           : "";
       const postData = {
-        host_id: service.user_id,
+        host_id: session.user.user_id,
         meeting_time: mtTime,
-        meeting_type: service.is_offline_available?"Offline":"Online",
+        meeting_type: service.is_offline_available ? "Offline" : "Online",
         meeting_description: service.name,
         service_id: service._id,
-        razorpay_payment_id: razId?razId:"",
-        email: user.email,
-        phone_number: user.phone,
+        razorpay_payment_id: razId ? razId : "",
+        email: profile.profile.email,
+        phone_number: session.user.phone ?? "",
       };
-      const res = await bookMeetingApi(postData, user.token);
+      const res = await bookMeetingApi(postData, session.accessToken);
       if (res.success) {
-        alert(res.message);
-        router.push(`/${username}`);
+        if (res.success) {
+         
+          setSuccessMessage(res.message);
+      
+          setSuccessModalOpen(true);
+        }
+      
       }
     } catch (error) {
-      console.error(error);
-
-      alert("Something went wrong. Please try again.");
+     console.error(error);
+     if (axios.isAxiosError(error)) {
+       console.error("Axios error response:", error.response);
+       if (error?.response?.data?.message)
+         alert(error?.response?.data?.message);
+     } else if (error instanceof Error) {
+       console.error("General error:", error.message);
+       alert("Something went wrong");
+     }
     }
   };
 const bookMeet = async () => {
+ 
   try {
     setIsProcessing(true);
 
@@ -393,6 +418,15 @@ const bookMeet = async () => {
     setIsProcessing(false);
   }
 };
+useEffect(() => {
+  if (successModalOpen) {
+    const timer = setTimeout(() => {
+      router.push(`/${username}`)
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }
+}, [successModalOpen]);
   useEffect(() => {
     getService();
     getExpert()
@@ -402,6 +436,11 @@ const bookMeet = async () => {
   return (
     <div className="px-4 md:px-7 lg:px-10 w-full relative flex flex-col justify-between">
       <Script src="https://checkout.razorpay.com/v1/checkout.js" />
+      <SucessPopup
+        open={successModalOpen}
+        setOpen={setSuccessModalOpen}
+        message={successMessage}
+      />
       <div>
         <Link href={"/"} className="flex gap-1.5 items-center py-5">
           <Image
@@ -447,10 +486,13 @@ const bookMeet = async () => {
                     {/* <p className="text-[#727272] text-xs/4 font-medium line-through">
                       $ {(service.online_pricing * 1.2).toFixed(2)}
                     </p> */}
-                    <p className="text-base/5 font-bold">
+                    {service.online_pricing?
+                    
+                   <p className="text-base/5 font-bold">
                       {service.currency.symbol ? service.currency.symbol : "$"}
                       {service.online_pricing.toFixed(2)}
-                    </p>
+                    </p>:<span className="text-green-700 font-bold">Free</span>}
+                   
                   </div>
                 </div>
                 <div className="md:w-1/2 py-2 md:py-[22px] px-5 md:px-10">
@@ -542,7 +584,7 @@ const bookMeet = async () => {
           <Button
             // onClick={() => formRef.current?.submitForm()}
             onClick={() => bookMeet()}
-            disabled={isProcessing }
+            disabled={isProcessing}
             className="text-white w-full md:max-w-[202px] h-[58px]"
           >
             {isProcessing ? "Processing..." : "Continue"}

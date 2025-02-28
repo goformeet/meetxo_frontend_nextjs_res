@@ -187,15 +187,27 @@ export default function DateAndSlotSelection({
           {selectedSlots.map((slot, index) => (
             <Button
               key={index}
-              onClick={() => handleSlotClick(slot.slot)}
-              disabled={!slot.is_available}
+              onClick={() => {
+                  if (slot.is_available) {
+                    handleSlotClick(slot.slot);
+                  }
+              }}
               variant="link"
               className={cn(
                 "py-4 px-9 inline-flex justify-center items-center rounded-[9px] border border-[#E3E6EA] h-fit hover:no-underline text-foreground",
-                { "border-primary text-primary": slot.slot === selectedSlot }
+                { "border-primary text-primary": slot.slot === selectedSlot },
+                {
+                  "text-red-600 border-red-400 opacity-50 cursor-not-allowed":
+                    !slot.is_available,
+                }
               )}
             >
               <p className="text-base/6 text-center font-bold">{slot.slot}</p>
+              {/* {!slot.is_available && (
+                <p className="text-xs text-red-500 font-medium mt-1">
+                  Not Available
+                </p>
+              )} */}
             </Button>
           ))}
         </div>
