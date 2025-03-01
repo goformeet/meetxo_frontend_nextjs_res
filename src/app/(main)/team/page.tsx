@@ -112,7 +112,7 @@ const Team = () => {
                     designation="Founders Office Intern"
                     goformeet="https://www.goformeet.co/surya"
                     image={images.tejas}
-                />'
+                />
 
                     <TeamImage
                     name="Carson Kruger"
@@ -126,9 +126,6 @@ const Team = () => {
                     goformeet="https://www.goformeet.co/surya"
                     image={images.naamya}
                 />
-
-            
-
 
             </div>
 
