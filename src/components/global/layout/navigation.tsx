@@ -61,6 +61,12 @@ export default function Navigation() {
           </Link>
         </aside>
         <aside className='flex shrink-0 items-center gap-7 relative'>
+           <Link href="/events" className="text-sm font-medium hover:text-primary transition-colors">
+          Events
+        </Link>
+        <Link href="/expert" className="text-sm font-medium hover:text-primary transition-colors">
+          Experts
+        </Link>
 {/*           <BecomeExpertButton />  */}
           <LoginButton />
 
