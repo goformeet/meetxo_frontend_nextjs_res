@@ -37,7 +37,7 @@ export default function Navigation() {
           setUser(response.data.profile);
         }
       } catch (error) {
-        console.log('Error fetching user:', error);
+        throw error;
       }
     }
   }

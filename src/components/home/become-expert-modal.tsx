@@ -66,8 +66,7 @@ export default function BecomeExpertModal({ name, open, setOpen }: { name: strin
             const response = await axios.post<ApiResponse>('/api/become-expert', data);
             toast(response.data.message);  // Reset form after successful submission
             setFormSubmitted(true);
-        } catch (error) {
-            console.log("🚀 ~ onSubmit ~ error:", error)
+        } catch {
             toast("Failed to send message. Try again later.");
         }
     }

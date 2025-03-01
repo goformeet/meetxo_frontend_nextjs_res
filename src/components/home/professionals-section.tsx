@@ -68,16 +68,14 @@ export default function ProfessionalsSection() {
     try {
       
       const res = await Professions();
-      console.log(res);
       if (res?.success && Array.isArray(res.professions)) {
         setCategories(res.professions);
       } else {
-        console.error("Invalid response structure:", res);
         setCategories([]);
       }
     } catch (error) {
-      console.error("Error fetching professionals:", error);
       setCategories([]);
+      throw error
     }
   };
   // const onchangeCat = (cat: string, id: string | boolean) => {
@@ -93,7 +91,6 @@ export default function ProfessionalsSection() {
   
      const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
        e.preventDefault();
-  console.log("kkkkkkkkkkkkkkkkkk");
   
        startTransition(() => {
          router.push(`/experts`); 

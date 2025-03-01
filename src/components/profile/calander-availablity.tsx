@@ -16,7 +16,6 @@ const weekdays = [
 ];
 
 const CalendarAvailability = ({user}:{user: {name: string;}}) => {
-  console.log(user);
 
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [availability, setAvailability] = useState<{
@@ -70,7 +69,7 @@ const CalendarAvailability = ({user}:{user: {name: string;}}) => {
                 onCheckedChange={() => handleDayChange(day.id)}
               />
               <Label htmlFor={day.id} className="text-sm font-medium">
-                {day.label}
+                {day.label} {user?.name}
               </Label>
             </div>
 

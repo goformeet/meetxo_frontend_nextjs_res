@@ -87,18 +87,14 @@ export default function Explore() {
        Hosts({ profession_id: "678b8f0586062ddce62be678" }),
      ]);
 
-     console.log("Mentors API Response:", res);
-     console.log("Influencers API Response:", res1);
 
      if (res?.success && Array.isArray(res.hosts?.hosts)) {
-       console.log("Setting Mentors:", res.hosts.hosts);
        setMentors(res.hosts.hosts);
      } else {
        console.warn("Invalid mentors response:", res);
      }
 
      if (res1?.success && Array.isArray(res1.hosts?.hosts)) {
-       console.log("Setting Influencers:", res1.hosts.hosts);
        setInfluencers(res1.hosts.hosts);
      } else {
        console.warn("Invalid influencers response:", res1);
