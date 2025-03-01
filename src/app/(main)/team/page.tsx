@@ -36,10 +36,13 @@ const Team = () => {
         shashank: "/images/team/sashank-sir.png",
         prajwal: "/images/team/Prajwal.png",
         ritu: "/images/team/ritu.png",
-        surya: "/images/team/suryaa.png",
-                abhishek: "/images/team/Abhishek.png",
-        vishwa: "/images/team/vishwa.png",
+        suryan: "/images/team/photo-3.png",
+        abhishek: "/images/team/Abhishek.png",
+
         tejas: "/images/team/Tejas.png",
+              carson: "/images/team/photo-2.png",
+        naamya: "/images/team/photo-1.png",
+
 
     };
 
@@ -103,16 +106,25 @@ const Team = () => {
                     designation="Founders Office Intern"
                     goformeet="https://www.goformeet.co/surya"
                     image={images.abhishek}
-                /> <TeamImage
-                    name="Vishwa"
-                    designation="Founders Office Intern"
-                    goformeet="https://www.goformeet.co/surya"
-                    image={images.vishwa}
-                /> <TeamImage
+                /> 
+              <TeamImage
                     name="Tejas"
                     designation="Founders Office Intern"
                     goformeet="https://www.goformeet.co/surya"
                     image={images.tejas}
+                />'
+
+                    <TeamImage
+                    name="Carson Kruger"
+                    designation="Business Development"
+                    goformeet="https://www.goformeet.co/surya"
+                    image={images.carson}
+                />   
+              <TeamImage
+                    name="Naamya"
+                    designation="Content Creater"
+                    goformeet="https://www.goformeet.co/surya"
+                    image={images.naamya}
                 />
 
             
