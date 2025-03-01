@@ -39,7 +39,7 @@ export default function LoginButton() {
           disabled={loading}
           className=" py-2 px-4 h-[42px] text-white font-semibold"
         >
-          Join as expert
+          Login
         </Button>
       </Link>
     );
