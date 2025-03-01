@@ -64,7 +64,7 @@ export default function Navigation() {
            <Link href="/events" className="text-sm font-medium hover:text-primary transition-colors">
           Events
         </Link>
-        <Link href="/expert" className="text-sm font-medium hover:text-primary transition-colors">
+        <Link href="/experts" className="text-sm font-medium hover:text-primary transition-colors">
           Experts
         </Link>
 {/*           <BecomeExpertButton />  */}
