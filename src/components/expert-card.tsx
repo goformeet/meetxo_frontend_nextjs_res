@@ -2,7 +2,7 @@
 import React, { useTransition } from 'react'
 import { AspectRatio } from './ui/aspect-ratio'
 import Image from 'next/image'
-import { Star } from 'lucide-react'
+import {  Star } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
@@ -26,9 +26,7 @@ export default function ExpertCard({
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-     e.preventDefault();
-
+   const handleClick = () => {
      startTransition(() => {
        router.push(`/${prof?.username ? prof?.username : prof?.name}`);
      });
@@ -38,14 +36,15 @@ export default function ExpertCard({
     <Link
       href={`/${prof?.username ? prof?.username : prof?.name}`}
       className="relative"
-      onClick={handleClick}
+      // onClick={handleClick}
+      onClick={(e) => {
+        e.preventDefault();
+        if (!isPending) {
+          handleClick();
+        }
+      }}
     >
-      {isPending && (
-        <div className="absolute inset-0 flex items-center justify-center bg-white/50 rounded-lg">
-          <span className="text-gray-800">Loading...</span>
-        </div>
-      )}
-      <div className="w-full  bg-white/100">
+      <div className="w-full  bg-white/100 relative">
         <AspectRatio ratio={1 / 1}>
           <Image
             src={prof.profile_image}
@@ -54,6 +53,24 @@ export default function ExpertCard({
             className="rounded-lg object-cover"
           />
         </AspectRatio>
+        {isPending && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-lg">
+            <div className="flex space-x-1">
+              <div
+                className="w-2 h-2 bg-white rounded-full animate-bounce"
+                style={{ animationDelay: "0s" }}
+              ></div>
+              <div
+                className="w-2 h-2 bg-white rounded-full animate-bounce"
+                style={{ animationDelay: "0.2s" }}
+              ></div>
+              <div
+                className="w-2 h-2 bg-white rounded-full animate-bounce"
+                style={{ animationDelay: "0.4s" }}
+              ></div>
+            </div>
+          </div>
+        )}
       </div>
       <p className="text-sm font-bold">{prof.name}</p>
       <p className="text-xs text-muted-foreground">

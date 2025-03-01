@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import ExpertCard from "../expert-card";
 import { Hosts, Professions } from "@/services/api";
 import { useRouter } from "next/navigation";
+import { Loader } from "lucide-react";
 
 type Professional= {
   _id: string;
@@ -185,10 +186,20 @@ getProfessionals()
           ))}
         </div>
         <div className="flex justify-center mt-8 md:mt-16">
-          <Button disabled={isPending} className="text-white text-sm md:text-lg/[150%] font-semibold py-3 md:py-[18px] px-4 md:px-7 rounded md:rounded-[14px] h-fit">
+          <Button
+            disabled={isPending}
+            className="text-white text-sm md:text-lg/[150%] font-semibold py-3 md:py-[18px] px-4 md:px-7 rounded md:rounded-[14px] h-fit"
+          >
             <Link onClick={handleClick} href={"/experts"}>
               {" "}
-              {isPending ? "Loading..." : "Explore Experts"}
+              {isPending ? (
+             
+                
+                  <Loader className="h-5 w-5 animate-spin" />
+               
+              ) : (
+                "Explore Experts"
+              )}
             </Link>
           </Button>
         </div>
