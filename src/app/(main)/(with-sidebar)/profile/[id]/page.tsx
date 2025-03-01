@@ -8,9 +8,6 @@ import Image from 'next/image';
 import { ChevronLeft } from 'lucide-react';
 // import CalendarAvailability from '@/components/profile/calander-availablity';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { getSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { User } from '@/services/api';
 
 const items = [
   {
@@ -43,10 +40,6 @@ export default function ProfileSettings() {
   const [selectedTab, setSelectedTab] = useState<string | null>(null);
   const [showMobileContent, setShowMobileContent] = useState(false);
   const isMobile = useIsMobile();
-  const [user, setUser] = useState({name: '', email: '', profession_id: '', profession_sub_category_id:'', about_me: ''});
-  
-  const router = useRouter();
-
 
   const SelectedComponent = items.find((item) => item.value === selectedTab)?.component;
 
@@ -97,23 +90,6 @@ export default function ProfileSettings() {
     window.history.back(); // Navigate back in history
   };
 
-  useEffect(()=>{
-    handleGetUser();
-  }, [])
-
-  const handleGetUser = async () => {
-    const session = await getSession();
-    if(session?.accessToken){
-      const token = session.accessToken || '';
-      const response = await User(token);
-      setUser(response.profile);
-    }else{
-      router.push('/login');
-    }
-  }
-
-  console.log(user);
-  
 
   const MobileList = () => (
     <div className="space-y-4 p-4">

@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -14,13 +14,15 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import {Professions, ProfessionSubCategories, setUpProfile, User} from "@/services/api";
 import { Loader2 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import ProfileImageSection from "@/components/profile/profile-image-section";
+import {getFallbackLetters} from "@/lib/utils";
 
 // Form schema
 const FormSchema = z.object({
@@ -40,18 +42,18 @@ const FormSchema = z.object({
 });
 
 // Types
-interface Profession {
+export interface Profession {
     _id: string;
     title: string;
 }
 
-interface SubCategory {
+export interface SubCategory {
     _id: string;
     title: string;
     profession_id?: string;
 }
 
-interface SocialMediaLink {
+export interface SocialMediaLink {
     platform: string;
     url: string;
     _id: string;
@@ -83,12 +85,12 @@ export default function ProfileInformationComponent() {
     const [error, setError] = useState<string | null>(null);
     const [professions, setProfessions] = useState<Profession[]>([]);
     const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
-    const [selectedCategory, setSelectedCategory] = useState("");
+    const [formInitialized, setFormInitialized] = useState(false);
     const [loadingSubcategories, setLoadingSubcategories] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [updateSuccess, setUpdateSuccess] = useState(false);
 
-    // Initialize form
+    // Initialize form with empty values
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -101,56 +103,42 @@ export default function ProfileInformationComponent() {
         },
     });
 
-    const fileInputRef = useRef<HTMLInputElement>(null);
-
     // Handle file change
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            console.log("Selected File:", file);
-            // Implement file upload logic here
-        }
-    };
 
     // Form submission
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-        console.log("Form submitted with data:", data);
         setSubmitting(true);
 
         try {
             // Add your API call here to update the user profile
             const formData = {
-                  name: data.name,
-                  profession_id: data.professionCategory,
-                  profession_sub_category_id: data.profession,
-                  about_me: data.about || '',
-                  social_media_links: data.socialLinks?.map(link => ({
+                name: data.name,
+                profession_id: data.professionCategory,
+                profession_sub_category_id: data.profession,
+                about_me: data.about || '',
+                social_media_links: data.socialLinks?.map(link => ({
                     platform: link.icon,
                     url: link.url
-                  }))
-            }
-                const session = await getSession();
-                if (session?.accessToken) {
-                    const token = session.accessToken || '';
-                    const response = await setUpProfile(formData, token);
+                })),
+            };
 
-                    if (response.success && response.profile) {
-                        setUser(response.profile);
-                    } else {
-                        setError("Failed to load profile data");
-                    }
+            const session = await getSession();
+            if (session?.accessToken) {
+                const token = session.accessToken || '';
+                const response = await setUpProfile(formData, token);
+
+                if (response.success && response.profile) {
+                    setUser(response.profile);
+                    setUpdateSuccess(true);
+                    setTimeout(() => setUpdateSuccess(false), 3000);
                 } else {
-                    router.push('/login');
+                    setError("Failed to update profile data");
                 }
-
-
-            // Simulate API call with timeout
-            await new Promise(resolve => setTimeout(resolve, 1000));
-
-            setUpdateSuccess(true);
-            setTimeout(() => setUpdateSuccess(false), 3000);
+            } else {
+                router.push('/login');
+            }
         } catch (err) {
-            console.error(err)
+            console.error(err);
             setError("Failed to update profile. Please try again.");
         } finally {
             setSubmitting(false);
@@ -191,38 +179,41 @@ export default function ProfileInformationComponent() {
     };
 
     // Fetch professions
-    const handleGetProfessions = async () => {
+    const fetchProfessions = async () => {
         try {
             const response = await Professions();
             if (response.success) {
                 setProfessions(response.professions);
+                return response.professions;
             } else {
                 console.error("Failed to load professions");
+                return [];
             }
         } catch (err) {
             console.error("Error fetching professions:", err);
+            return [];
         }
     };
 
     // Fetch subcategories
-    const handleGetSubProfessions = async (categoryId: string) => {
-        if (!categoryId) return;
+    const fetchSubCategories = async (categoryId: string) => {
+        if (!categoryId) return [];
 
         setLoadingSubcategories(true);
         try {
-            console.log("Fetching subcategories for:", categoryId);
             const response = await ProfessionSubCategories(categoryId);
 
             if (response.success) {
-                console.log("Subcategories loaded:", response.sub_categories);
                 setSubCategories(response.sub_categories);
+                return response.sub_categories;
             } else {
-                console.error("Failed to load subcategories");
                 setSubCategories([]);
+                return [];
             }
-        } catch (err) {
-            console.error("Error fetching subcategories:", err);
+        } catch {
             setSubCategories([]);
+            return [];
+
         } finally {
             setLoadingSubcategories(false);
         }
@@ -230,64 +221,90 @@ export default function ProfileInformationComponent() {
 
     // Initial data loading
     useEffect(() => {
-        handleGetUser();
-        handleGetProfessions();
+        const initialize = async () => {
+            await handleGetUser();
+            await fetchProfessions();
+        };
+
+        initialize();
     }, []);
 
-    // Set form values when user data is loaded¯
+    // Set form values when user data is loaded
     useEffect(() => {
-        if (!user || professions.length === 0) return;
+        const initializeForm = async () => {
+            if (!user) return;
 
-        // Set basic fields
-        form.setValue("name", user.name || '');
-        form.setValue("email", user.email || '');
-        form.setValue("about", user.about_me || '');
+            // Only initialize once
+            if (formInitialized) return;
 
-        // Determine category ID from user data
-        let categoryId = "";
-        if (user.profession_id?._id) {
-            categoryId = user.profession_id._id;
-        } else if (user.profession_sub_category_id?.profession_id) {
-            categoryId = user.profession_sub_category_id.profession_id;
-        }
-
-        if (categoryId) {
-            // Verify category exists in professions
-            const categoryExists = professions.some(p => p._id === categoryId);
-            if (categoryExists) {
-                form.setValue("professionCategory", categoryId);
-                setSelectedCategory(categoryId);
-                // Load subcategories for this category
-                handleGetSubProfessions(categoryId);
-            } else {
-                console.error("User's profession category not found in available professions");
+            // Get professions if not already loaded
+            let currentProfessions = professions;
+            if (professions.length === 0) {
+                currentProfessions = await fetchProfessions();
             }
-        }
 
-        // Set social links
-        if (user.social_media_links && user.social_media_links.length > 0) {
-            const formattedLinks = user.social_media_links.map(link => ({
-                icon: link.platform.toLowerCase(),
-                url: link.url
-            }));
-            form.setValue("socialLinks", formattedLinks);
-        }
-    }, [user, professions, form]);
+            if (currentProfessions.length === 0) return;
 
-// Set subcategory when subCategories are loaded
-    useEffect(() => {
-        if (subCategories.length > 0 && user?.profession_sub_category_id?._id) {
-            const subcategoryExists = subCategories.some(
-                sc => sc._id === user.profession_sub_category_id?._id
-            );
-            if (subcategoryExists) {
-                form.setValue("profession", user.profession_sub_category_id._id);
-            } else {
-                console.error("User's subcategory not found in loaded subcategories");
-                form.setValue("profession", ""); // Reset if not found
+            // Set basic fields
+            form.setValue("name", user.name || '');
+            form.setValue("email", user.email || '');
+            form.setValue("about", user.about_me || '');
+
+            // Handle profession category
+            let categoryId = "";
+            if (user.profession_id?._id) {
+                categoryId = user.profession_id._id;
+            } else if (user.profession_sub_category_id?.profession_id) {
+                categoryId = user.profession_sub_category_id.profession_id;
             }
-        }
-    }, [subCategories, user, form]);
+
+            if (categoryId) {
+                // Verify category exists in professions
+                const categoryExists = currentProfessions.some(p => p._id === categoryId);
+                if (categoryExists) {
+                    // Use form.reset for the category to ensure it's properly selected in UI
+                    form.setValue("professionCategory", categoryId, { shouldValidate: true });
+
+                    // Load subcategories for this category
+                    const subCats = await fetchSubCategories(categoryId);
+
+                    // Set subcategory if available
+                    if (user.profession_sub_category_id?._id && subCats.length > 0) {
+                        setLoadingSubcategories(true);
+                        const subcategoryExists = subCats.some(
+                            (sc: {_id: string;}) => sc._id === user.profession_sub_category_id?._id
+                        );
+
+                        if (subcategoryExists) {
+                            form.setValue("profession", user.profession_sub_category_id._id,
+                                { shouldValidate: !loadingSubcategories });
+                        }
+                        setLoadingSubcategories(false);
+                    }
+                }
+            }
+
+            // Set social links
+            if (user.social_media_links && user.social_media_links.length > 0) {
+                const formattedLinks = user.social_media_links.map(link => ({
+                    icon: link.platform.toLowerCase(),
+                    url: link.url
+                }));
+                form.setValue("socialLinks", formattedLinks);
+            }
+
+            setFormInitialized(true);
+        };
+
+        initializeForm();
+    }, [user, professions, form, formInitialized]);
+
+    // Handle profession category change
+    const handleCategoryChange = async (value: string) => {
+        form.setValue("professionCategory", value, { shouldValidate: true });
+        form.setValue("profession", "");
+        await fetchSubCategories(value);
+    };
 
     // Loading state
     if (loading) {
@@ -333,38 +350,11 @@ export default function ProfileInformationComponent() {
                     <div className="flex flex-col md:flex-row gap-6">
                         <Avatar className="h-[88px] w-[88px]">
                             <AvatarImage src={user?.profile_image || "/images/avatar.svg"} alt="Profile" />
+                            <AvatarFallback className="text-white bg-primary">
+                                {getFallbackLetters(user?.name || '')}
+                            </AvatarFallback>
                         </Avatar>
-                        <div className="flex flex-col gap-1 justify-between">
-                            {/* Hidden File Input */}
-                            <input
-                                type="file"
-                                ref={fileInputRef}
-                                hidden
-                                accept="image/png, image/jpeg, image/jpg"
-                                onChange={handleFileChange}
-                            />
-                            <p className="text-[#718096] text-sm">
-                                We only support .JPG, .JPEG, or .PNG files.
-                            </p>
-                            <div className="flex gap-2">
-                                {/* Upload Button Triggers File Input */}
-                                <Button
-                                    className="text-white font-bold"
-                                    onClick={() => fileInputRef.current?.click()}
-                                    type="button"
-                                >
-                                    Upload your photo
-                                </Button>
-                                <Button
-                                    className="font-bold hover:no-underline"
-                                    variant={"link"}
-                                    type="button"
-                                    disabled={!user?.profile_image}
-                                >
-                                    Delete Image
-                                </Button>
-                            </div>
-                        </div>
+                        {user && <ProfileImageSection  user={user} setUpdateSuccess={setUpdateSuccess} setUser={setUser} />}
                     </div>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
                         <FormField
@@ -413,14 +403,7 @@ export default function ProfileInformationComponent() {
                                 <FormItem>
                                     <FormLabel>Profession Category <span className="text-[#E03137]">*</span></FormLabel>
                                     <Select
-                                        onValueChange={(value) => {
-                                            field.onChange(value);
-                                            setSelectedCategory(value);
-                                            // Reset subcategory when category changes
-                                            form.setValue("profession", "");
-                                            // Load subcategories for the selected category
-                                            handleGetSubProfessions(value);
-                                        }}
+                                        onValueChange={handleCategoryChange}
                                         value={field.value}
                                         defaultValue={field.value}
                                     >
@@ -446,9 +429,9 @@ export default function ProfileInformationComponent() {
                                 <FormItem>
                                     <FormLabel>Profession <span className="text-[#E03137]">*</span></FormLabel>
                                     <Select
-                                        onValueChange={field.onChange}
+                                        onValueChange={(value) => form.setValue("profession", value, { shouldValidate: !loadingSubcategories })}
                                         value={field.value}
-                                        disabled={!selectedCategory || loadingSubcategories}
+                                        disabled={!form.getValues("professionCategory") || loadingSubcategories}
                                         defaultValue={field.value}
                                     >
                                         <SelectTrigger className="py-4 px-5 h-11 md:h-14">
@@ -501,7 +484,7 @@ export default function ProfileInformationComponent() {
                                         render={({ field }) => (
                                             <FormItem className="w-full">
                                                 <FormLabel>Platform</FormLabel>
-                                                <Select onValueChange={field.onChange} value={field.value}>
+                                                <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                                                     <SelectTrigger className="h-11 md:h-14">
                                                         <SelectValue placeholder="Select a platform" />
                                                     </SelectTrigger>

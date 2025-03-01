@@ -175,3 +175,64 @@ export const User = async (token: string)=> {
     throw error;
   }
 }
+
+// Function to get a presigned URL from API
+export const getPresignedUrl = async (fileName: string, token: string) => {
+  try {
+    const response = await axios.post(
+        `${API_BASE_URL}/upload`,
+        { "fileType": "Image" },
+        {
+          headers: {
+            "Content-Type": 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+    );
+    return response.data; // { presignedUrl, fileUrl }
+  } catch (error) {
+    throw error;
+  }
+};
+
+// export const uploadFile = async (file: File, token: string) => {
+//   try {
+//     // Create form data to send the file
+//     const formData = new FormData();
+//     formData.append('file', file);
+//
+//     // Make the API request
+//     const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
+//       headers: {
+//         'Authorization': `Bearer ${token}`,
+//         'Content-Type': 'multipart/form-data',
+//       },
+//       // Optional: Add progress tracking
+//       onUploadProgress: (progressEvent) => {
+//         const percentCompleted = Math.round(
+//             (progressEvent.loaded * 100) / (progressEvent.total || 100)
+//         );
+//         console.log(`Upload progress: ${percentCompleted}%`);
+//       },
+//     });
+//
+//     return response.data;
+//   } catch (error) {
+//     console.error('Error uploading file:', error);
+//     throw error;
+//   }
+// };
+
+// Function to upload file to AWS using the presigned URL
+export const uploadFileToAWS = async (presignedUrl: string, file: File) => {
+  try {
+    await axios.put(presignedUrl, file, {
+      headers: {
+        "Content-Type": file.type,
+      },
+    });
+  } catch (error) {
+    console.error("Error uploading to AWS:", error);
+    throw error;
+  }
+};

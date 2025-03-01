@@ -5,10 +5,8 @@ import { cn } from '@/lib/utils';
 import EmptyServices from '../empty-services';
 import ProfileServiceForm from './profile-service-from';
 
-export default function ProfileServices({user}:{user: {name: string;}}) {
+export default function ProfileServices() {
     const [category, setCategory] = useState("1:1 Call");
-    console.log(user);
-    
 
     const categories = [
         { id: 2, name: "1:1 Call" },
