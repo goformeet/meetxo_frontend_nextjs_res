@@ -1,8 +1,8 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useTransition } from 'react'
 import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
-import { Clock3 } from 'lucide-react';
+import { Clock3, Loader } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
 // import Image from 'next/image';
 // import OneOneCard from '../one-one-card';
@@ -64,6 +64,8 @@ export default function ExpertServices({ id, username }: ExpertServicesProps) {
   const [category, setCategory] = useState("1:1 Call");
   const [services, setServices] = useState<Service[]>([]);
   const [events, setEvents] = useState<EventType[]>([]);
+  const [isPending, startTransition] = useTransition();
+  const [selectedId,setSelectedId]=useState("")
   const router = useRouter();
   const categories = [
     { id: 2, name: "1:1 Call" },
@@ -100,7 +102,13 @@ const getEvents= async()=>{
     
   }
 }
- 
+  const handleClick = (id: string) => {
+   
+
+     startTransition(() => {
+        router.push(`${username}/booking?id=${id}`)
+     });
+   };
 
   useEffect(() => {
     getServices();
@@ -204,14 +212,24 @@ const getEvents= async()=>{
                   )}
 
                   <Button
-                    onClick={() =>
-                      router.push(`${username}/booking?id=${data._id}`)
-                    }
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSelectedId(data._id);
+                      handleClick(data._id);
+                    }}
+                    disabled={isPending }
                     className={cn(
                       "font-roboto text-sm/normal font-semibold capitalize py-[9px] px-[16px] leading-normal rounded-[8px] h-fit text-white shadow-none"
                     )}
                   >
-                    Book Session
+                    {isPending && selectedId == data._id ? (
+                      <>
+                        <Loader className="h-5 w-5 animate-spin" />
+                        <span>Loading...</span>
+                      </>
+                    ) : (
+                      " Book Session"
+                    )}
                   </Button>
                 </div>
               </div>

@@ -31,6 +31,7 @@ import { AuthData } from "@/types/authTypes";
 import { collectAuthData } from "@/app/utils/collectAuthData";
 import LoginModal from "@/components/auth/login-modal";
 import SucessPopup from "@/components/auth/successPopup";
+import { Loader } from "lucide-react";
 type ServiceType = {
   _id: string;
   user_id: string;
@@ -349,6 +350,7 @@ export default function Page() {
 
   const bookMeeting = async (razId:string) => {
     try {
+      setIsProcessing(true);
        const session = await getSession();
        if (!session?.accessToken) {
          alert("Please Login");
@@ -376,13 +378,9 @@ export default function Page() {
       };
       const res = await bookMeetingApi(postData, session.accessToken);
       if (res.success) {
-        if (res.success) {
-         
-          setSuccessMessage(res.message);
-      
-          setSuccessModalOpen(true);
-        }
-      
+        setSuccessMessage(res.message);
+
+        setSuccessModalOpen(true);
       }
     } catch (error) {
      console.error(error);
@@ -394,6 +392,8 @@ export default function Page() {
        console.error("General error:", error.message);
        alert("Something went wrong");
      }
+    }finally{
+         setIsProcessing(false);
     }
   };
 const bookMeet = async () => {
@@ -404,9 +404,9 @@ const bookMeet = async () => {
     if (selectedDate && selectedSlot) {
       if (user.token) {
         if (service.online_pricing) {
-          makePayment();
+         await makePayment();
         } else {
-          bookMeeting("");
+           bookMeeting("");
         }
       } else {
         setOpen(true);
@@ -486,13 +486,16 @@ useEffect(() => {
                     {/* <p className="text-[#727272] text-xs/4 font-medium line-through">
                       $ {(service.online_pricing * 1.2).toFixed(2)}
                     </p> */}
-                    {service.online_pricing?
-                    
-                   <p className="text-base/5 font-bold">
-                      {service.currency.symbol ? service.currency.symbol : "$"}
-                      {service.online_pricing.toFixed(2)}
-                    </p>:<span className="text-green-700 font-bold">Free</span>}
-                   
+                    {service.online_pricing ? (
+                      <p className="text-base/5 font-bold">
+                        {service.currency.symbol
+                          ? service.currency.symbol
+                          : "$"}
+                        {service.online_pricing.toFixed(2)}
+                      </p>
+                    ) : (
+                      <span className="text-green-700 font-bold">Free</span>
+                    )}
                   </div>
                 </div>
                 <div className="md:w-1/2 py-2 md:py-[22px] px-5 md:px-10">
@@ -587,7 +590,14 @@ useEffect(() => {
             disabled={isProcessing}
             className="text-white w-full md:max-w-[202px] h-[58px]"
           >
-            {isProcessing ? "Processing..." : "Continue"}
+            {isProcessing ? (
+              <>
+                <Loader className="h-6 w-6 text-white animate-spin" />
+                <span>Processing...</span>
+              </>
+            ) : (
+              "Continue"
+            )}
           </Button>
         </div>
       </div>
