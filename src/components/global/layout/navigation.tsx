@@ -37,7 +37,7 @@ export default function Navigation() {
           setUser(response.data.profile);
         }
       } catch (error) {
-        console.log('Error fetching user:', error);
+        throw error;
       }
     }
   }
@@ -61,6 +61,12 @@ export default function Navigation() {
           </Link>
         </aside>
         <aside className='flex shrink-0 items-center gap-7 relative'>
+           <Link href="/events" className="text-sm font-medium hover:text-primary transition-colors">
+          Events
+        </Link>
+        <Link href="/experts" className="text-sm font-medium hover:text-primary transition-colors">
+          Experts
+        </Link>
 {/*           <BecomeExpertButton />  */}
           <LoginButton />
 

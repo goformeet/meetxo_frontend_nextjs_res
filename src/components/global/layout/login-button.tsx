@@ -12,7 +12,6 @@ export default function LoginButton() {
    const pathname = usePathname();
   const getUser = async () => {
     const session = await getSession();
-    // console.log("🚀 ~ getUser ~ session:", session)
     setUser(session as Session);
     setLoading(false);
   };
@@ -40,7 +39,7 @@ export default function LoginButton() {
           disabled={loading}
           className=" py-2 px-4 h-[42px] text-white font-semibold"
         >
-          Join as expert
+          Login
         </Button>
       </Link>
     );

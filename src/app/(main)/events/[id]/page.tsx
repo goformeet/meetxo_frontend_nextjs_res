@@ -159,11 +159,9 @@ export default function Page() {
        };
      
 const continueToBooking = (
-  dat: { email: string; name: string; phone_number: string },
-  response: { razorpay_order_id: string }
+  // dat: { email: string; name: string; phone_number: string },
+  // response: { razorpay_order_id: string }
 ) => {
-  console.log(dat);
-  console.log(response);
   bookEvent();
 };
 const bookEvent = async () => {
@@ -186,12 +184,11 @@ const bookEvent = async () => {
     const res=await eventBooking(data, session.accessToken);
     if(res.success){
       setSuccessMessage(res.message)
-  setSucessOpen(true);
+      setSucessOpen(true);
     }
-  
    
   } catch (error) {
-    console.log(error);
+    throw error
   }
 };
 

@@ -37,7 +37,6 @@ export default function DateAndSlotSelection({
 
   useEffect(() => {
     const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    console.log("User Timezone:", userTimezone);
 
     const timezoneMap: { [key: string]: string } = {
       "Asia/Kolkata": "ist",

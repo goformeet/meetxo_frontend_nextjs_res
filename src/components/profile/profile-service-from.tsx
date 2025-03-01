@@ -30,11 +30,11 @@ const FormSchema = z.object({
 });
 
 export default function ProfileServiceForm({ service }: { service: string }) {
-    console.log("🚀 ~ ProfileServiceForm ~ service:", service)
+
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            title: "",
+            title: service,
             shortDescription: "",
             longDescription: "",
             duration: 30,

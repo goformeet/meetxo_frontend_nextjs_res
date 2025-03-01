@@ -202,7 +202,6 @@ export default function Page() {
       if (res.success) {
         if (service?.online_pricing) {
           makePayment();
-          console.log(service);
         } else {
           bookMeeting(
             ''
@@ -343,7 +342,6 @@ export default function Page() {
     data: { email: string; name: string; phone_number: string },
     response: { razorpay_order_id: string }
   ) => {
-  console.log(data);
   
     bookMeeting(response.razorpay_order_id);
   };

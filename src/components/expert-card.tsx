@@ -26,9 +26,7 @@ export default function ExpertCard({
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-     e.preventDefault();
-
+   const handleClick = () => {
      startTransition(() => {
        router.push(`/${prof?.username ? prof?.username : prof?.name}`);
      });
@@ -38,13 +36,14 @@ export default function ExpertCard({
     <Link
       href={`/${prof?.username ? prof?.username : prof?.name}`}
       className="relative"
-      onClick={handleClick}
+      // onClick={handleClick}
+      onClick={(e) => {
+        e.preventDefault();
+        if (!isPending) {
+          handleClick();
+        }
+      }}
     >
-      {/* {isPending && (
-        <div className="absolute inset-0 flex items-center justify-center bg-white/50 rounded-lg">
-          <span className="text-gray-800">Loading...</span>
-        </div>
-      )} */}
       <div className="w-full  bg-white/100 relative">
         <AspectRatio ratio={1 / 1}>
           <Image
@@ -56,8 +55,6 @@ export default function ExpertCard({
         </AspectRatio>
         {isPending && (
           <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-lg">
-          
-      
             <div className="flex space-x-1">
               <div
                 className="w-2 h-2 bg-white rounded-full animate-bounce"
