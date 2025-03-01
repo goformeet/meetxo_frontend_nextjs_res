@@ -8,6 +8,7 @@ import { createCanvas, loadImage } from "canvas";
 import AWS from "aws-sdk";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 interface ApiSocialMediaLink {
   platform: string;
@@ -218,24 +219,13 @@ export default async function Page({ params }: {params: Params}) {
               {data?.profession_sub_category_id?.title}
             </p>
           </div>
-          <div className="flex gap-3 md:gap-4 items-end">
-            {filteredSocialMedia.map((social, index) => (
-              <a
-                key={index}
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image
-                  src={social.icon}
-                  alt={social.name}
-                  width={24}
-                  height={24}
-                  className="w-6 h-6 md:w-8 md:h-8 object-contain transition-transform hover:scale-110"
-                />
-              </a>
-            ))}
-          </div>
+        </div>
+        <div className="absolute right-0 md:bottom-4 flex items-center gap-3">
+          {filteredSocialMedia.map((social, index) => (
+              <Link key={index} href={'/'} className="h-10 w-10 bg-primary-light rounded-full flex justify-center items-center">
+                <Image src={social.icon} alt="linked in" width={40} height={40} className="h-[26px] w-[26px] object-contain object-center" />
+              </Link>
+          ))}
         </div>
       </div>
 
