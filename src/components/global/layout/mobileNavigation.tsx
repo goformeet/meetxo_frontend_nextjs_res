@@ -1,7 +1,7 @@
-import { SearchIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import LoginButton from "@/components/global/layout/login-button";
 // import { ModeToggle } from '../toggle-mode'
 // import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
@@ -15,7 +15,7 @@ export default function MobileNavigation() {
             </aside>
             <aside className='flex items-center gap-5 relative'>
                 {/* <ModeToggle /> */}
-                <SearchIcon className='h-6 w-auto' />
+                <LoginButton />
                 {/* <Avatar>
                     <AvatarImage src="" />
                     <AvatarFallback className='bg-[#E3E6EA] dark:bg-muted-foreground  text-xs'>CN</AvatarFallback>

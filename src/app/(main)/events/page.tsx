@@ -46,6 +46,7 @@ export default async function Page() {
     const events = data;
 
     if(!events || !events.length){
+        console.log(events)
         notFound();
     }
 

@@ -9,10 +9,11 @@ import { OtpForm } from '@/components/auth/otpForm';
 import DetailsForm from '@/components/auth/detailsForm';
 import SucessPopup from '@/components/auth/successPopup';
 import Link from 'next/link';
-import { sendOtp, setUpProfile } from '@/services/api';
+import {sendOtp, setUpProfile, User} from '@/services/api';
 import { collectAuthData } from '@/app/utils/collectAuthData';
 import { AuthData } from '@/types/authTypes';
 import axios from 'axios';
+import {normalizeUsername} from "@/lib/utils";
 
 
 const Page = () => {
@@ -95,6 +96,10 @@ const Page = () => {
         const res = await setUpProfile(detals, session.accessToken);
 
         if (res.success) {
+            const response = await User(session?.accessToken || '');
+            if (response.data.success) {
+                router.push(`/profile/${normalizeUsername(response.data.profile.name || "user")}/?item=personal-information`);
+            }
           router.push("/");
         } else {
           alert(res.message);
