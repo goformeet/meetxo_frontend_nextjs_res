@@ -222,7 +222,7 @@ export default async function Page({ params }: {params: Params}) {
         </div>
         <div className="absolute right-0 md:bottom-4 flex items-center gap-3">
           {filteredSocialMedia.map((social, index) => (
-              <Link key={index} href={'/'} className="h-10 w-10 bg-primary-light rounded-full flex justify-center items-center">
+              <Link key={index} href={social.url} className="h-10 w-10 bg-primary-light rounded-full flex justify-center items-center">
                 <Image src={social.icon} alt="linked in" width={40} height={40} className="h-[26px] w-[26px] object-contain object-center" />
               </Link>
           ))}

@@ -23,6 +23,7 @@ import { Loader2 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import ProfileImageSection from "@/components/profile/profile-image-section";
 import {getFallbackLetters} from "@/lib/utils";
+import Image from 'next/image';
 
 // Form schema
 const FormSchema = z.object({
@@ -40,6 +41,19 @@ const FormSchema = z.object({
         )
         .optional(),
 });
+
+// Social Media Icons Map
+const socialMediaIcons: Record<string, string> = {
+    "facebook": "https://cdn-icons-png.flaticon.com/512/5968/5968764.png",
+    "twitter": "https://cdn-icons-png.flaticon.com/512/5968/5968830.png",
+    "x": "https://cdn-icons-png.flaticon.com/512/5968/5968830.png",
+    "linkedin": "https://cdn-icons-png.flaticon.com/512/174/174857.png",
+    "instagram": "https://cdn-icons-png.flaticon.com/512/2111/2111463.png",
+    "youtube": "https://cdn-icons-png.flaticon.com/512/1384/1384060.png",
+    "github": "https://cdn-icons-png.flaticon.com/512/733/733609.png",
+    "behance": "https://cdn-icons-png.flaticon.com/512/145/145799.png",
+    "tiktok": "https://cdn-icons-png.flaticon.com/512/3046/3046124.png",
+};
 
 // Types
 export interface Profession {
@@ -102,8 +116,6 @@ export default function ProfileInformationComponent() {
             socialLinks: [],
         },
     });
-
-    // Handle file change
 
     // Form submission
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
@@ -486,13 +498,59 @@ export default function ProfileInformationComponent() {
                                                 <FormLabel>Platform</FormLabel>
                                                 <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                                                     <SelectTrigger className="h-11 md:h-14">
-                                                        <SelectValue placeholder="Select a platform" />
+                                                        <div className="flex items-center gap-2">
+                                                            <SelectValue placeholder="Select a platform" />
+                                                        </div>
                                                     </SelectTrigger>
                                                     <SelectContent>
-                                                        <SelectItem value="facebook">Facebook</SelectItem>
-                                                        <SelectItem value="twitter">Twitter</SelectItem>
-                                                        <SelectItem value="linkedin">LinkedIn</SelectItem>
-                                                        <SelectItem value="instagram">Instagram</SelectItem>
+                                                        <SelectItem value="facebook" className="flex items-center gap-2">
+                                                            <div className="flex items-center gap-2">
+                                                                <Image height={20} width={20} src={socialMediaIcons.facebook} alt="Facebook" className="w-5 h-5" />
+                                                                Facebook
+                                                            </div>
+                                                        </SelectItem>
+                                                        <SelectItem value="twitter" className="flex items-center gap-2">
+                                                            <div className="flex items-center gap-2">
+                                                                <Image height={20} width={20} src={socialMediaIcons.twitter} alt="Twitter" className="w-5 h-5" />
+                                                                Twitter
+                                                            </div>
+                                                        </SelectItem>
+                                                        <SelectItem value="linkedin" className="flex items-center gap-2">
+                                                            <div className="flex items-center gap-2">
+                                                                <Image height={20} width={20} src={socialMediaIcons.linkedin} alt="LinkedIn" className="w-5 h-5" />
+                                                                LinkedIn
+                                                            </div>
+                                                        </SelectItem>
+                                                        <SelectItem value="instagram" className="flex items-center gap-2">
+                                                            <div className="flex items-center gap-2">
+                                                                <Image height={20} width={20} src={socialMediaIcons.instagram} alt="Instagram" className="w-5 h-5" />
+                                                                Instagram
+                                                            </div>
+                                                        </SelectItem>
+                                                        <SelectItem value="github" className="flex items-center gap-2">
+                                                            <div className="flex items-center gap-2">
+                                                                <Image height={20} width={20} src={socialMediaIcons.github} alt="GitHub" className="w-5 h-5" />
+                                                                GitHub
+                                                            </div>
+                                                        </SelectItem>
+                                                        <SelectItem value="behance" className="flex items-center gap-2">
+                                                            <div className="flex items-center gap-2">
+                                                                <Image height={20} width={20} src={socialMediaIcons.behance} alt="Behance" className="w-5 h-5" />
+                                                                Behance
+                                                            </div>
+                                                        </SelectItem>
+                                                        <SelectItem value="youtube" className="flex items-center gap-2">
+                                                            <div className="flex items-center gap-2">
+                                                                <Image height={20} width={20} src={socialMediaIcons.youtube} alt="YouTube" className="w-5 h-5" />
+                                                                YouTube
+                                                            </div>
+                                                        </SelectItem>
+                                                        <SelectItem value="tiktok" className="flex items-center gap-2">
+                                                            <div className="flex items-center gap-2">
+                                                                <Image height={20} width={20} src={socialMediaIcons.tiktok} alt="TikTok" className="w-5 h-5" />
+                                                                TikTok
+                                                            </div>
+                                                        </SelectItem>
                                                     </SelectContent>
                                                 </Select>
                                                 <FormMessage />
