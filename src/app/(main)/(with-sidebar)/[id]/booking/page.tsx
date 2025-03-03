@@ -3,6 +3,9 @@ import { Metadata } from "next";
 
 
 
+type Params = Promise<{ id: string }>
+
+
 export async function generateMetadata({ params }: {params: Params}): Promise<Metadata> {
   const id = decodeURIComponent((await params).id);
 
