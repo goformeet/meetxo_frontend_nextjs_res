@@ -16,7 +16,7 @@ import {
   setUpProfile,
   User,
 } from "@/services/api";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   convertToISOString,
   formatSlots,
@@ -59,7 +59,7 @@ type ServiceType = {
 // };
 export default function MeetBooking() {
   // const formRef = useRef<BookingFormRef>(null);
-  const searchParams = useSearchParams();
+
   const service_id = JSON.stringify(localStorage.getItem("meet_service_id")); ;
      const id = service_id.replace(/^"|"$/g, "");
 

@@ -14,7 +14,11 @@ export default function HomeBanner() {
     const [search, setSearch] = useState("");
     const router = useRouter();
     const handleClick = () => {
-      router.push(`/experts?s=${encodeURIComponent(search)}`);
+        localStorage.setItem(
+          "expert_search_from_home",
+          search
+        );
+      router.push(`/experts`);
     };
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "Enter") {

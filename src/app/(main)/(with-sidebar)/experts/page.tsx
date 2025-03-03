@@ -9,7 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import debounce from "lodash/debounce";
-import { useSearchParams } from "next/navigation";
+
 
 type Professional= {
   _id: string;
@@ -79,8 +79,9 @@ export default function Explore() {
     setSub_profession(id)
   };
 
-  const searchParams = useSearchParams();
-  const searchFromHome = searchParams.get("s") || "";
+  // const searchParams = useSearchParams();
+  
+ 
  
  const getMentorsAndInfluencers = async () => {
    try {
@@ -173,6 +174,9 @@ export default function Explore() {
     }
   }, [searchValue]);
   useEffect(() => {
+    const searchFromHome =
+      localStorage.getItem("expert_search_from_home")??""
+
     setSearchValue(searchFromHome);
   }, []);
   return (
