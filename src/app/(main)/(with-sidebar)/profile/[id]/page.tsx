@@ -34,6 +34,46 @@ const items = [
   //   value: 'portfolio',
   //   component: () => <div>Portfolio Content</div>,
   // },
+
+
+   {
+    icon: "/images/description-icon.svg",
+    title: "Portfolio",
+    value: "portfolio",
+    component: () => <div>Only avaiable for Top Experts</div>,
+  },
+
+  {
+    icon: "/images/description-icon.svg",
+    title: "Email Campaign",
+    value: "Email Campaign",
+    component: () => <div>Only avaiable for Top Experts</div>,
+  },
+  {
+    icon: "/images/description-icon.svg",
+    title: "Analytics",
+    value: "Analytics",
+    component: () => <div>Only avaiable for Top Experts</div>,
+  },
+  {
+    icon: "/images/description-icon.svg",
+    title: "Affiliate Marketing",
+    value: "Affiliate Marketing",
+    component: () => <div>Only avaiable for Top Experts</div>,
+  },
+
+  {
+    icon: "/images/description-icon.svg",
+    title: "Whatsapp Marketing",
+    value: "Whatsapp Marketing",
+    component: () => <div>Only avaiable for Top Experts</div>,
+  },
+  {
+    icon: "/images/description-icon.svg",
+    title: "Referral Program",
+    value: "Referral Program",
+    component: () => <div>Only avaiable for Top Experts</div>,
+  },
 ];
 
 export default function ProfileSettings() {
