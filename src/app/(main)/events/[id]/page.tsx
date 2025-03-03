@@ -477,6 +477,13 @@ const getUser=async()=>{
           <SucessPopup open={sucessOpen} setOpen={setSucessOpen} message={successMessage} />
         </div>
       </div>
+
+
+           <div className="mt-10 text-sm text-gray-300">
+        {/* <p>Keywords: {eventData?.keywords?.join(", ")}</p> */}
+        <p>Keywords: MeetXO Events, Events in bengaluru , Online Webinar</p>
+
+      </div>
     </main>
   );
 // useEffect(()=>{
