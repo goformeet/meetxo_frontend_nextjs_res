@@ -40,7 +40,12 @@ const items = [
     icon: "/images/description-icon.svg",
     title: "Portfolio",
     value: "portfolio",
-    component: () => <div>Only avaiable for Top Experts</div>,
+  component: () => (
+    <div className="flex items-center justify-center h-full text-center">
+You are not eligible for this premium feature. It is only available to experts who have completed 5 paid meetings and hosted 2 paid events.
+    </div>
+  ),
+     
   },
 
   {
