@@ -6,29 +6,39 @@ import { Metadata } from "next";
 type Params = Promise<{ id: string }>
 
 
-export async function generateMetadata({ params }: {params: Params}): Promise<Metadata> {
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
   const id = decodeURIComponent((await params).id);
 
   const ogKey = `og_images/${id}.png`;
   const ogImageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${ogKey}`;
 
+  const service_id = JSON.stringify(localStorage.getItem("meet_service_id"));
+
   return {
-    title: `Connect with the world's most in-demand experts for 1-on-1 guidance.`,
-    description: "Connect with the world's most in-demand experts for 1-on-1 guidance. Ask questions, get expert advice, and grow with personalized insights.",
+    title: service_id,
+    description:
+      "Connect with the world's most in-demand experts for 1-on-1 guidance. Ask questions, get expert advice, and grow with personalized insights.",
     metadataBase: new URL("https://meetxo.ai"),
     openGraph: {
-      title: `Connect with the world's most in-demand experts for 1-on-1 guidance.`,
-      description: "Connect with the world's most in-demand experts for 1-on-1 guidance. Ask questions, get expert advice, and grow with personalized insights.",
-      images: [{
-        url: ogImageUrl,
-        width: 1200,
-        height: 627,
-        alt: "MeetXO Logo",
-      }],
+      title: service_id,
+      description:
+        "Connect with the world's most in-demand experts for 1-on-1 guidance. Ask questions, get expert advice, and grow with personalized insights.",
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 627,
+          alt: "MeetXO Logo",
+        },
+      ],
     },
   };
 }
-
 export default function Page()
 {
 return (
