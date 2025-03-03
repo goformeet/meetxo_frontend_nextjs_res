@@ -10,6 +10,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import debounce from "lodash/debounce";
 
+
 type Professional= {
   _id: string;
   name: string;
@@ -78,7 +79,9 @@ export default function Explore() {
     setSub_profession(id)
   };
 
-
+  // const searchParams = useSearchParams();
+  
+ 
  
  const getMentorsAndInfluencers = async () => {
    try {
@@ -107,7 +110,7 @@ export default function Explore() {
 
   const getProfessionals = debounce(async () => {
     try {
-      // setLoading(true);
+      
        const filters: Record<string, string | boolean> = {};
        if (searchValue) filters.search = searchValue;
        if (profession) {
@@ -160,15 +163,22 @@ export default function Explore() {
     }
   };
   useEffect(() => {
-    // getProfessionals("","search");
     getProfessions();
     getMentorsAndInfluencers()
   },[]);
+  
 
   useEffect(() => {
-    getProfessionals()
-  }, [searchValue, profession, sub_profession]);
+    if (searchValue) {
+      getProfessionals();
+    }
+  }, [searchValue]);
+  useEffect(() => {
+    const searchFromHome =
+      localStorage.getItem("expert_search_from_home")??""
 
+    setSearchValue(searchFromHome);
+  }, []);
   return (
     // max-w-[calc(100%-105px)] shoduld be added here when side bar is there
     <div className="px-4 md:px-7 lg:px-10">
@@ -187,9 +197,7 @@ export default function Explore() {
           type="text"
           placeholder="Search by name, company, role"
           className="border-none focus-visible:ring-0 h-fit py-3 md:py-4 shadow-none placeholder:text-muted-foreground"
-          // onChange={(e) => {
-          //   getProfessionals(e.target.value,"search");
-          // }}
+          value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
         />
       </div>
@@ -202,6 +210,7 @@ export default function Explore() {
               setSub_profession("");
               filterItemsFun("is_top_expert");
               setProfession(true);
+               getProfessionals();
             }}
           >
             <Avatar className="h-16 w-[119px]">
@@ -228,6 +237,7 @@ export default function Explore() {
                   setSub_profession("");
                   filterItemsFun(da._id);
                   setProfession(da._id);
+                   getProfessionals();
                 }}
               >
                 <Avatar className="h-16 w-[119px]">
@@ -256,6 +266,7 @@ export default function Explore() {
                 } else {
                   toggleFilter(item.title, item._id);
                 }
+                 getProfessionals();
               }}
               variant="outline"
               className={cn(
