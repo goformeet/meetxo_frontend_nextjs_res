@@ -38,7 +38,7 @@ const items = [
 
    {
     icon: "/images/description-icon.svg",
-    title: "Portfolio",
+    title: "Portfolio 🔒",
     value: "portfolio",
   component: () => (
     <div className="flex items-center justify-center h-full text-center">
@@ -52,7 +52,7 @@ It is only available to experts who have completed 5 paid meetings and hosted 2 
 
   {
     icon: "/images/description-icon.svg",
-    title: "Email Campaign",
+    title: "Email Campaign 🔒",
     value: "Email Campaign",
   component: () => (
     <div className="flex items-center justify-center h-full text-center">
@@ -63,7 +63,7 @@ It is only available to experts who have completed 5 paid meetings and hosted 2 
   ),  },
   {
     icon: "/images/description-icon.svg",
-    title: "Analytics",
+    title: "Analytics 🔒",
     value: "Analytics",
   component: () => (
     <div className="flex items-center justify-center h-full text-center">
@@ -74,7 +74,7 @@ It is only available to experts who have completed 5 paid meetings and hosted 2 
   ),  },
   {
     icon: "/images/description-icon.svg",
-    title: "Affiliate Marketing",
+    title: "Affiliate Marketing 🔒",
     value: "Affiliate Marketing",
   component: () => (
     <div className="flex items-center justify-center h-full text-center">
@@ -86,7 +86,7 @@ It is only available to experts who have completed 5 paid meetings and hosted 2 
 
   {
     icon: "/images/description-icon.svg",
-    title: "Whatsapp Marketing",
+    title: "Whatsapp Marketing 🔒",
     value: "Whatsapp Marketing",
   component: () => (
     <div className="flex items-center justify-center h-full text-center">
@@ -97,7 +97,7 @@ It is only available to experts who have completed 5 paid meetings and hosted 2 
   ),  },
   {
     icon: "/images/description-icon.svg",
-    title: "Referral Program",
+    title: "Referral Program 🔒",
     value: "Referral Program",
   component: () => (
     <div className="flex items-center justify-center h-full text-center">
