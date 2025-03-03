@@ -1,4 +1,5 @@
-import React from 'react'
+"useClient"
+import React, { useState } from 'react'
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
@@ -6,9 +7,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import ExpertInput from './expert-input';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 
 export default function HomeBanner() {
+    const [search,setSearch]=useState("")
+    const router = useRouter();
+    const handleClick=()=>{
+ router.push(`/experts?s=${encodeURIComponent(search)}`);
+    }
   return (
       <section className="px-4 md:px-7 lg:px-10 bg-[url('/images/home-banner-bg.png')] bg-cover bg-center">
           <div className="py-28 flex flex-col justify-center items-center">
@@ -50,10 +57,13 @@ export default function HomeBanner() {
                           </p>
                       </div>
                       <div className="h-[111px] mt-16">
-                          <div className="flex items-center bg-background border-[#F1F1F3] border rounded-[14px] p-1 max-w-[638px] mx-auto">
-                              <Input type="text" placeholder="Search expert" className="border-none focus-visible:ring-0 shadow-none placeholder:text-muted-foreground" />
+                          <div className="flex items-center bg-background border-[rgb(241,241,243)] border rounded-[14px] p-1 max-w-[638px] mx-auto">
+                              <Input type="text" value={search} placeholder="Search expert" onChange={(e)=>setSearch(e.target.value)} className="border-none focus-visible:ring-0 shadow-none placeholder:text-muted-foreground" />
                               <Button className="text-white text-lg/[27px] py-[18px] px-7 h-fit rounded-[12px]">
-                                  <Link href="/experts">Search</Link>
+                                  <Link href="/experts" onClick={(e)=>{
+                                    e.preventDefault()
+                                    handleClick()
+                                  }}>Search</Link>
                               </Button>
                           </div>
                       </div>

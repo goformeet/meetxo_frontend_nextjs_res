@@ -9,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import debounce from "lodash/debounce";
+import { useSearchParams } from "next/navigation";
 
 type Professional= {
   _id: string;
@@ -78,7 +79,8 @@ export default function Explore() {
     setSub_profession(id)
   };
 
-
+  const searchParams = useSearchParams();
+  const searchFromHome = searchParams.get("s") || "";
  
  const getMentorsAndInfluencers = async () => {
    try {
@@ -107,7 +109,7 @@ export default function Explore() {
 
   const getProfessionals = debounce(async () => {
     try {
-      // setLoading(true);
+      
        const filters: Record<string, string | boolean> = {};
        if (searchValue) filters.search = searchValue;
        if (profession) {
@@ -163,12 +165,16 @@ export default function Explore() {
     // getProfessionals("","search");
     getProfessions();
     getMentorsAndInfluencers()
+   
   },[]);
+  
 
   useEffect(() => {
-    getProfessionals()
-  }, [searchValue, profession, sub_profession]);
-
+    getProfessionals();
+  }, [profession, sub_profession, searchValue]);
+  useEffect(() => {
+    setSearchValue(searchFromHome);
+  }, []);
   return (
     // max-w-[calc(100%-105px)] shoduld be added here when side bar is there
     <div className="px-4 md:px-7 lg:px-10">
@@ -190,6 +196,7 @@ export default function Explore() {
           // onChange={(e) => {
           //   getProfessionals(e.target.value,"search");
           // }}
+          value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
         />
       </div>

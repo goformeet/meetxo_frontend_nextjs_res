@@ -77,7 +77,7 @@ export default function Page() {
     email: "",
     phone: "",
     id: "",
-    token:""
+    token: "",
   });
   const [isProcessing, setIsProcessing] = useState(false);
   const [open, setOpen] = useState(false);
@@ -85,7 +85,7 @@ export default function Page() {
   const [step, setStep] = useState<"phone" | "otp" | "details">("phone");
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
- 
+
   // const [details, setDetails] = useState<{
   //   userName: string;
   //   email: string;
@@ -97,7 +97,6 @@ export default function Page() {
   //   phone_number: "",
   //   razorpay_order_id: "",
   // });
-  
 
   const [service, setService] = useState<ServiceType>({
     _id: "",
@@ -164,11 +163,11 @@ export default function Page() {
         if (session?.user?.is_new_user) {
           setStep("details");
         } else {
-          setOpen(false)
+          setOpen(false);
           if (service?.online_pricing) {
-           await makePayment();
+            await makePayment();
           } else {
-           await bookMeeting("");
+            await bookMeeting("");
           }
         }
       }
@@ -203,9 +202,7 @@ export default function Page() {
         if (service?.online_pricing) {
           makePayment();
         } else {
-          bookMeeting(
-            ''
-          );
+          bookMeeting("");
         }
       } else {
         alert(res.message);
@@ -217,7 +214,7 @@ export default function Page() {
   const makePayment = async () => {
     try {
       setIsProcessing(true);
-      await getUser()
+      await getUser();
       const dat = {
         email: user.email || "",
         phone_number: user.phone || "",
@@ -342,24 +339,23 @@ export default function Page() {
     data: { email: string; name: string; phone_number: string },
     response: { razorpay_order_id: string }
   ) => {
-  
     bookMeeting(response.razorpay_order_id);
   };
 
-  const bookMeeting = async (razId:string) => {
+  const bookMeeting = async (razId: string) => {
     try {
       setIsProcessing(true);
-       const session = await getSession();
-       if (!session?.accessToken) {
-         alert("Please Login");
-         return;
-       }
+      const session = await getSession();
+      if (!session?.accessToken) {
+        alert("Please Login");
+        return;
+      }
 
-       const profile = await User(session.accessToken);
-       if (!profile.success) {
-         alert("Failed to fetch user profile");
-         return;
-       }
+      const profile = await User(session.accessToken);
+      if (!profile.success) {
+        alert("Failed to fetch user profile");
+        return;
+      }
       const mtTime =
         selectedDate && selectedSlot
           ? convertToISOString(selectedDate, selectedSlot)
@@ -381,53 +377,52 @@ export default function Page() {
         setSuccessModalOpen(true);
       }
     } catch (error) {
-     console.error(error);
-     if (axios.isAxiosError(error)) {
-       console.error("Axios error response:", error.response);
-       if (error?.response?.data?.message)
-         alert(error?.response?.data?.message);
-     } else if (error instanceof Error) {
-       console.error("General error:", error.message);
-       alert("Something went wrong");
-     }
-    }finally{
-         setIsProcessing(false);
+      console.error(error);
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error response:", error.response);
+        if (error?.response?.data?.message)
+          alert(error?.response?.data?.message);
+      } else if (error instanceof Error) {
+        console.error("General error:", error.message);
+        alert("Something went wrong");
+      }
+    } finally {
+      setIsProcessing(false);
     }
   };
-const bookMeet = async () => {
- 
-  try {
-    setIsProcessing(true);
+  const bookMeet = async () => {
+    try {
+      setIsProcessing(true);
 
-    if (selectedDate && selectedSlot) {
-      if (user.token) {
-        if (service.online_pricing) {
-         await makePayment();
+      if (selectedDate && selectedSlot) {
+        if (user.token) {
+          if (service.online_pricing) {
+            await makePayment();
+          } else {
+            bookMeeting("");
+          }
         } else {
-           bookMeeting("");
+          setOpen(true);
         }
-      } else {
-        setOpen(true);
       }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsProcessing(false);
     }
-  } catch (error) {
-    console.error(error);
-  } finally {
-    setIsProcessing(false);
-  }
-};
-useEffect(() => {
-  if (successModalOpen) {
-    const timer = setTimeout(() => {
-      router.push(`/${username}`)
-    }, 2000);
+  };
+  useEffect(() => {
+    if (successModalOpen) {
+      const timer = setTimeout(() => {
+        router.push(`/${username}`);
+      }, 2000);
 
-    return () => clearTimeout(timer);
-  }
-}, [successModalOpen]);
+      return () => clearTimeout(timer);
+    }
+  }, [successModalOpen]);
   useEffect(() => {
     getService();
-    getExpert()
+    getExpert();
     getUser();
   }, []);
 
@@ -440,7 +435,7 @@ useEffect(() => {
         message={successMessage}
       />
       <div>
-{/*         <Link href={"/"} className="flex gap-1.5 items-center py-5">
+        {/*         <Link href={"/"} className="flex gap-1.5 items-center py-5">
           <Image
             src={"/images/back-icon.svg"}
             alt="Back Icon"
@@ -449,8 +444,6 @@ useEffect(() => {
           />
           <p className="text-lg md:text-[22px]/7 font-bold">Booking Session </p>
         </Link> */}
-
-
 
         <div
           onClick={() => router.back()} // Navigates back
@@ -465,8 +458,6 @@ useEffect(() => {
           <p className="text-lg md:text-[22px]/7 font-bold">Booking Session</p>
         </div>
 
-
-        
         <div>
           <div className="my-5 flex flex-col lg:flex-row gap-10 ">
             <div className="rounded-[16px] border border-[#E3E6EA] overflow-hidden lg:w-3/5">
@@ -628,12 +619,12 @@ useEffect(() => {
         loading={loading}
       />
 
-
-
-          <div className="mt-10 text-sm text-gray-200">
+      <div className="mt-10 text-sm text-gray-200">
         {/* <p>Keywords: {eventData?.keywords?.join(", ")}</p> */}
-        <p>Keywords: MeetXO , Meetings in bengaluru , Online Meeting, Offile Meeting</p>
-
+        <p>
+          Keywords: MeetXO , Meetings in bengaluru , Online Meeting, Offile
+          Meeting
+        </p>
       </div>
     </div>
   );
