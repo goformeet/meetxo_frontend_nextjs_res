@@ -147,10 +147,27 @@ const getEvents= async()=>{
                 className="p-4 border border-[#E0E0E0] rounded-[16px] flex justify-between"
               >
                 <div>
-                  <p className="text-xl/[130%] font-medium mb-2">
+{/*                   <p className="text-xl/[130%] font-medium mb-2">
                     {/* Building a successful business - 1:1 Mentoring */}
-                    {data.name}
-                  </p>
+{/*                     {data.name} */}
+{/*                   </p> */} */}
+
+                  <p
+  role="button"
+  tabIndex={0}
+  onClick={() => {
+    setSelectedId(data._id);
+    handleClick(data._id);
+  }}
+  className={cn(
+    "text-xl/[130%] font-medium mb-2 cursor-pointer transition-colors duration-300",
+    selectedId === data._id ? "text-gray-400" : "text-black"
+  )}
+>
+  {data.name}
+</p>
+
+                  
                   <div className="flex items-center gap-2">
                     <p className="text-[#7C7C7C] text-base/[150%]">
                       {/* By Sen Janson */}
