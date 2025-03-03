@@ -162,16 +162,16 @@ export default function Explore() {
     }
   };
   useEffect(() => {
-    // getProfessionals("","search");
     getProfessions();
     getMentorsAndInfluencers()
-   
   },[]);
   
 
   useEffect(() => {
-    getProfessionals();
-  }, [profession, sub_profession, searchValue]);
+    if (searchValue) {
+      getProfessionals();
+    }
+  }, [searchValue]);
   useEffect(() => {
     setSearchValue(searchFromHome);
   }, []);
@@ -193,9 +193,6 @@ export default function Explore() {
           type="text"
           placeholder="Search by name, company, role"
           className="border-none focus-visible:ring-0 h-fit py-3 md:py-4 shadow-none placeholder:text-muted-foreground"
-          // onChange={(e) => {
-          //   getProfessionals(e.target.value,"search");
-          // }}
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
         />
@@ -209,6 +206,7 @@ export default function Explore() {
               setSub_profession("");
               filterItemsFun("is_top_expert");
               setProfession(true);
+               getProfessionals();
             }}
           >
             <Avatar className="h-16 w-[119px]">
@@ -235,6 +233,7 @@ export default function Explore() {
                   setSub_profession("");
                   filterItemsFun(da._id);
                   setProfession(da._id);
+                   getProfessionals();
                 }}
               >
                 <Avatar className="h-16 w-[119px]">
@@ -263,6 +262,7 @@ export default function Explore() {
                 } else {
                   toggleFilter(item.title, item._id);
                 }
+                 getProfessionals();
               }}
               variant="outline"
               className={cn(
