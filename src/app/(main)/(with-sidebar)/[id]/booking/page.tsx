@@ -9,7 +9,8 @@ type Params = Promise<{ id: string }>
 export async function generateMetadata({ params }: {params: Params}): Promise<Metadata> {
   const id = decodeURIComponent((await params).id);
 
-
+  const ogKey = `og_images/${id}.png`;
+  let ogImageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${ogKey}`;
 
   return {
     title: `${id}`,
@@ -19,7 +20,7 @@ export async function generateMetadata({ params }: {params: Params}): Promise<Me
       title: `${id}`,
       description: "Connect with the world's most in-demand experts for 1-on-1 guidance. Ask questions, get expert advice, and grow with personalized insights.",
       images: [{
-        url: "/og_image.png",
+        url: ogImageUrl,
         width: 1200,
         height: 627,
         alt: "MeetXO Logo",
