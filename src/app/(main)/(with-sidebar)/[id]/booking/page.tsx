@@ -17,15 +17,15 @@ export async function generateMetadata({
   const ogKey = `og_images/${id}.png`;
   const ogImageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${ogKey}`;
 
-  const service_id = JSON.stringify(localStorage.getItem("meet_service_id"));
+
 
   return {
-    title: service_id,
+    title: "Connect with the world's most in-demand experts for 1-on-1 guidance",
     description:
       "Connect with the world's most in-demand experts for 1-on-1 guidance. Ask questions, get expert advice, and grow with personalized insights.",
     metadataBase: new URL("https://meetxo.ai"),
     openGraph: {
-      title: service_id,
+      title: "Connect with the world's most in-demand experts for 1-on-1 guidance",
       description:
         "Connect with the world's most in-demand experts for 1-on-1 guidance. Ask questions, get expert advice, and grow with personalized insights.",
       images: [
