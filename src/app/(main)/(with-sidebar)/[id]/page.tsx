@@ -254,6 +254,12 @@ export default async function Page({ params }: {params: Params}) {
           </TabsContent>
         </Tabs>
       </div>
+
+           <div className="mt-10 text-sm text-gray-300">
+        {/* <p>Keywords: {eventData?.keywords?.join(", ")}</p> */}
+        <p>Keywords: MeetXO, One on One Meetings, Online Webinar, Offline Meetings, Events</p>
+
+      </div>
     </div>
   );
 }
