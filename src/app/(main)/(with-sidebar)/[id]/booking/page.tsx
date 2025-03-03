@@ -630,7 +630,7 @@ useEffect(() => {
 
 
 
-          <div className="mt-10 text-sm text-gray-300">
+          <div className="mt-10 text-sm text-gray-200">
         {/* <p>Keywords: {eventData?.keywords?.join(", ")}</p> */}
         <p>Keywords: MeetXO , Meetings in bengaluru , Online Meeting, Offile Meeting</p>
 
