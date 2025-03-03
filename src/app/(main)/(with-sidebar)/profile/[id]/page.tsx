@@ -42,7 +42,9 @@ const items = [
     value: "portfolio",
   component: () => (
     <div className="flex items-center justify-center h-full text-center">
-You are not eligible for this premium feature. It is only available to experts who have completed 5 paid meetings and hosted 2 paid events.
+You are not eligible for this premium feature
+ <br />        
+It is only available to experts who have completed 5 paid meetings and hosted 2 paid events.
     </div>
   ),
      
@@ -52,33 +54,58 @@ You are not eligible for this premium feature. It is only available to experts w
     icon: "/images/description-icon.svg",
     title: "Email Campaign",
     value: "Email Campaign",
-    component: () => <div>Only avaiable for Top Experts</div>,
-  },
+  component: () => (
+    <div className="flex items-center justify-center h-full text-center">
+You are not eligible for this premium feature
+ <br />        
+It is only available to experts who have completed 5 paid meetings and hosted 2 paid events.
+    </div>
+  ),  },
   {
     icon: "/images/description-icon.svg",
     title: "Analytics",
     value: "Analytics",
-    component: () => <div>Only avaiable for Top Experts</div>,
-  },
+  component: () => (
+    <div className="flex items-center justify-center h-full text-center">
+You are not eligible for this premium feature
+ <br />        
+It is only available to experts who have completed 5 paid meetings and hosted 2 paid events.
+    </div>
+  ),  },
   {
     icon: "/images/description-icon.svg",
     title: "Affiliate Marketing",
     value: "Affiliate Marketing",
-    component: () => <div>Only avaiable for Top Experts</div>,
-  },
+  component: () => (
+    <div className="flex items-center justify-center h-full text-center">
+You are not eligible for this premium feature
+ <br />        
+It is only available to experts who have completed 5 paid meetings and hosted 2 paid events.
+    </div>
+  ),  },
 
   {
     icon: "/images/description-icon.svg",
     title: "Whatsapp Marketing",
     value: "Whatsapp Marketing",
-    component: () => <div>Only avaiable for Top Experts</div>,
-  },
+  component: () => (
+    <div className="flex items-center justify-center h-full text-center">
+You are not eligible for this premium feature
+ <br />        
+It is only available to experts who have completed 5 paid meetings and hosted 2 paid events.
+    </div>
+  ),  },
   {
     icon: "/images/description-icon.svg",
     title: "Referral Program",
     value: "Referral Program",
-    component: () => <div>Only avaiable for Top Experts</div>,
-  },
+  component: () => (
+    <div className="flex items-center justify-center h-full text-center">
+You are not eligible for this premium feature
+ <br />        
+It is only available to experts who have completed 5 paid meetings and hosted 2 paid events.
+    </div>
+  ),  },
 ];
 
 export default function ProfileSettings() {
