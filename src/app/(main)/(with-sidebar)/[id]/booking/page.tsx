@@ -440,7 +440,7 @@ useEffect(() => {
         message={successMessage}
       />
       <div>
-        <Link href={"/"} className="flex gap-1.5 items-center py-5">
+{/*         <Link href={"/"} className="flex gap-1.5 items-center py-5">
           <Image
             src={"/images/back-icon.svg"}
             alt="Back Icon"
@@ -448,7 +448,25 @@ useEffect(() => {
             height={22}
           />
           <p className="text-lg md:text-[22px]/7 font-bold">Booking Session </p>
-        </Link>
+        </Link> */}
+
+
+
+        <div
+          onClick={() => router.back()} // Navigates back
+          className="flex gap-1.5 items-center py-5 cursor-pointer"
+        >
+          <Image
+            src={"/images/back-icon.svg"}
+            alt="Back Icon"
+            width={22}
+            height={22}
+          />
+          <p className="text-lg md:text-[22px]/7 font-bold">Booking Session</p>
+        </div>
+
+
+        
         <div>
           <div className="my-5 flex flex-col lg:flex-row gap-10 ">
             <div className="rounded-[16px] border border-[#E3E6EA] overflow-hidden lg:w-3/5">
