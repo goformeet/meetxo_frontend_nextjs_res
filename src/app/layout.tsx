@@ -46,6 +46,12 @@ export const metadata: Metadata = {
       },
     ],
   },
+
+    icons: {
+    icon: "/meetxo_favicon.png", // Favicon path (inside the public/ folder)
+    apple: "/meetxo_favicon.png", // Optional Apple touch icon
+    shortcut: "/meetxo_favicon.png", // Optional favicon variant
+  },
 };
 
 export default function RootLayout({
