@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: {params: Params}): Promise<Me
     metadataBase: new URL("https://meetxo.ai"),
     openGraph: {
       title: `${id}`,
-      description: "Connect with the world's most in-demand experts for 1-on-1 guidance. Ask questions, get expert advice, and grow with personalized insights.",,
+      description: "Connect with the world's most in-demand experts for 1-on-1 guidance. Ask questions, get expert advice, and grow with personalized insights.",
       images: [{
         url: "/og_image.png",
         width: 1200,
