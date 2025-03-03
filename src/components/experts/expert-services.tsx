@@ -147,10 +147,7 @@ const getEvents= async()=>{
                 className="p-4 border border-[#E0E0E0] rounded-[16px] flex justify-between"
               >
                 <div>
-{/*                   <p className="text-xl/[130%] font-medium mb-2">
-                    {/* Building a successful business - 1:1 Mentoring */}
-{/*                     {data.name} */}
-{/*                   </p> */} */}
+         
 
                   <p
   role="button"
