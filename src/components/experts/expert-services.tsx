@@ -91,6 +91,9 @@ export default function ExpertServices({ id, username }: ExpertServicesProps) {
     }
   };
 
+  function replaceSpacesWithUnderscore(input: string) {
+    return input.replace(/\s+/g, "_") ?? "";
+  }
 const getEvents= async()=>{
   try {
     const res = await getEventsByHost(id);
@@ -102,11 +105,11 @@ const getEvents= async()=>{
     
   }
 }
-  const handleClick = (id: string) => {
-   
+  const handleClick = (id: string,name:string) => {
 
+localStorage.setItem("meet_service_id", id);
      startTransition(() => {
-        router.push(`${username}/booking?id=${id}`)
+        router.push(`${username}/booking?n=${replaceSpacesWithUnderscore(name)}`)
      });
    };
 
@@ -147,24 +150,21 @@ const getEvents= async()=>{
                 className="p-4 border border-[#E0E0E0] rounded-[16px] flex justify-between"
               >
                 <div>
-         
-
                   <p
-  role="button"
-  tabIndex={0}
-  onClick={() => {
-    setSelectedId(data._id);
-    handleClick(data._id);
-  }}
-  className={cn(
-    "text-xl/[130%] font-medium mb-2 cursor-pointer transition-colors duration-300",
-    selectedId === data._id ? "text-gray-400" : "text-black"
-  )}
->
-  {data.name}
-</p>
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => {
+                      setSelectedId(data._id);
+                      handleClick(data._id,data.name);
+                    }}
+                    className={cn(
+                      "text-xl/[130%] font-medium mb-2 cursor-pointer transition-colors duration-300",
+                      selectedId === data._id ? "text-gray-400" : "text-black"
+                    )}
+                  >
+                    {data.name}
+                  </p>
 
-                  
                   <div className="flex items-center gap-2">
                     <p className="text-[#7C7C7C] text-base/[150%]">
                       {/* By Sen Janson */}
@@ -229,9 +229,9 @@ const getEvents= async()=>{
                     onClick={(e) => {
                       e.preventDefault();
                       setSelectedId(data._id);
-                      handleClick(data._id);
+                      handleClick(data._id,data.name);
                     }}
-                    disabled={isPending }
+                    disabled={isPending}
                     className={cn(
                       "font-roboto text-sm/normal font-semibold capitalize py-[9px] px-[16px] leading-normal rounded-[8px] h-fit text-white shadow-none"
                     )}

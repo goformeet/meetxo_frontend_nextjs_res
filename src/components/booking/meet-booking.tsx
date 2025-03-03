@@ -60,7 +60,8 @@ type ServiceType = {
 export default function MeetBooking() {
   // const formRef = useRef<BookingFormRef>(null);
   const searchParams = useSearchParams();
-  const id = searchParams.get("id") || "";
+  const service_id = JSON.stringify(localStorage.getItem("meet_service_id")); ;
+     const id = service_id.replace(/^"|"$/g, "");
 
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedSlots, setSelectedSlots] = useState<
@@ -479,7 +480,7 @@ export default function MeetBooking() {
                     </p> */}
                     {service.online_pricing ? (
                       <p className="text-base/5 font-bold">
-                        {service.currency.symbol
+                        {service?.currency?.symbol
                           ? service.currency.symbol
                           : "$"}
                         {service.online_pricing.toFixed(2)}
