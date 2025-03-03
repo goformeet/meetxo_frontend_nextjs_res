@@ -627,6 +627,14 @@ useEffect(() => {
         phone={phone}
         loading={loading}
       />
+
+
+
+          <div className="mt-10 text-sm text-gray-300">
+        {/* <p>Keywords: {eventData?.keywords?.join(", ")}</p> */}
+        <p>Keywords: MeetXO , Meetings in bengaluru , Online Meeting, Offile Meeting</p>
+
+      </div>
     </div>
   );
 }
