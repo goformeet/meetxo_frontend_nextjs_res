@@ -101,9 +101,9 @@ export default function ProfessionalsSection() {
     // getProfessionals("","search");
     getProfessions();
   }, [false]);
-  useEffect(()=>{
-getProfessionals()
-  },[searchValue,category])
+  useEffect(() => {
+    getProfessionals();
+  }, [category,searchValue]);
 
   return (
     <section className="px-4 md:px-7 lg:px-10 pt-[91px] pb-[55px]">
