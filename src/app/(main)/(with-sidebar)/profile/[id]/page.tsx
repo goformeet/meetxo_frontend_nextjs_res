@@ -42,9 +42,10 @@ const items = [
     value: "portfolio",
   component: () => (
     <div className="flex items-center justify-center h-full text-center">
-You are not eligible for this premium feature
+Unlock Premium Features!
  <br />        
-It is only available to experts who have completed 5 paid meetings and hosted 2 paid events.
+Premium access is reserved for experts who complete 5 more paid meetings and 2 paid events
+
     </div>
   ),
      
@@ -56,9 +57,10 @@ It is only available to experts who have completed 5 paid meetings and hosted 2 
     value: "Email Campaign",
   component: () => (
     <div className="flex items-center justify-center h-full text-center">
-You are not eligible for this premium feature
+Unlock Premium Features!
  <br />        
-It is only available to experts who have completed 5 paid meetings and hosted 2 paid events.
+Premium access is reserved for experts who complete 5 more paid meetings and 2 paid events
+
     </div>
   ),  },
   {
@@ -67,9 +69,10 @@ It is only available to experts who have completed 5 paid meetings and hosted 2 
     value: "Analytics",
   component: () => (
     <div className="flex items-center justify-center h-full text-center">
-You are not eligible for this premium feature
+Unlock Premium Features!
  <br />        
-It is only available to experts who have completed 5 paid meetings and hosted 2 paid events.
+Premium access is reserved for experts who complete 5 more paid meetings and 2 paid events
+
     </div>
   ),  },
   {
@@ -78,9 +81,10 @@ It is only available to experts who have completed 5 paid meetings and hosted 2 
     value: "Affiliate Marketing",
   component: () => (
     <div className="flex items-center justify-center h-full text-center">
-You are not eligible for this premium feature
+Unlock Premium Features!
  <br />        
-It is only available to experts who have completed 5 paid meetings and hosted 2 paid events.
+Premium access is reserved for experts who complete 5 more paid meetings and 2 paid events
+
     </div>
   ),  },
 
@@ -90,9 +94,10 @@ It is only available to experts who have completed 5 paid meetings and hosted 2 
     value: "Whatsapp Marketing",
   component: () => (
     <div className="flex items-center justify-center h-full text-center">
-You are not eligible for this premium feature
+Unlock Premium Features!
  <br />        
-It is only available to experts who have completed 5 paid meetings and hosted 2 paid events.
+Premium access is reserved for experts who complete 5 more paid meetings and 2 paid events
+
     </div>
   ),  },
   {
@@ -101,9 +106,10 @@ It is only available to experts who have completed 5 paid meetings and hosted 2 
     value: "Referral Program",
   component: () => (
     <div className="flex items-center justify-center h-full text-center">
-You are not eligible for this premium feature
+Unlock Premium Features!
  <br />        
-It is only available to experts who have completed 5 paid meetings and hosted 2 paid events.
+Premium access is reserved for experts who complete 5 more paid meetings and 2 paid events
+
     </div>
   ),  },
 ];
