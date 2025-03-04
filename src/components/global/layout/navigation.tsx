@@ -73,7 +73,7 @@ export default function Navigation() {
           {user?.name && (
             <Link href={`/profile/${normalizeUsername(user.name)}/?item=personal-information`}>
               <Avatar className="max-w-[48px]">
-                <AvatarImage src={user.profile_image || ""} />
+                <AvatarImage src={user.profile_image || "https://www.cgg.gov.in/wp-content/uploads/2017/10/dummy-profile-pic-male1.jpg"} />
                 <AvatarFallback className="text-white bg-primary">
                   {getFallbackLetters(user.name)}
                 </AvatarFallback>

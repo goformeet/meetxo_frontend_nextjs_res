@@ -172,7 +172,7 @@ export default function Explore() {
   return (
     // max-w-[calc(100%-105px)] shoduld be added here when side bar is there
     <div className="px-4 md:px-7 lg:px-10">
-      <h1 className="text-lg/5 md:text-[22px]/[28px] font-bold">
+      <h1 className="text-lg/5 my-6 md:text-[22px]/[28px] font-bold">
         Select an expert, schedule a session, and receive guidance via video
         call.
       </h1>

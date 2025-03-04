@@ -58,8 +58,16 @@ const Page = () => {
           redirect: false,
         });
 
+        console.log("🚀 ~ handleOtpSubmit ~ result:", result);
+
+
         if (result?.ok) {
           const session = await getSession();
+
+          console.log("🚀 ~ handleOtpSubmit ~ session:", session);
+
+          localStorage.setItem('token',""+session?.accessToken)
+
           if (session?.user?.is_new_user) {
             setStep("details");
           } else {
@@ -93,11 +101,12 @@ const Page = () => {
         if (!session || !session.accessToken) {
           throw new Error("User session not found or accessToken missing");
         }
+        localStorage.setItem('token',session.accessToken)
         const res = await setUpProfile(detals, session.accessToken);
 
         if (res.success) {
             const response = await User(session?.accessToken || '');
-            if (response.data.success) {
+            if (response?.data?.success) {
                 router.push(`/profile/${normalizeUsername(response.data.profile.name || "user")}/?item=personal-information`);
             }
           router.push("/");

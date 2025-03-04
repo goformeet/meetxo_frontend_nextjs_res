@@ -24,7 +24,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 
-type EventType= {
+type EventType = {
   _id: string;
   user_id: string;
 
@@ -47,7 +47,10 @@ type EventType= {
 }
 
 export default function Home() {
-  const [events, setEvents] = useState < EventType[]>([]);
+  const [events, setEvents] = useState<EventType[]>([]);
+  const token = localStorage.getItem('token')
+
+
 
   const reviews = [
     {
@@ -88,7 +91,7 @@ export default function Home() {
     },
   ];
 
-  
+
 
   // const events = [
   //   {
@@ -257,26 +260,29 @@ export default function Home() {
       descritption: 'MeetXO is designed to bring experts and users together in one place. We offer everything from easy profile setup, seamless booking systems, secure payments, to live sessions—all in a single platform. It’s made to help both experts grow their businesses and users find the right guidance efficiently.'
     }
   ];
-const getEvents=async()=>{
-  try {
-    const res=await getAllEvents()
-    if(res.success){
-      setEvents(res.data);
+  const getEvents = async () => {
+    try {
+      const res = await getAllEvents()
+      if (res.success) {
+        setEvents(res.data);
+      }
+    } catch (error) {
+      console.error(error)
+
     }
-  } catch (error) {
-    console.error(error)
-    
   }
-}
-useEffect(()=>{
-getEvents()
-},[])
+  useEffect(() => {
+    getEvents()
+  }, [])
+
   return (
     <>
       <main className="font-plus-jakarta-sans">
         {/* Desktop */}
-        <HomeBanner />
-        <SupportSection />
+        {
+          !token && <><HomeBanner />
+            <SupportSection /></>
+        }
         <ProfessionalsSection />
         {/* <section className="px-4 md:px-7 lg:px-10 pt-[50px] pb-10 bg-[#F9FCFF] dark:bg-[#181C28] bg-[url('/images/upcomming-events-bg.png')] bg-cover bg-center">
         <h5 className="text-2xl/[51px] font-bold capitalize">Upcoming Webinars</h5>
@@ -297,10 +303,10 @@ getEvents()
               ))}
             </div>
             <div className="flex justify-center mt-8 md:mt-16">
-          <Button className="text-white text-sm md:text-lg/[150%] font-semibold py-3 md:py-[18px] px-4 md:px-7 rounded md:rounded-[14px] h-fit">
-            <Link href={"/events"}>Explore Events</Link>
-          </Button>
-        </div>
+              <Button className="text-white text-sm md:text-lg/[150%] font-semibold py-3 md:py-[18px] px-4 md:px-7 rounded md:rounded-[14px] h-fit">
+                <Link href={"/events"}>Explore Events</Link>
+              </Button>
+            </div>
           </section>
         )}
 
