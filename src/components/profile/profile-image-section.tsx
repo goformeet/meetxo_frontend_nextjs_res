@@ -130,7 +130,7 @@ export default function ProfileImageSection({ user, setUpdateSuccess, setUser }:
             const token = session.accessToken;
 
             // Step 1: Get presigned URL from API
-            const { uploadUrl, publicUrl } = await getPresignedUrl(fileName, token);
+            const { uploadUrl, publicUrl } = await getPresignedUrl();
 
             // Step 2: Upload file to AWS
             await uploadFileToAWS(uploadUrl, croppedImageFile);

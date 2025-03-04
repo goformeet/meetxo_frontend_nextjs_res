@@ -157,7 +157,6 @@ export const getEventsByHost = async (hostId: string) => {
     const response = await axios.get(`${API_BASE_URL}/events/${hostId}`);
     return response.data;
   } catch (error) {
-    console.error(error);
     throw error;
   }
 }
@@ -177,20 +176,21 @@ export const User = async (token: string)=> {
 }
 
 // Function to get a presigned URL from API
-export const getPresignedUrl = async (fileName: string, token: string) => {
+export const getPresignedUrl = async () => {
   try {
     const response = await axios.post(
         `${API_BASE_URL}/upload`,
         { "fileType": "Image" },
         {
           headers: {
-            "Content-Type": 'application/json',
-            Authorization: `Bearer ${token}`,
+            "Content-Type": 'application/json'
           },
         }
     );
+
     return response.data; // { presignedUrl, fileUrl }
   } catch (error) {
+    console.log(error)
     throw error;
   }
 };
@@ -236,3 +236,74 @@ export const uploadFileToAWS = async (presignedUrl: string, file: File) => {
     throw error;
   }
 };
+
+type serviceData= {
+  meetingDateTime: string;
+  duration: number;
+  currency: {
+    symbol: string;
+    code: string;
+  };
+  name: string;
+  short_description: string;
+  long_description: string;
+  online_pricing: number;
+  offline_pricing: number;
+  location_link?: string | undefined;
+}
+
+export const createService = async (serviceData: serviceData, token: string) => {
+  try {
+    const response = await axios.post(
+        `${API_BASE_URL}/services`,
+        serviceData,
+        {
+          headers: {
+            "Content-Type": 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error creating service:", error);
+    throw error;
+  }
+};
+
+
+type eventData = {
+  start_date: string;
+  title: string;
+  description: string;
+  duration: number;
+  price: number;
+  type: "online" | "offline" ;
+  currency: {
+    symbol: string;
+    code: string;
+  };
+  event_date: Date;
+  event_time: string;
+  location?: string | undefined;
+  image: string;
+  max_participants: number;
+}
+export const createEvent = async (evenData:eventData, token: string)=> {
+  try {
+    const response = await axios.post(
+        `${API_BASE_URL}/events`,
+        evenData,
+        {
+          headers: {
+            "Content-Type": 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error creating service:", error);
+    throw error;
+  }
+}
