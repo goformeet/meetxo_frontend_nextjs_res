@@ -91,7 +91,7 @@ const Team = () => {
                     image={images.ritu}
                 />
                 <TeamImage
-                    name="Suryan"
+                    name="Sooraj"
                     designation="Video Editor"
                     goformeet="https://www.goformeet.co/surya"
                     image={images.suryan}
