@@ -48,7 +48,7 @@ export default function Navigation() {
 
   return (
     <>
-      <div className='px-10 py-4 hidden md:flex justify-between items-center shadow-[0px_1px_0px_0px_rgba(0,0,0,0.05)] sticky top-0 bg-background z-20'>
+      <div className='px-10 py-4 hidden md:flex  justify-between items-center shadow-[0px_1px_0px_0px_rgba(0,0,0,0.05)] sticky top-0 bg-background z-20'>
         <aside className='flex items-center gap-2'>
           <Link href={'/'}>
             <Image

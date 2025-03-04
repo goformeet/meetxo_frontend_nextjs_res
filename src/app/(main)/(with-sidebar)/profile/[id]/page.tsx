@@ -1,13 +1,14 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import ProfileInformationForm from '@/components/profile/profile-information-form';
-// import ProfileServices from '@/components/profile/profile-services';
+import ProfileServices from '@/components/profile/profile-services';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { ChevronLeft } from 'lucide-react';
 // import CalendarAvailability from '@/components/profile/calander-availablity';
 import { useIsMobile } from '@/hooks/use-mobile';
+import CalendarAvailability from '@/components/profile/calander-availablity';
 
 const items = [
   {
@@ -16,12 +17,12 @@ const items = [
     value: 'personal-information',
     component: ProfileInformationForm,
   },
-  // {
-  //   icon: '/images/meeting-icon.svg',
-  //   title: 'Add Services',
-  //   value: 'add-services',
-  //   component: ProfileServices,
-  // },
+  {
+    icon: '/images/meeting-icon.svg',
+    title: 'Add Services',
+    value: 'add-services',
+    component: ProfileServices,
+  },
   // {
   //   icon: '/images/calander-icon.svg',
   //   title: 'Calendar',
@@ -34,6 +35,78 @@ const items = [
   //   value: 'portfolio',
   //   component: () => <div>Portfolio Content</div>,
   // },
+
+
+   {
+    icon: "/images/description-icon.svg",
+    title: "Portfolio 🔒",
+    value: "portfolio",
+  component: () => (
+    <div className="flex items-center justify-center h-full text-center">
+You are not eligible for this premium feature
+ <br />        
+It is only available to experts who have completed 5 paid meetings and hosted 2 paid events.
+    </div>
+  ),
+     
+  },
+
+  {
+    icon: "/images/description-icon.svg",
+    title: "Email Campaign 🔒",
+    value: "Email Campaign",
+  component: () => (
+    <div className="flex items-center justify-center h-full text-center">
+You are not eligible for this premium feature
+ <br />        
+It is only available to experts who have completed 5 paid meetings and hosted 2 paid events.
+    </div>
+  ),  },
+  {
+    icon: "/images/description-icon.svg",
+    title: "Analytics 🔒",
+    value: "Analytics",
+  component: () => (
+    <div className="flex items-center justify-center h-full text-center">
+You are not eligible for this premium feature
+ <br />        
+It is only available to experts who have completed 5 paid meetings and hosted 2 paid events.
+    </div>
+  ),  },
+  {
+    icon: "/images/description-icon.svg",
+    title: "Affiliate Marketing 🔒",
+    value: "Affiliate Marketing",
+  component: () => (
+    <div className="flex items-center justify-center h-full text-center">
+You are not eligible for this premium feature
+ <br />        
+It is only available to experts who have completed 5 paid meetings and hosted 2 paid events.
+    </div>
+  ),  },
+
+  {
+    icon: "/images/description-icon.svg",
+    title: "Whatsapp Marketing 🔒",
+    value: "Whatsapp Marketing",
+  component: () => (
+    <div className="flex items-center justify-center h-full text-center">
+You are not eligible for this premium feature
+ <br />        
+It is only available to experts who have completed 5 paid meetings and hosted 2 paid events.
+    </div>
+  ),  },
+  {
+    icon: "/images/description-icon.svg",
+    title: "Referral Program 🔒",
+    value: "Referral Program",
+  component: () => (
+    <div className="flex items-center justify-center h-full text-center">
+You are not eligible for this premium feature
+ <br />        
+It is only available to experts who have completed 5 paid meetings and hosted 2 paid events.
+    </div>
+  ),  },
 ];
 
 export default function ProfileSettings() {
@@ -41,7 +114,10 @@ export default function ProfileSettings() {
   const [showMobileContent, setShowMobileContent] = useState(false);
   const isMobile = useIsMobile();
 
-  const SelectedComponent = items.find((item) => item.value === selectedTab)?.component;
+  const SelectedComponent = items?.find((item) => item.value === selectedTab)?.component;
+
+  console.log("🚀 ~ ProfileSettings ~ SelectedComponent:", SelectedComponent);
+
 
   useEffect(()=>{
     if(!selectedTab && !isMobile){
@@ -127,7 +203,7 @@ export default function ProfileSettings() {
           {items.find((item) => item.value === selectedTab)?.title}
         </h2>
       </div>
-      <div className="p-4">{SelectedComponent && <SelectedComponent  />}</div>
+      <div className="p-4">{SelectedComponent ? <SelectedComponent  /> : <></>}</div>
     </div>
   );
 
@@ -168,7 +244,7 @@ export default function ProfileSettings() {
             ))}
           </TabsList>
           <div className="flex-1 p-6">
-            {SelectedComponent && <SelectedComponent />}
+            {SelectedComponent ? <SelectedComponent /> : <></>}
           </div>
         </Tabs>
       </div>
