@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import ProfileInformationForm from '@/components/profile/profile-information-form';
-// import ProfileServices from '@/components/profile/profile-services';
+import ProfileServices from '@/components/profile/profile-services';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -16,12 +16,12 @@ const items = [
     value: 'personal-information',
     component: ProfileInformationForm,
   },
-  // {
-  //   icon: '/images/meeting-icon.svg',
-  //   title: 'Add Services',
-  //   value: 'add-services',
-  //   component: ProfileServices,
-  // },
+  {
+    icon: '/images/meeting-icon.svg',
+    title: 'Add Services',
+    value: 'add-services',
+    component: ProfileServices,
+  },
   // {
   //   icon: '/images/calander-icon.svg',
   //   title: 'Calendar',
