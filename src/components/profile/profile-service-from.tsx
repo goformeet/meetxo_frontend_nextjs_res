@@ -15,15 +15,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import {CalendarIcon, Loader2} from "lucide-react";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
 import { createService } from "@/services/api";
 import { getSession } from "next-auth/react";
 import { Checkbox } from "@/components/ui/checkbox";
 import {Alert, AlertDescription} from "@/components/ui/alert";
+import { Loader2 } from "lucide-react";
 
 // Currency options
 const currencies = [
@@ -49,10 +45,7 @@ const FormSchema = z.object({
     is_online_available: z.boolean().default(false),
     is_offline_available: z.boolean().default(false),
     keywords: z.string().transform(val => val.split(',').map(item => item.trim()).filter(item => item !== '')),
-    online_link: z.string().url({ message: "Must be a valid URL" }).optional().or(z.literal("")),
     location_link: z.string().url({ message: "Must be a valid URL" }).optional().or(z.literal("")),
-    meetingDate: z.date({ required_error: "Meeting date is required" }),
-    meetingTime: z.string({ required_error: "Meeting time is required" }),
     // maxParticipants: z.coerce.number().positive("Must be a positive number"),
 });
 
@@ -77,10 +70,7 @@ export default function ProfileServiceForm({ setShowFormAction }: { setShowFormA
             is_online_available: true,
             is_offline_available: false,
             keywords: [],
-            online_link: "",
             location_link: "",
-            meetingDate: new Date(),
-            meetingTime: "10:00",
             // maxParticipants: 1,
         },
     });
@@ -114,21 +104,12 @@ export default function ProfileServiceForm({ setShowFormAction }: { setShowFormA
         try {
             setSubmitting(true);
 
-            // Convert date and time to UTC format
-            const dateTimeString = `${format(data.meetingDate, "yyyy-MM-dd")}T${data.meetingTime}:00`;
-            const meetingDateTime = new Date(dateTimeString).toISOString();
-
-            // Prepare service data
-            const serviceData = {
-                ...data,
-                meetingDateTime,
-            };
 
             const session = await getSession();
 
             // Submit to API
             if (session?.accessToken) {
-                const result = await createService(serviceData, session.accessToken);
+                const result = await createService(data, session.accessToken);
                 if(result.success) {
                     setUpdateSuccess(true);
                     setTimeout(() => {setUpdateSuccess(false)}, 3000);
@@ -238,17 +219,6 @@ export default function ProfileServiceForm({ setShowFormAction }: { setShowFormA
                             </FormItem>
                         )} />
 
-                        {/* Event Link - Only shown if Online is selected */}
-                        {(eventType === "Online" || eventType === "Both") && (
-                            <FormField control={form.control} name="online_link" render={({ field }) => (
-                                <FormItem className="w-full">
-                                    <FormLabel> Meeting Link  <span className="text-red-600">*</span></FormLabel>
-                                    <FormControl><Input className="py-4 px-5 h-11 md:h-14" placeholder="Enter link" {...field} /></FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
-                        )}
-
                         {(eventType === "Offline" || eventType === "Both") && (
                             <FormField control={form.control} name="location_link" render={({ field }) => (
                                 <FormItem className="w-full">
@@ -309,53 +279,6 @@ export default function ProfileServiceForm({ setShowFormAction }: { setShowFormA
                                 </FormItem>
                             )} />
                         )}
-
-                        {/* Meeting Date */}
-                        <FormField control={form.control} name="meetingDate" render={({ field }) => (
-                            <FormItem className="w-full">
-                                <FormLabel>Meeting Date <span className="text-red-600">*</span></FormLabel>
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <FormControl>
-                                            <Button
-                                                variant="outline"
-                                                className={cn(
-                                                    "py-4 px-5 h-11 md:h-14 w-full justify-start text-left font-normal",
-                                                    !field.value && "text-muted-foreground"
-                                                )}
-                                            >
-                                                <CalendarIcon className="mr-2 h-4 w-4" />
-                                                {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
-                                            </Button>
-                                        </FormControl>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-auto p-0" align="start">
-                                        <Calendar
-                                            mode="single"
-                                            selected={field.value}
-                                            onSelect={field.onChange}
-                                            initialFocus
-                                        />
-                                    </PopoverContent>
-                                </Popover>
-                                <FormMessage />
-                            </FormItem>
-                        )} />
-
-                        {/* Meeting Time */}
-                        <FormField control={form.control} name="meetingTime" render={({ field }) => (
-                            <FormItem className="w-full">
-                                <FormLabel>Meeting Time <span className="text-red-600">*</span></FormLabel>
-                                <FormControl>
-                                    <Input
-                                        type="time"
-                                        className="py-4 px-5 h-11 md:h-14"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )} />
 
                         {/* Duration */}
                         <FormField control={form.control} name="duration" render={({ field }) => (

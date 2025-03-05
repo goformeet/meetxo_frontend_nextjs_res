@@ -4,7 +4,7 @@ import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
 import EmptyServices from '../empty-services';
 import ProfileServiceForm from './profile-service-from';
-import { getEventsByHost, getServicesById, User } from "@/services/api";
+import { getMyEvents, getMyServices, User} from "@/services/api";
 import { SocialMediaLink } from "@/components/profile/profile-information-form";
 import { getSession } from "next-auth/react";
 import { Clock3, Loader, Loader2 } from "lucide-react";
@@ -141,10 +141,16 @@ export default function ProfileServices() {
     };
 
     // Fetch services data
-    const fetchServices = async (userId: string) => {
+    const fetchServices = async () => {
         setCategoryLoading(true);
         try {
-            const res = await getServicesById(userId);
+            const session = await getSession();
+            if (!session?.accessToken) {
+                router.push('/login');
+                return;
+            }
+            const token = session.accessToken;
+            const res = await getMyServices(token);
             if (res.success) {
                 setServices(res.services);
             }
@@ -156,14 +162,18 @@ export default function ProfileServices() {
     };
 
     // Fetch events data
-    const fetchEvents = async (userId: string) => {
+    const fetchEvents = async () => {
         setCategoryLoading(true);
         try {
-            if(user?.is_host) {
-                const res = await getEventsByHost(userId);
-                if (res.success) {
-                    setEvents(res.data);
-                }
+            const session = await getSession();
+            if (!session?.accessToken) {
+                router.push('/login');
+                return;
+            }
+            const token = session.accessToken;
+            const res = await getMyEvents(token);
+            if (res.success) {
+                setEvents(res.data);
             }
         }
          finally {
@@ -185,9 +195,9 @@ export default function ProfileServices() {
 
         // Fetch data based on current category
         if (category === "1:1 Call") {
-            fetchServices(user._id);
+            fetchServices();
         } else if (category === "Events") {
-            fetchEvents(user._id);
+            fetchEvents();
         }
         // For Digital Product, we could add a similar fetch function
     }, [category, user?._id]);
@@ -235,88 +245,94 @@ export default function ProfileServices() {
             );
         }
 
-        if (category === "1:1 Call" && services.length > 0) {
-            return services.map((data) => (
-                <div
-                    key={data._id}
-                    className="p-4 border border-[#E0E0E0] rounded-[16px] flex justify-between"
-                >
-                    <div>
-                        <p className="text-xl/[130%] font-medium mb-2">
-                            {data.name}
-                        </p>
-                        <div className="flex items-center gap-2">
-                            <p className="text-[#7C7C7C] text-base/[150%]">
-                                {data.short_description}
-                            </p>
-                        </div>
-                        <div className="my-4 flex gap-2 items-center">
-                            <div className="flex gap-1 items-center">
-                                <Clock3 className="text-foreground" />
-                                <p className="text-[#7C7C7C] text-sm">
-                                    {data.duration} Minutes
-                                </p>
-                            </div>
-                            <Dot />
-                            <div className="flex gap-1 items-center">
-                                <p className="text-[#7C7C7C] text-sm">
-                                    {data.is_offline_available
-                                        ? "Online & Offline"
-                                        : "Online"}
-                                </p>
-                            </div>
-                        </div>
-                        <Accordion type="single" collapsible>
-                            <AccordionItem
-                                className="border-none w-fit items-center"
-                                value="details"
+        if (category === "1:1 Call" && services.length > 0 && !showForm) {
+            return (
+                <div className="space-y-6">
+                    {
+                        services.map((data) => (
+                            <div
+                                key={data._id}
+                                className="p-4 border border-[#E0E0E0] rounded-[16px] flex justify-between"
                             >
-                                <AccordionTrigger
-                                    icon="/images/more-details-icon.svg"
-                                    className="font-semibold text-2xl/8 tracking-[-1%] text-left w-fit"
-                                >
-                                    <p className="text-sm/[155%] mr-1 text-primary font-normal">
-                                        View Details
+                                <div>
+                                    <p className="text-xl/[130%] font-medium mb-2">
+                                        {data.name}
                                     </p>
-                                </AccordionTrigger>
-                                <AccordionContent className="text-[#7E8492] pb-0 mt-4 font-medium text-base/[150%]">
-                                    {data.long_description}
-                                </AccordionContent>
-                            </AccordionItem>
-                        </Accordion>
-                    </div>
-                    <div className="flex flex-col justify-between items-end">
-                        {data.online_pricing ? (
-                            <p className="text-[32px]/[120%] font-medium font-roboto">
-                                {data?.currency?.symbol || "$"}
-                                {data.online_pricing}
-                            </p>
-                        ) : (
-                            <span className="text-[#52c627]">Free</span>
-                        )}
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-[#7C7C7C] text-base/[150%]">
+                                            {data.short_description}
+                                        </p>
+                                    </div>
+                                    <div className="my-4 flex gap-2 items-center">
+                                        <div className="flex gap-1 items-center">
+                                            <Clock3 className="text-foreground" />
+                                            <p className="text-[#7C7C7C] text-sm">
+                                                {data.duration} Minutes
+                                            </p>
+                                        </div>
+                                        <Dot />
+                                        <div className="flex gap-1 items-center">
+                                            <p className="text-[#7C7C7C] text-sm">
+                                                {data.is_offline_available
+                                                    ? "Online & Offline"
+                                                    : "Online"}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <Accordion type="single" collapsible>
+                                        <AccordionItem
+                                            className="border-none w-fit items-center"
+                                            value="details"
+                                        >
+                                            <AccordionTrigger
+                                                icon="/images/more-details-icon.svg"
+                                                className="font-semibold text-2xl/8 tracking-[-1%] text-left w-fit"
+                                            >
+                                                <p className="text-sm/[155%] mr-1 text-primary font-normal">
+                                                    View Details
+                                                </p>
+                                            </AccordionTrigger>
+                                            <AccordionContent className="text-[#7E8492] pb-0 mt-4 font-medium text-base/[150%]">
+                                                {data.long_description}
+                                            </AccordionContent>
+                                        </AccordionItem>
+                                    </Accordion>
+                                </div>
+                                <div className="flex flex-col justify-between items-end">
+                                    {data.online_pricing ? (
+                                        <p className="text-[32px]/[120%] font-medium font-roboto">
+                                            {data?.currency?.symbol || "$"}
+                                            {data.online_pricing}
+                                        </p>
+                                    ) : (
+                                        <span className="text-[#52c627]">Free</span>
+                                    )}
 
-                        <Button
-                            onClick={(e) => {
-                                e.preventDefault();
-                                handleClick(data._id);
-                            }}
-                            disabled={true}
-                            className={cn(
-                                "font-roboto text-sm/normal font-semibold capitalize py-[9px] px-[16px] leading-normal rounded-[8px] h-fit text-white shadow-none"
-                            )}
-                        >
-                            {isPending && selectedId === data._id ? (
-                                <>
-                                    <Loader className="h-5 w-5 animate-spin" />
-                                    <span>Loading...</span>
-                                </>
-                            ) : (
-                                "Book Session"
-                            )}
-                        </Button>
-                    </div>
+                                    <Button
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleClick(data._id);
+                                        }}
+                                        disabled={true}
+                                        className={cn(
+                                            "font-roboto text-sm/normal font-semibold capitalize py-[9px] px-[16px] leading-normal rounded-[8px] h-fit text-white shadow-none"
+                                        )}
+                                    >
+                                        {isPending && selectedId === data._id ? (
+                                            <>
+                                                <Loader className="h-5 w-5 animate-spin" />
+                                                <span>Loading...</span>
+                                            </>
+                                        ) : (
+                                            "Book Session"
+                                        )}
+                                    </Button>
+                                </div>
+                            </div>
+                        ))
+                    }
                 </div>
-            ));
+            )
         } else if (category === "Events" && events.length > 0) {
             return (
                 <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-5">

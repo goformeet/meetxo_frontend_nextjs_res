@@ -107,7 +107,7 @@ const truncatedDescription =
         <div>
           <p className="text-[#6B7B8A] text-[9px]/[12px]">Host</p>
           <p className="text-[#384853] text-[10px] font-bold leading-[14px]">
-            {event.profile_id.name}
+            {event.profile_id?.name}
           </p>
         </div>
         <div className="flex items-center justify-center p-2 bg-[#E3F0FD] rounded-full">

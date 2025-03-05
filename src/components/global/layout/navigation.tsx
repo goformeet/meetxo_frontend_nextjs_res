@@ -82,7 +82,7 @@ export default function Navigation() {
           )}
         </aside>
       </div>
-      <MobileNavigation />
+      <MobileNavigation user={user}/>
     </>
   );
 }
