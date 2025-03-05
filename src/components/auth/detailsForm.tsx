@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input"
 import clsx from "clsx";
 
 const FormSchema = z.object({
-  userName: z.string().min(4, {
+  name: z.string().min(4, {
     message: 'Name must be minimum 4 characters.',
   }),
   email: z.string().email({
@@ -25,11 +25,11 @@ const FormSchema = z.object({
   }),
 })
 
-export default function DetailsForm({ handleSubmit }: { handleSubmit: (details: { userName: string;  email: string}) => void }) {
+export default function DetailsForm({ handleSubmit }: { handleSubmit: (details: { name: string;  email: string}) => void }) {
           const form = useForm<z.infer<typeof FormSchema>>({
               resolver: zodResolver(FormSchema),
               defaultValues: {
-                userName: '',
+                name: '',
                 email: '',
               },
           });
@@ -38,7 +38,7 @@ export default function DetailsForm({ handleSubmit }: { handleSubmit: (details: 
         handleSubmit(data);
       }
   
-  const isButtonDisabled = !form.watch('userName') || !form.watch('email');
+  const isButtonDisabled = !form.watch('name') || !form.watch('email');
   return (
     <Form {...form}>
       <form
@@ -47,7 +47,7 @@ export default function DetailsForm({ handleSubmit }: { handleSubmit: (details: 
       >
         <FormField
           control={form.control}
-          name="userName"
+          name="name"
           render={({ field }) => (
             <FormItem className="flex flex-col items-start w-full">
               <FormLabel className="text-left text-sm font-plus-jakarta-sans">Name <span className="text-[#E03137]">*</span></FormLabel>

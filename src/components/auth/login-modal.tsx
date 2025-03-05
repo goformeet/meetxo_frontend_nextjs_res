@@ -21,7 +21,7 @@ interface ChildProps {
   phone: string;
   handlePhoneSubmit: (phone: string) => void;
   handleOtpSubmit: (otp: string) => void;
-  handleDetailsSubmit: (details: { userName: string; email: string }) => void;
+  handleDetailsSubmit: (details: { name: string; email: string }) => void;
 }
 export default function LoginModal({
   open,

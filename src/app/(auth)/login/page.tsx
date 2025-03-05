@@ -84,7 +84,7 @@ const Page = () => {
     };
 
     const handleDetailsSubmit =async (detals: {
-      userName: string;
+      name: string;
       email: string;
     }) => {
       // setDetails(detals);

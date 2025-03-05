@@ -32,7 +32,7 @@ interface ApiResponse {
 }
 
 const FormSchema = z.object({
-    userName: z.string().min(6, {
+    name: z.string().min(6, {
         message: "Your name must be at least 6 characters.",
     }),
     contact: z
@@ -53,12 +53,12 @@ export default function BecomeExpertModal({ name, open, setOpen }: { name: strin
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            userName: name,
+            name: name,
             contact: "",
         },
     });
     useEffect(() => {
-        form.setValue("userName", name);
+        form.setValue("name", name);
     }, [name, form]);
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -71,7 +71,7 @@ export default function BecomeExpertModal({ name, open, setOpen }: { name: strin
         }
     }
 
-    const isButtonDisabled = !form.watch("contact") || !form.watch("userName");
+    const isButtonDisabled = !form.watch("contact") || !form.watch("name");
 
     return (
         <Dialog open={open} onOpenChange={() => setOpen(!open)}>
@@ -92,7 +92,7 @@ export default function BecomeExpertModal({ name, open, setOpen }: { name: strin
                                     {/* Name Field */}
                                     <FormField
                                         control={form.control}
-                                        name="userName"
+                                        name="name"
                                         render={({ field }) => (
                                             <FormItem className="flex flex-col items-start w-full">
                                                 <FormLabel className="text-left text-sm font-plus-jakarta-sans">

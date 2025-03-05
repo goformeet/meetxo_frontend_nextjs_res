@@ -187,7 +187,7 @@ export default function MeetBooking() {
     }
   };
   const handleDetailsSubmit = async (detals: {
-    userName: string;
+    name: string;
     email: string;
   }) => {
     //  setDetails(detals);

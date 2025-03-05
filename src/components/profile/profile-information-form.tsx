@@ -504,49 +504,49 @@ export default function ProfileInformationComponent() {
                                                     <SelectContent>
                                                         <SelectItem value="facebook" className="flex items-center gap-2">
                                                             <div className="flex items-center gap-2">
-                                                                <Image height={20} width={20} src={socialMediaIcons.facebook} alt="Facebook" className="w-5 h-5" />
+                                                                <Image height={20} width={20} src={socialMediaIcons.Facebook} alt="Facebook" className="w-5 h-5" />
                                                                 Facebook
                                                             </div>
                                                         </SelectItem>
                                                         <SelectItem value="twitter" className="flex items-center gap-2">
                                                             <div className="flex items-center gap-2">
-                                                                <Image height={20} width={20} src={socialMediaIcons.twitter} alt="Twitter" className="w-5 h-5" />
+                                                                <Image height={20} width={20} src={socialMediaIcons.X} alt="Twitter" className="w-5 h-5" />
                                                                 Twitter
                                                             </div>
                                                         </SelectItem>
                                                         <SelectItem value="linkedin" className="flex items-center gap-2">
                                                             <div className="flex items-center gap-2">
-                                                                <Image height={20} width={20} src={socialMediaIcons.linkedin} alt="LinkedIn" className="w-5 h-5" />
+                                                                <Image height={20} width={20} src={socialMediaIcons.LinkedIn} alt="LinkedIn" className="w-5 h-5" />
                                                                 LinkedIn
                                                             </div>
                                                         </SelectItem>
                                                         <SelectItem value="instagram" className="flex items-center gap-2">
                                                             <div className="flex items-center gap-2">
-                                                                <Image height={20} width={20} src={socialMediaIcons.instagram} alt="Instagram" className="w-5 h-5" />
+                                                                <Image height={20} width={20} src={socialMediaIcons.Instagram} alt="Instagram" className="w-5 h-5" />
                                                                 Instagram
                                                             </div>
                                                         </SelectItem>
                                                         <SelectItem value="github" className="flex items-center gap-2">
                                                             <div className="flex items-center gap-2">
-                                                                <Image height={20} width={20} src={socialMediaIcons.github} alt="GitHub" className="w-5 h-5" />
+                                                                <Image height={20} width={20} src={socialMediaIcons.GitHub} alt="GitHub" className="w-5 h-5" />
                                                                 GitHub
                                                             </div>
                                                         </SelectItem>
                                                         <SelectItem value="behance" className="flex items-center gap-2">
                                                             <div className="flex items-center gap-2">
-                                                                <Image height={20} width={20} src={socialMediaIcons.behance} alt="Behance" className="w-5 h-5" />
+                                                                <Image height={20} width={20} src={socialMediaIcons.Behance} alt="Behance" className="w-5 h-5" />
                                                                 Behance
                                                             </div>
                                                         </SelectItem>
                                                         <SelectItem value="youtube" className="flex items-center gap-2">
                                                             <div className="flex items-center gap-2">
-                                                                <Image height={20} width={20} src={socialMediaIcons.youtube} alt="YouTube" className="w-5 h-5" />
+                                                                <Image height={20} width={20} src={socialMediaIcons.YouTube} alt="YouTube" className="w-5 h-5" />
                                                                 YouTube
                                                             </div>
                                                         </SelectItem>
                                                         <SelectItem value="tiktok" className="flex items-center gap-2">
                                                             <div className="flex items-center gap-2">
-                                                                <Image height={20} width={20} src={socialMediaIcons.tiktok} alt="TikTok" className="w-5 h-5" />
+                                                                <Image height={20} width={20} src={socialMediaIcons.TikTok} alt="TikTok" className="w-5 h-5" />
                                                                 TikTok
                                                             </div>
                                                         </SelectItem>
