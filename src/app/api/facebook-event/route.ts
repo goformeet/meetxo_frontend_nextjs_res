@@ -19,7 +19,7 @@ export async function POST() {
                 },
                 custom_data: {
                     currency: 'INR',
-                    value: '199'
+                    value: '0'
                 },
                 original_event_data: {
                     event_name: 'Visit_Event',
