@@ -237,22 +237,25 @@ export const uploadFileToAWS = async (presignedUrl: string, file: File) => {
   }
 };
 
-type serviceData= {
-  meetingDateTime: string;
+type ServiceData = {
+  name: string;
+  short_description: string;
+  long_description: string;
   duration: number;
+  online_pricing: number;
+  offline_pricing: number;
   currency: {
     symbol: string;
     code: string;
   };
-  name: string;
-  short_description: string;
-  long_description: string;
-  online_pricing: number;
-  offline_pricing: number;
-  location_link?: string | undefined;
-}
+  is_online_available: boolean;
+  is_offline_available: boolean;
+  keywords: string[];
+  location_link?: string;
+};
 
-export const createService = async (serviceData: serviceData, token: string) => {
+
+export const createService = async (serviceData: ServiceData, token: string) => {
   try {
     const response = await axios.post(
         `${API_BASE_URL}/services`,
@@ -305,5 +308,34 @@ export const createEvent = async (evenData:eventData, token: string)=> {
   } catch (error) {
     console.error("Error creating service:", error);
     throw error;
+  }
+}
+
+export const getMyServices = async (token:string) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/services/my-services`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+    return response.data;
+
+  } catch (err) {
+    throw err;
+  }
+}
+
+export const getMyEvents = async (token: string) => {
+  try{
+    const response = await axios.get(`${API_BASE_URL}/events`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+    return response.data;
+  }catch (e) {
+    throw e;
   }
 }

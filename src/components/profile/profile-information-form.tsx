@@ -44,15 +44,14 @@ const FormSchema = z.object({
 
 // Social Media Icons Map
 const socialMediaIcons: Record<string, string> = {
-    "facebook": "https://cdn-icons-png.flaticon.com/512/5968/5968764.png",
-    "twitter": "https://cdn-icons-png.flaticon.com/512/5968/5968830.png",
-    "x": "https://cdn-icons-png.flaticon.com/512/5968/5968830.png",
-    "linkedin": "https://cdn-icons-png.flaticon.com/512/174/174857.png",
-    "instagram": "https://cdn-icons-png.flaticon.com/512/2111/2111463.png",
-    "youtube": "https://cdn-icons-png.flaticon.com/512/1384/1384060.png",
-    "github": "https://cdn-icons-png.flaticon.com/512/733/733609.png",
-    "behance": "https://cdn-icons-png.flaticon.com/512/145/145799.png",
-    "tiktok": "https://cdn-icons-png.flaticon.com/512/3046/3046124.png",
+    "Facebook": "https://cdn-icons-png.flaticon.com/512/5968/5968764.png",
+    "X": "https://cdn-icons-png.flaticon.com/512/5968/5968830.png",
+    "Linkedin": "https://cdn-icons-png.flaticon.com/512/174/174857.png",
+    "Instagram": "https://cdn-icons-png.flaticon.com/512/2111/2111463.png",
+    "Youtube": "https://cdn-icons-png.flaticon.com/512/1384/1384060.png",
+    "Github": "https://cdn-icons-png.flaticon.com/512/733/733609.png",
+    "Behance": "https://cdn-icons-png.flaticon.com/512/145/145799.png",
+    "Tiktok": "https://cdn-icons-png.flaticon.com/512/3046/3046124.png",
 };
 
 // Types
@@ -363,7 +362,7 @@ export default function ProfileInformationComponent() {
                         <Avatar className="h-[88px] w-[88px]">
                             <AvatarImage src={user?.profile_image || "/images/avatar.svg"} alt="Profile" />
                             <AvatarFallback className="text-white bg-primary">
-                                {getFallbackLetters(user?.name || '')}
+                                {getFallbackLetters(user?.name || 'Guest User')}
                             </AvatarFallback>
                         </Avatar>
                         {user && <ProfileImageSection  user={user} setUpdateSuccess={setUpdateSuccess} setUser={setUser} />}

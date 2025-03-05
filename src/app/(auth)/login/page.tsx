@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation'
 import { getSession, signIn } from 'next-auth/react';
-
 import PhoneForm from '@/components/auth/phoneForm';
 import { OtpForm } from '@/components/auth/otpForm';
 import DetailsForm from '@/components/auth/detailsForm';
@@ -13,7 +12,7 @@ import {sendOtp, setUpProfile, User} from '@/services/api';
 import { collectAuthData } from '@/app/utils/collectAuthData';
 import { AuthData } from '@/types/authTypes';
 import axios from 'axios';
-import {normalizeUsername} from "@/lib/utils";
+import { normalizeUsername } from "@/lib/utils";
 
 
 const Page = () => {
@@ -63,7 +62,10 @@ const Page = () => {
           if (session?.user?.is_new_user) {
             setStep("details");
           } else {
-            router.push("/");
+              const response = await User(session?.accessToken || '');
+              if (response.success) {
+                  router.push(`/profile/${normalizeUsername(response.profile.username || "user")}/?item=personal-information`);
+              }
           }
         }
       } catch (error) {
@@ -96,11 +98,9 @@ const Page = () => {
         const res = await setUpProfile(detals, session.accessToken);
 
         if (res.success) {
-            const response = await User(session?.accessToken || '');
-            if (response.data.success) {
-                router.push(`/profile/${normalizeUsername(response.data.profile.name || "user")}/?item=personal-information`);
+            if (res.success) {
+                router.push(`/profile/${normalizeUsername(res.profile.username || "user")}/?item=personal-information`);
             }
-          router.push("/");
         } else {
           alert(res.message);
         }
