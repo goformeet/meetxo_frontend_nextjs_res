@@ -64,9 +64,9 @@ export default function Page() {
   const [user, setUser] = useState<Session | null>(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [details, setDetails] = useState<{
-    userName: string;
+    name: string;
     email: string;
-  }>({ userName: "", email: "" });
+  }>({ name: "", email: "" });
   const [sucessOpen, setSucessOpen] = useState<boolean>(false);
   const pathname = usePathname();
 
@@ -132,7 +132,7 @@ export default function Page() {
   };
 
   const handleDetailsSubmit = async (detals: {
-    userName: string;
+    name: string;
     email: string;
   }) => {
     setDetails(detals);
@@ -210,10 +210,10 @@ export default function Page() {
       const dat = {
         email: details.email||"",
         phone_number: phone||"",
-        name: details.userName||"",
+        name: details.name||"",
       };
       const service = {
-        name: details.userName||"",
+        name: details.name||"",
         online_pricing: eventData?.price ? eventData?.price : 0,
       };
       const currency = eventData?.currency?.code

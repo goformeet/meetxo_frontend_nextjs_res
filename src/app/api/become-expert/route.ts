@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server';
 import nodemailer from 'nodemailer';
 
 export async function POST(req: NextRequest) {
-    const { userName, contact } = await req.json();
+    const { name, contact } = await req.json();
 
     // Set up transporter for sending email
     const transporter = nodemailer.createTransport({
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
             <p style="font-size: 1.1em; margin-bottom: 20px;">Hello, you have received a new request from your website. Here are the details:</p>
             
             <div style="background-color: #f9f9f9; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
-                <p><strong>Name:</strong> ${userName}</p>
+                <p><strong>Name:</strong> ${name}</p>
                 <p><strong>Contact:</strong> <a href="tel:${contact}" style="color: #4CAF50; text-decoration: none;">${contact}</a></p>
             </div>
 
