@@ -189,7 +189,7 @@ export default async function Page({ params }: {params: Params}) {
         <Image
           src={
             data?.cover_image ||
-            "https://res.cloudinary.com/djocenrah/image/upload/v1739182656/Untitled_design_33_esnuv5.png"
+         "/Profile_banner.jpg"
           }
           alt="Expert cover image"
           width={1318}
