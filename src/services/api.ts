@@ -100,6 +100,23 @@ try {
    throw error;
 }
 }
+
+
+export const getAllEventsWithSearch = async (search = "") => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/events/all`, {
+      params: { search }, // Pass search as a query parameter
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching events:", error);
+    throw error;
+  }
+};
+
+
+
 export const sendOtp = async (phone: string) => {
   const data = {
     mobile_number: phone,
