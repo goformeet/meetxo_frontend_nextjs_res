@@ -72,7 +72,7 @@ export default function MeetBooking() {
   //   []
   // );
   const [loading, setLoading] = useState(false);
-  const [expert, setExpert] = useState({ name: "", profile_image: "", _id:"" });
+  const [expert, setExpert] = useState({ name: "", profile_image: "", user_id: { _id: "" },});
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -363,7 +363,7 @@ export default function MeetBooking() {
           : "";
       const postData = {
 
-                host_id: expert._id,
+        host_id: expert.user_id._id,
 
         // host_id: session.user.user_id,
         meeting_time: mtTime,
