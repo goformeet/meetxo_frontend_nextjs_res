@@ -339,3 +339,40 @@ export const getMyEvents = async (token: string) => {
     throw e;
   }
 }
+
+export const getAvailability = async (token: string) => {
+  try{
+    const response = await fetch(`${API_BASE_URL}/profile`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    return response;
+  }catch (e) {
+    throw e;
+  }
+}
+
+interface ScheduleItem {
+  weekday: string;
+  is_available: boolean;
+  available_from: string | null;
+  available_to: string | null;
+}
+export const updateAvailability = async (token:string, schedule: ScheduleItem[] ) => {
+  try {
+    const response = await fetch('https://testing.goformeet.co/api/profile', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ schedule })
+    });
+    return response;
+  } catch (e) {
+    throw e;
+  }
+}
