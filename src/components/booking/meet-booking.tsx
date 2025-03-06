@@ -72,7 +72,7 @@ export default function MeetBooking() {
   //   []
   // );
   const [loading, setLoading] = useState(false);
-  const [expert, setExpert] = useState({ name: "", profile_image: "" });
+  const [expert, setExpert] = useState({ name: "", profile_image: "", _id:"" });
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -362,7 +362,10 @@ export default function MeetBooking() {
           ? convertToISOString(selectedDate, selectedSlot)
           : "";
       const postData = {
-        host_id: session.user.user_id,
+
+                host_id: expert._id,
+
+        // host_id: session.user.user_id,
         meeting_time: mtTime,
         meeting_type: service.is_offline_available ? "Offline" : "Online",
         meeting_description: service.name,
