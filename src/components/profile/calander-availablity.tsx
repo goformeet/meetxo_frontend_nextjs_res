@@ -4,6 +4,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import {getSession} from "next-auth/react";
+import {Loader2} from "lucide-react";
+import {getAvailability, updateAvailability} from "@/services/api";
 
 // Define interface for schedule item
 interface ScheduleItem {
@@ -15,7 +18,9 @@ interface ScheduleItem {
 
 // Define interface for API response
 interface ProfileResponse {
-  schedule: ScheduleItem[];
+  profile: {
+    schedule: ScheduleItem[];
+  }
 }
 
 const weekdays = [
@@ -28,57 +33,57 @@ const weekdays = [
   { id: "Sunday", label: "Sunday" },
 ];
 
-const CalendarAvailability = ({user}:{user: {name: string, token: string}}) => {
+const CalendarAvailability = () => {
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [availability, setAvailability] = useState<{
     [key: string]: { start: string; end: string };
   }>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Fetch existing availability on component mount
   useEffect(() => {
     const fetchAvailability = async () => {
+      setLoading(true);
       try {
-        const response = await fetch('https://testing.goformeet.co/api/profile', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${user.token}`,
-            'Content-Type': 'application/json'
-          }
-        });
+        const session = await getSession();
+        if(session?.accessToken){
+          const token = session.accessToken;
+          const response = await getAvailability(token);
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch availability');
+          if (!response.ok) {
+            throw new Error('Failed to fetch availability');
+          }
+
+          const data: ProfileResponse = await response.json();
+          const schedule = data?.profile?.schedule || [];
+
+          // Process fetched schedule
+          const fetchedSelectedDays: string[] = [];
+          const fetchedAvailability: {[key: string]: { start: string; end: string }} = {};
+
+          schedule.forEach((day: ScheduleItem) => {
+            if (day.is_available && day.available_from && day.available_to) {
+              fetchedSelectedDays.push(day.weekday);
+              fetchedAvailability[day.weekday] = {
+                start: day.available_from,
+                end: day.available_to
+              };
+            }
+          });
+
+          setSelectedDays(fetchedSelectedDays);
+          setAvailability(fetchedAvailability);
         }
 
-        const data: ProfileResponse = await response.json();
-        const schedule = data.schedule || [];
-
-        // Process fetched schedule
-        const fetchedSelectedDays: string[] = [];
-        const fetchedAvailability: {[key: string]: { start: string; end: string }} = {};
-
-        schedule.forEach((day: ScheduleItem) => {
-          if (day.is_available && day.available_from && day.available_to) {
-            fetchedSelectedDays.push(day.weekday);
-            fetchedAvailability[day.weekday] = {
-              start: day.available_from,
-              end: day.available_to
-            };
-          }
-        });
-
-        setSelectedDays(fetchedSelectedDays);
-        setAvailability(fetchedAvailability);
       } catch (error) {
         console.error('Error fetching availability:', error);
+      }finally {
+        setLoading(false);
       }
     };
-
-    if (user?.token) {
       fetchAvailability();
-    }
-  }, [user?.token]);
+  }, []);
 
   // Handle weekday selection
   const handleDayChange = (dayId: string) => {
@@ -113,32 +118,38 @@ const CalendarAvailability = ({user}:{user: {name: string, token: string}}) => {
   const saveAvailability = async () => {
     setIsLoading(true);
     try {
-      // Prepare schedule payload
-      const schedule: ScheduleItem[] = weekdays.map(day => ({
-        weekday: day.id,
-        is_available: selectedDays.includes(day.id),
-        available_from: selectedDays.includes(day.id) ? availability[day.id].start : null,
-        available_to: selectedDays.includes(day.id) ? availability[day.id].end : null
-      }));
+      const session = await getSession();
+      if (session?.accessToken) {
+        const token = session.accessToken;
+        const schedule: ScheduleItem[] = weekdays.map(day => ({
+          weekday: day.id,
+          is_available: selectedDays.includes(day.id),
+          available_from: selectedDays.includes(day.id) ? availability[day.id].start : null,
+          available_to: selectedDays.includes(day.id) ? availability[day.id].end : null
+        }));
+        const response = await updateAvailability(token, schedule);
 
-      const response = await fetch('https://testing.goformeet.co/api/profile', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${user.token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ schedule })
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to save availability');
+        if (!response.ok) {
+          throw new Error('Failed to save availability');
+        }
       }
+      // Prepare schedule payload
     } catch (error) {
       console.error('Error saving availability:', error);
     } finally {
       setIsLoading(false);
     }
   };
+
+  // Loading state
+  if (loading) {
+    return (
+        <div className="flex flex-col items-center justify-center p-8 min-h-[400px]">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <p className="mt-4 text-lg">Loading...</p>
+        </div>
+    );
+  }
 
   return (
       <div className="p-6 bg-white rounded-lg shadow-md">
@@ -159,7 +170,7 @@ const CalendarAvailability = ({user}:{user: {name: string, token: string}}) => {
                         onCheckedChange={() => handleDayChange(day.id)}
                     />
                     <Label htmlFor={day.id} className="text-sm font-medium">
-                      {day.label} {user?.name}
+                      {day.label}
                     </Label>
                   </div>
 

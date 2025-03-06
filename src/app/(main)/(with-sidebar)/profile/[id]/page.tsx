@@ -6,7 +6,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { ChevronLeft } from 'lucide-react';
-// import CalendarAvailability from '@/components/profile/calander-availablity';
+import CalendarAvailability from '@/components/profile/calander-availablity';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const items = [
@@ -22,12 +22,12 @@ const items = [
     value: 'add-services',
     component: ProfileServices,
   },
-  // {
-  //   icon: '/images/calander-icon.svg',
-  //   title: 'Calendar',
-  //   value: 'calander',
-  //   component: CalendarAvailability,
-  // },
+  {
+    icon: '/images/calander-icon.svg',
+    title: 'Calendar',
+    value: 'calander',
+    component: CalendarAvailability,
+  },
   // {
   //   icon: '/images/description-icon.svg',
   //   title: 'Portfolio',

@@ -360,7 +360,7 @@ export default function ProfileInformationComponent() {
                 <div className="py-8 px-4">
                     <div className="flex flex-col md:flex-row gap-6">
                         <Avatar className="h-[88px] w-[88px]">
-                            <AvatarImage src={user?.profile_image || "/images/avatar.svg"} alt="Profile" />
+                            <AvatarImage src={user?.profile_image} alt="Profile" />
                             <AvatarFallback className="text-white bg-primary">
                                 {getFallbackLetters(user?.name || 'Guest User')}
                             </AvatarFallback>
