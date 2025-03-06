@@ -5,7 +5,7 @@ import LoginModal from '@/components/auth/login-modal';
 import SucessPopup from '@/components/auth/successPopup';
 
 import { Button } from '@/components/ui/button';
-import { eventBooking, sendOtp, setUpProfile } from '@/services/api';
+import { eventBooking, sendOtp, setUpProfile ,  getAllEventsWithSearch } from '@/services/api';
 import { AuthData } from '@/types/authTypes';
 import { Session } from '@/types/sessionTypes';
 import axios from 'axios';
@@ -255,9 +255,10 @@ export default function Page() {
 //   return input.replace(/-+/g, " ");
 // }
 
-  function replaceSpacesWithUnderscore(input: string) {
-    return input.replace(/\s+/g, "_") ?? '';
-  }
+  // function replaceSpacesWithUnderscore(input: string) {
+  //   return input.replace(/\s+/g, "_") ?? '';
+  // }
+  
   useEffect(() => {
     if (sucessOpen) {
       const timer = setTimeout(() => {
@@ -267,25 +268,62 @@ export default function Page() {
       return () => clearTimeout(timer);
     }
   }, [sucessOpen]);
-  useEffect(() => {
-    const storedData = localStorage.getItem("eventData");
 
-    if (storedData) {
-      const event = JSON.parse(storedData);
-      // const decodedTitle = replaceUnderscoreWithSpaces(pathname.split("/").pop() || "");
+
+
+  
+  // useEffect(() => {
+  //   const storedData = localStorage.getItem("eventData");
+
+  //   if (storedData) {
+  //     const event = JSON.parse(storedData);
+  //     // const decodedTitle = replaceUnderscoreWithSpaces(pathname.split("/").pop() || "");
+  //     const pathTitle = pathname.split("/").pop() || "";
+  //     const eventTitle = replaceSpacesWithUnderscore(event.title);
+
+
+  //     if (eventTitle === pathTitle) {
+  //       setEventData(event);
+
+  //       //  router.push("/")
+  //     }
+  //   } else {
+  //     // router.push("/")
+  //   }
+  // }, [pathname]);
+
+
+useEffect(() => {
+    const fetchEventData = async () => {
       const pathTitle = pathname.split("/").pop() || "";
-      const eventTitle = replaceSpacesWithUnderscore(event.title);
 
+      const decodedTitle = pathTitle.replace(/_/g, " ");
 
-      if (eventTitle === pathTitle) {
+      try {
+        console.log(3);
+
+        const { data } = await getAllEventsWithSearch(decodedTitle);
+
+        const event = data[0];
+
         setEventData(event);
+      } catch (error) {
+        console.log(5);
 
-        //  router.push("/")
+        console.error("Error fetching event data:", error);
+        // router.push("/")
       }
-    } else {
-      // router.push("/")
-    }
+    };
+
+    fetchEventData();
   }, [pathname]);
+
+
+  
+
+  
+
+  
   const getUser=async()=>{
     const session = await getSession();
     setUser(session as Session);
