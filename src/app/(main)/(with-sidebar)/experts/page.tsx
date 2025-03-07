@@ -10,28 +10,27 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import debounce from "lodash/debounce";
 
-
-type Professional= {
+type Professional = {
   _id: string;
   name: string;
   profile_image: string;
   min_session_price: string;
   average_rating: number;
   about_me: string;
-  username:string
+  username: string;
   profession_id: {
     title: string;
   };
-}
-type Category= {
+};
+type Category = {
   _id: string;
   title: string;
   image: string;
-}
-type FilterItem ={
+};
+type FilterItem = {
   _id: string;
   title: string;
-}
+};
 
 // export const metadata = {
 //   title: "Meta Title: Book Top Experts for 1:1 Advice at MeetXO",
@@ -56,73 +55,83 @@ type FilterItem ={
 
 // };
 
-
-
 export default function Explore() {
   const [filters, setFilters] = useState<string[]>([]);
   const [professionals, setProfessionals] = useState<Professional[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   // const [loading, setLoading] = useState(false);
   const [filterItems, setFilterItems] = useState<FilterItem[]>([]);
-  const [searchValue,setSearchValue]=useState<string>("")
-  const [profession, setProfession]=useState<string|boolean>("")
-  const [sub_profession, setSub_profession]=useState<string>("")
-  const [mentors,setMentors]=useState<Professional[]>([])
-  const [influencers, setInfluencers]=useState<Professional[]>([]);
-  const toggleFilter = (name: string,id:string) => {
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [profession, setProfession] = useState<string | boolean>("");
+  const [sub_profession, setSub_profession] = useState<string>("");
+  const [mentors, setMentors] = useState<Professional[]>([]);
+  const [influencers, setInfluencers] = useState<Professional[]>([]);
+  const [entrepreneurs, setEntrepreneurs] = useState<Professional[]>([]);
+  const [coaches, setcoaches] = useState<Professional[]>([]);
+
+  const toggleFilter = (name: string, id: string) => {
     setFilters((prev) =>
       prev.includes(name)
         ? prev.filter((item) => item !== name)
         : [...prev, name]
     );
     // getProfessionals(id, "sub_profession_id");
-    setSub_profession(id)
+    setSub_profession(id);
   };
 
   // const searchParams = useSearchParams();
-  
- 
- 
- const getMentorsAndInfluencers = async () => {
-   try {
-     const [res, res1] = await Promise.all([
-       Hosts({ profession_id: "678b8dd486062ddce62be676" }),
-       Hosts({ profession_id: "678b8f0586062ddce62be678" }),
-     ]);
 
+  const getMentorsAndInfluencers = async () => {
+    try {
+      const [res, res1, res2, res3] = await Promise.all([
+        Hosts({ profession_id: "678b8dd486062ddce62be676" }),
+        Hosts({ profession_id: "678b8f0586062ddce62be678" }),
+        Hosts({ profession_id: "678b94b086062ddce62be684" }),
+        Hosts({ profession_id: "678b8f8c86062ddce62be67a" }),
+      ]);
 
-     if (res?.success && Array.isArray(res.hosts?.hosts)) {
-       setMentors(res.hosts.hosts);
-     } else {
-       console.warn("Invalid mentors response:", res);
-     }
+      if (res?.success && Array.isArray(res.hosts?.hosts)) {
+        setMentors(res.hosts.hosts);
+      } else {
+        console.warn("Invalid mentors response:", res);
+      }
 
-     if (res1?.success && Array.isArray(res1.hosts?.hosts)) {
-       setInfluencers(res1.hosts.hosts);
-     } else {
-       console.warn("Invalid influencers response:", res1);
-     }
-   } catch (error) {
-     console.error("Error fetching mentors & influencers:", error);
-   }
- };
+      if (res1?.success && Array.isArray(res1.hosts?.hosts)) {
+        setInfluencers(res1.hosts.hosts);
+      } else {
+        console.warn("Invalid influencers response:", res1);
+      }
 
+      if (res2?.success && Array.isArray(res2.hosts?.hosts)) {
+        setEntrepreneurs(res2.hosts.hosts);
+      } else {
+        console.warn("Invalid influencers response:", res1);
+      }
+
+      if (res3?.success && Array.isArray(res3.hosts?.hosts)) {
+        setcoaches(res3.hosts.hosts);
+      } else {
+        console.warn("Invalid influencers response:", res1);
+      }
+    } catch (error) {
+      console.error("Error fetching mentors & influencers:", error);
+    }
+  };
 
   const getProfessionals = debounce(async () => {
     try {
-      
-       const filters: Record<string, string | boolean> = {};
-       if (searchValue) filters.search = searchValue;
-       if (profession) {
-         if (typeof profession == "boolean") {
-           filters.is_top_expert = profession;
-         } else {
-           filters.profession_id = profession;
-         }
-       }
-       if (sub_profession) filters.sub_profession_id = sub_profession;
+      const filters: Record<string, string | boolean> = {};
+      if (searchValue) filters.search = searchValue;
+      if (profession) {
+        if (typeof profession == "boolean") {
+          filters.is_top_expert = profession;
+        } else {
+          filters.profession_id = profession;
+        }
+      }
+      if (sub_profession) filters.sub_profession_id = sub_profession;
 
-      const res = await Hosts(filters); 
+      const res = await Hosts(filters);
 
       if (res?.hosts?.hosts && Array.isArray(res.hosts.hosts)) {
         setProfessionals(res.hosts.hosts);
@@ -136,7 +145,7 @@ export default function Explore() {
     } finally {
       // setLoading(false);
     }
-  }, 300); 
+  }, 300);
 
   const getProfessions = async () => {
     try {
@@ -153,8 +162,8 @@ export default function Explore() {
     }
   };
   const filterItemsFun = async (id: string) => {
-    if (id == "is_top_expert") return
-       const res = await ProfessionSubCategories(id);
+    if (id == "is_top_expert") return;
+    const res = await ProfessionSubCategories(id);
     if (res?.success && Array.isArray(res.sub_categories)) {
       setFilterItems(res.sub_categories);
     } else {
@@ -164,9 +173,8 @@ export default function Explore() {
   };
   useEffect(() => {
     getProfessions();
-    getMentorsAndInfluencers()
-  },[]);
-  
+    getMentorsAndInfluencers();
+  }, []);
 
   useEffect(() => {
     if (searchValue) {
@@ -175,7 +183,7 @@ export default function Explore() {
   }, [searchValue]);
   useEffect(() => {
     const searchFromHome =
-      localStorage.getItem("expert_search_from_home")??""
+      localStorage.getItem("expert_search_from_home") ?? "";
 
     setSearchValue(searchFromHome);
   }, []);
@@ -210,7 +218,7 @@ export default function Explore() {
               setSub_profession("");
               filterItemsFun("is_top_expert");
               setProfession(true);
-               getProfessionals();
+              getProfessionals();
             }}
           >
             <Avatar className="h-16 w-[119px]">
@@ -237,7 +245,7 @@ export default function Explore() {
                   setSub_profession("");
                   filterItemsFun(da._id);
                   setProfession(da._id);
-                   getProfessionals();
+                  getProfessionals();
                 }}
               >
                 <Avatar className="h-16 w-[119px]">
@@ -266,7 +274,7 @@ export default function Explore() {
                 } else {
                   toggleFilter(item.title, item._id);
                 }
-                 getProfessionals();
+                getProfessionals();
               }}
               variant="outline"
               className={cn(
@@ -287,9 +295,44 @@ export default function Explore() {
           <>
             <div>
               <div className="flex justify-between items-center">
+                <h2 className="mb-7 text-[22px]/7 font-bold">Entrepreneurs</h2>
+                <Link
+                  href={"/entrepreneurs"}
+                  className="text-primary font-bold text-[15px]/7"
+                >
+                  See all
+                </Link>
+              </div>
+              <div className="mb-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-x-5 md:gap-y-8">
+                {entrepreneurs.map((prof) => (
+                  <ExpertCard key={prof._id} prof={prof} />
+                ))}
+              </div>
+            </div>
+            {/*  */}
+
+            <div>
+              <div className="flex justify-between items-center">
+                <h2 className="mb-7 text-[22px]/7 font-bold">Coaches</h2>
+                <Link
+                  href={"/coaches"}
+                  className="text-primary font-bold text-[15px]/7"
+                >
+                  See all
+                </Link>
+              </div>
+              <div className="mb-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-x-5 md:gap-y-8">
+                {coaches.map((prof) => (
+                  <ExpertCard key={prof._id} prof={prof} />
+                ))}
+              </div>
+            </div>
+            {/*  */}
+            <div>
+              <div className="flex justify-between items-center">
                 <h2 className="mb-7 text-[22px]/7 font-bold">Mentors</h2>
                 <Link
-                  href={"/experts"}
+                  href={"/mentors"}
                   className="text-primary font-bold text-[15px]/7"
                 >
                   See all
@@ -305,7 +348,7 @@ export default function Explore() {
               <div className="flex justify-between items-center">
                 <h2 className="mb-7 text-[22px]/7 font-bold">Influencers</h2>
                 <Link
-                  href={"/experts"}
+                  href={"/influencers"}
                   className="text-primary font-bold text-[15px]/7"
                 >
                   See all
@@ -317,6 +360,7 @@ export default function Explore() {
                 ))}
               </div>
             </div>
+            {/*  */}
           </>
         ) : (
           ""
