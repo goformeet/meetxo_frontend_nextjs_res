@@ -185,7 +185,7 @@ export default function ProfessionalsSection() {
             <ExpertCard key={prof._id} prof={prof} />
           ))}
         </div>
-{/*         <div className="flex justify-center mt-8 md:mt-16">
+        <div className="flex justify-center mt-8 md:mt-16">
           <Button
             disabled={isPending}
             className="text-white text-sm md:text-lg/[150%] font-semibold py-3 md:py-[18px] px-4 md:px-7 rounded md:rounded-[14px] h-fit"
@@ -202,9 +202,9 @@ export default function ProfessionalsSection() {
               )}
             </Link>
           </Button>
-        </div> */}
+        </div>
 
-      <div className="flex justify-center mt-8 md:mt-16">
+{/*       <div className="flex justify-center mt-8 md:mt-16">
           <Button
             disabled={isPending}
             onClick={handleClick}
@@ -218,7 +218,7 @@ export default function ProfessionalsSection() {
               </Link>
             )}
           </Button>
-        </div>
+        </div> */}
         
       </div>
     </section>
