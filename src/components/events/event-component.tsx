@@ -429,7 +429,7 @@ export default function EventComponent() {
               />
             </div>
             <p className="text-base font-semibold text-muted-foreground">
-              Google Meet
+              Online Meet
             </p>
           </div>
           <div className="rounded-lg border border-muted-foreground/70 overflow-hidden max-w-md">
