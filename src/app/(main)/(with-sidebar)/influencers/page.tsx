@@ -17,7 +17,7 @@ export const metadata = {
     url: "https://meetxo.ai/influencers",
     images: [
       {
-    url: "https://meetxo.ai",
+        url: "/og_image.png",
         width: 1200,
         height: 630,
         alt: "MeetXO Influencers",
