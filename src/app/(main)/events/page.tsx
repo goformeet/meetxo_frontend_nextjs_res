@@ -45,6 +45,9 @@ export default async function Page() {
     const { data } = await getAllEvents();
     const events = data;
 
+
+        console.log(events.length)
+
     if(!events || !events.length){
         console.log(events)
         notFound();
