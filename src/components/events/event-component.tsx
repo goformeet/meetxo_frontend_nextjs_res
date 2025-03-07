@@ -471,15 +471,15 @@ export default function EventComponent() {
                       }
                     )}{" "}
                     (GMT +05:30)
-                  </p>
+                  </p >
                   {eventData?.price ? (
-                    <p>{`${
+                    <p className="text-lg" > {`${
                       eventData?.currency?.symbol
                         ? eventData?.currency?.symbol
                         : "$"
                     } ${eventData?.price}`}</p>
                   ) : (
-                    <p className="text-green-500">Free</p>
+                    <p className="text-green-500 ">Free</p>
                   )}
                 </div>
               </div>
