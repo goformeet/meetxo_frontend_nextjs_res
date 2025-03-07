@@ -58,5 +58,38 @@
   <priority>0.64</priority>
 </url>
 
+  <url>
+        <loc>https://www.meetxo.ai/influencers</loc>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://www.meetxo.ai/entrepreneurs</loc>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://www.meetxo.ai/mentors</loc>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://www.meetxo.ai/coaches</loc>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://www.meetxo.ai/trainers</loc>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://www.meetxo.ai/astrologers</loc>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://www.meetxo.ai/freelancers</loc>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://www.meetxo.ai/investors</loc>
+        <priority>0.80</priority>
+    </url>
+
 
 </urlset>
