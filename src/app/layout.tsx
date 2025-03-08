@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, Inter, Roboto, Poppins } from "next/font/google";
 import { ThemeProvider } from "@/providers/theme-provider";
 import "./globals.css";
 import Script from "next/script";
+import { Toaster } from "@/components/ui/sonner"
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -84,6 +85,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

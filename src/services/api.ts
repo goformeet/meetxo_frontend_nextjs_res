@@ -416,6 +416,27 @@ export async function updateService(serviceId: string, data: ServiceData, token:
   }
 }
 
+export async function deleteService(serviceId: string, token: string) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/services/${serviceId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Error updating service:', error);
+    return {
+      success: false,
+      message: 'Failed to update service'
+    };
+  }
+}
+
 export const updateEvent = async (eventId: string, eventData: eventData, token: string) => {
   try {
     const response = await fetch(`${API_BASE_URL}/events/${eventId}`, {
@@ -425,6 +446,23 @@ export const updateEvent = async (eventId: string, eventData: eventData, token: 
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(eventData)
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error updating event:', error);
+    return { success: false, message: 'Failed to update event' };
+  }
+};
+
+export const deleteEvent = async (eventId: string, token: string) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/events/${eventId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
     });
 
     return await response.json();

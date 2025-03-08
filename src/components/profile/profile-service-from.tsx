@@ -51,22 +51,35 @@ const currencies = [
     { code: "JPY", symbol: "¥", label: "JPY (¥)" },
     { code: "CAD", symbol: "C$", label: "CAD (C$)" },
     { code: "AUD", symbol: "A$", label: "AUD (A$)" },
+    { code: "INR", symbol: "₹", label: "INR (₹)" },
+    { code: "CNY", symbol: "¥", label: "CNY (¥)" },
+    { code: "CHF", symbol: "CHF", label: "CHF (CHF)" },
+    { code: "SGD", symbol: "S$", label: "SGD (S$)" },
+    { code: "NZD", symbol: "NZ$", label: "NZD (NZ$)" },
+    { code: "HKD", symbol: "HK$", label: "HKD (HK$)" },
+    { code: "KRW", symbol: "₩", label: "KRW (₩)" },
+    { code: "BRL", symbol: "R$", label: "BRL (R$)" },
+    { code: "MXN", symbol: "MX$", label: "MXN (MX$)" },
+    { code: "ZAR", symbol: "R", label: "ZAR (R)" },
 ];
 
 const FormSchema = z.object({
     name: z.string().min(6, { message: "Name must be at least 6 characters." }),
     short_description: z.string().min(6, { message: "Short description must be at least 6 characters." }),
     long_description: z.string().min(6, { message: "Long description must be at least 6 characters." }),
-    duration: z.coerce.number().positive("Duration must be a positive number"),
-    online_pricing: z.coerce.number().positive("Price must be a positive number"),
-    offline_pricing: z.coerce.number().positive("Price must be a positive number"),
+    duration: z.coerce.number().min(1, { message: "Duration must be at least 1." }), // Ensure duration is at least 1
+    online_pricing: z.coerce.number().min(0, { message: "Price must be 0 or a positive number." }), // Allow 0
+    offline_pricing: z.coerce.number().min(0, { message: "Price must be 0 or a positive number." }), // Allow 0
     currency: z.object({
         code: z.string().min(1, { message: "Currency code is required" }),
         symbol: z.string().min(1, { message: "Currency symbol is required" })
     }),
     is_online_available: z.boolean().default(false),
     is_offline_available: z.boolean().default(false),
-    keywords: z.string().transform(val => val.split(',').map(item => item.trim()).filter(item => item !== '')),
+    keywords: z.preprocess(
+        (val) => typeof val === "string" ? val.split(",").map((item) => item.trim()).filter((item) => item !== "") : val,
+        z.array(z.string()).default([])
+    ),
     location_link: z.string().url({ message: "Must be a valid URL" }).optional().or(z.literal("")),
 });
 
@@ -128,9 +141,10 @@ export default function ProfileServiceForm({
                 currency: serviceToEdit.currency,
                 is_online_available: serviceToEdit.is_online_available ?? true,
                 is_offline_available: serviceToEdit.is_offline_available,
-                keywords: serviceToEdit?.keywords && Array.isArray(serviceToEdit.keywords) ? serviceToEdit.keywords : [''],
+                keywords: Array.isArray(serviceToEdit.keywords) ? serviceToEdit.keywords : [], // Ensure it's an array
                 location_link: serviceToEdit.location_link || "",
             });
+
         }
     }, [editMode, serviceToEdit, form]);
 
