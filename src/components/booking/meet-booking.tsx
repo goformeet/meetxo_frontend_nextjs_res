@@ -433,7 +433,7 @@ export default function MeetBooking() {
   return (
     <div>
       <div>
-        <div
+{/*         <div
           onClick={() => router.back()}
           className="flex gap-1.5 items-center py-5 cursor-pointer"
         >
@@ -444,7 +444,26 @@ export default function MeetBooking() {
             height={22}
           />
           <p className="text-lg md:text-[22px]/7 font-bold">Booking Session</p>
-        </div>
+        </div> */}
+
+
+                <nav className="pt-6 pb-2 text-lg md:text-[18px]/7">
+          <ul className="flex gap-1.5 items-center">
+            <li>
+              <Link href="/" className="text-gray-500 hover:text-black">
+                MeetXO
+              </Link>
+            </li>
+            <span>/</span>
+            <li>
+              <Link href="/experts" className="text-gray-500 hover:text-black">
+                Explore Experts
+              </Link>
+            </li>
+            <span>/</span>
+            <li className="text-black font-medium">{expert.name}</li>
+          </ul>
+        </nav>
 
         <div>
           <div className="my-5 flex flex-col lg:flex-row gap-10 ">
