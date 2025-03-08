@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import BecomeExpertModal from './become-expert-modal';
+import Link from "next/link";
 
 export default function ExpertInput() {
 
@@ -16,7 +17,9 @@ export default function ExpertInput() {
               <span className="text-surface-foreground text-xs md:text-base font-bold">www.meetxo.ai/</span>
           </div>
           <Input onChange={(e)=> setName(e.target.value)} type="text" placeholder="Enter your name" className="border-none focus-visible:ring-0 shadow-none placeholder:text-sm md:placeholder:text-base placeholder:text-muted-foreground" />
-          <Button onClick={()=> setOpen(true)} className="text-white text-sm md:text-lg/[27px] md:py-[18px] md:px-7 h-fit rounded-lg md:rounded-[12px]">Create</Button>
+          <Button className="text-white text-sm md:text-lg/[27px] md:py-[18px] md:px-7 h-fit rounded-lg md:rounded-[12px]">
+              <Link href="/login">Create</Link>
+          </Button>
           <BecomeExpertModal name={name} open={open} setOpen={setOpen} />
       </div>
   )

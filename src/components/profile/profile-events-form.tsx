@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction, useRef, useState} from "react";
+import React, {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -10,7 +10,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import {createEvent, getPresignedUrl, uploadFileToAWS} from "@/services/api";
+import {createEvent, getPresignedUrl, updateEvent, uploadFileToAWS} from "@/services/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
@@ -24,6 +24,40 @@ import { Calendar } from "@/components/ui/calendar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getSession } from "next-auth/react";
 import {Alert, AlertDescription} from "@/components/ui/alert";
+
+// Define the EventType interface
+interface EventType {
+    _id: string;
+    user_id: string;
+    max_participants: number;
+    meeting_link: string;
+    title: string;
+    description: string;
+    price: number;
+    image: string;
+    type: "online" | "offline";
+    start_date: string;
+    location: string;
+    duration?: number;
+    currency?: {
+        code: string;
+        symbol: string
+    };
+    is_active?: boolean;
+    created_at: string;
+    updated_at: string;
+    __v: number;
+    profile_id: {
+        name: string;
+    }
+}
+
+// Properties for the component
+interface ProfileEventsFormProps {
+    setShowFormAction: Dispatch<SetStateAction<boolean>>;
+    editMode?: boolean;
+    eventToEdit?: EventType;
+}
 
 const FormSchema = z.object({
     title: z.string().min(6, { message: "Title must be at least 6 characters." }),
@@ -54,7 +88,7 @@ const currencies = [
     { code: "AUD", symbol: "A$", label: "AUD (A$)" },
 ];
 
-export default function ProfileEventsForm({ setShowFormAction }: { setShowFormAction: Dispatch<SetStateAction<boolean>>;}) {
+export default function ProfileEventsForm({ setShowFormAction, editMode = false, eventToEdit }: ProfileEventsFormProps) {
     const [imageUrl, setImageUrl] = useState<string>("");
     const [isUploading, setIsUploading] = useState(false);
     const [submitting, setSubmitting] = useState(false);
@@ -71,7 +105,7 @@ export default function ProfileEventsForm({ setShowFormAction }: { setShowFormAc
                 code: "USD",
                 symbol: "$"
             },
-            type: "online",
+            type: "online" as "online" | "offline",
             meeting_link: "", // Initialize with empty string
             location: "", // Initialize with empty string
             image: "", // Initialize with empty string
@@ -83,6 +117,39 @@ export default function ProfileEventsForm({ setShowFormAction }: { setShowFormAc
     });
 
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    // Initialize form with event data if in edit mode
+    useEffect(() => {
+        if (editMode && eventToEdit) {
+            // Extract date and time from start_date
+            const startDate = new Date(eventToEdit.start_date);
+            const eventDate = startDate;
+            const eventTime = format(startDate, "HH:mm");
+
+            // Set the image URL
+            setImageUrl(eventToEdit.image || "");
+
+            // Set form values
+            form.reset({
+                title: eventToEdit.title,
+                description: eventToEdit.description,
+                duration: eventToEdit.duration || 0,
+                price: eventToEdit.price,
+                currency: eventToEdit.currency || {
+                    code: "USD",
+                    symbol: "$"
+                },
+                type: eventToEdit.type,
+                meeting_link: eventToEdit.meeting_link || "",
+                event_date: eventDate,
+                event_time: eventTime,
+                location: eventToEdit.location || "",
+                image: eventToEdit.image,
+                max_participants: eventToEdit.max_participants,
+                is_active: eventToEdit.is_active !== undefined ? eventToEdit.is_active : true
+            });
+        }
+    }, [editMode, eventToEdit, form]);
 
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -136,19 +203,25 @@ export default function ProfileEventsForm({ setShowFormAction }: { setShowFormAc
 
             // Submit to API
             if (session?.accessToken) {
-                const result = await createEvent(eventData, session.accessToken);
-                if(result.success){
+                let result;
+                if (editMode && eventToEdit) {
+                    // Update existing event
+                    result = await updateEvent(eventToEdit._id, eventData, session.accessToken);
+                } else {
+                    // Create new event
+                    result = await createEvent(eventData, session.accessToken);
+                }
+
+                if (result.success) {
                     setUpdateSuccess(true);
                     setTimeout(() => {setUpdateSuccess(false)}, 3000);
-                    setShowFormAction(false);
+                    setTimeout(() => {setShowFormAction(false)}, 3500);
                 }
             }
-
-            // You can add success notification or redirect here
         } catch (error) {
             console.error("Error submitting form:", error);
             // You can add error notification here
-        }finally {
+        } finally {
             setSubmitting(false);
         }
     };
@@ -204,7 +277,9 @@ export default function ProfileEventsForm({ setShowFormAction }: { setShowFormAc
 
                     {updateSuccess && (
                         <Alert className="mt-4 bg-green-50 text-green-700 border-green-200">
-                            <AlertDescription>Event created successfully!</AlertDescription>
+                            <AlertDescription>
+                                {editMode ? "Event updated successfully!" : "Event created successfully!"}
+                            </AlertDescription>
                         </Alert>
                     )}
 
@@ -389,19 +464,30 @@ export default function ProfileEventsForm({ setShowFormAction }: { setShowFormAc
                     </div>
 
                     {/* Submit Button */}
-                    <div className="flex justify-end">
-                        <Button disabled={submitting} type="submit" className="mt-6 text-white font-bold">
+                    <div className="flex justify-end gap-4">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            className="mt-6 font-bold"
+                            onClick={() => setShowFormAction(false)}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            disabled={submitting}
+                            type="submit"
+                            className="mt-6 text-white font-bold"
+                        >
                             {submitting ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Creating...
+                                    {editMode ? "Updating..." : "Creating..."}
                                 </>
-                            ) : "Create Event"}
-
+                            ) : (editMode ? "Update Event" : "Create Event")}
                         </Button>
                     </div>
                 </div>
             </form>
         </Form>
-    )
+    );
 }

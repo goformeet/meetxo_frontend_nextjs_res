@@ -380,7 +380,7 @@ interface ScheduleItem {
 }
 export const updateAvailability = async (token:string, schedule: ScheduleItem[] ) => {
   try {
-    const response = await fetch('https://testing.goformeet.co/api/profile', {
+    const response = await fetch(`${API_BASE_URL}/profile`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -393,3 +393,43 @@ export const updateAvailability = async (token:string, schedule: ScheduleItem[] 
     throw e;
   }
 }
+
+export async function updateService(serviceId: string, data: ServiceData, token: string) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/services/${serviceId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Error updating service:', error);
+    return {
+      success: false,
+      message: 'Failed to update service'
+    };
+  }
+}
+
+export const updateEvent = async (eventId: string, eventData: eventData, token: string) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/events/${eventId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(eventData)
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error updating event:', error);
+    return { success: false, message: 'Failed to update event' };
+  }
+};

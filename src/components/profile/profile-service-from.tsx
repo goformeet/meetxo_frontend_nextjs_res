@@ -1,5 +1,5 @@
 'use client'
-import React, {Dispatch, SetStateAction, useState} from "react";
+import React, {Dispatch, SetStateAction, useState, useEffect} from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -15,11 +15,33 @@ import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { createService } from "@/services/api";
+import { createService, updateService } from "@/services/api";
 import { getSession } from "next-auth/react";
 import { Checkbox } from "@/components/ui/checkbox";
 import {Alert, AlertDescription} from "@/components/ui/alert";
 import { Loader2 } from "lucide-react";
+
+// Define Service interface
+interface Service {
+    _id: string;
+    user_id: string;
+    name: string;
+    short_description: string;
+    long_description: string;
+    duration: number;
+    online_pricing: number;
+    offline_pricing: number;
+    is_offline_available: boolean;
+    is_online_available?: boolean;
+    keywords: string[];
+    location?: [number, number];
+    location_link?: string;
+    is_active: boolean;
+    currency: { code: string; symbol: string };
+    created_at: string;
+    updated_at: string;
+    __v: number;
+}
 
 // Currency options
 const currencies = [
@@ -46,10 +68,19 @@ const FormSchema = z.object({
     is_offline_available: z.boolean().default(false),
     keywords: z.string().transform(val => val.split(',').map(item => item.trim()).filter(item => item !== '')),
     location_link: z.string().url({ message: "Must be a valid URL" }).optional().or(z.literal("")),
-    // maxParticipants: z.coerce.number().positive("Must be a positive number"),
 });
 
-export default function ProfileServiceForm({ setShowFormAction }: { setShowFormAction: Dispatch<SetStateAction<boolean>>;}) {
+interface ProfileServiceFormProps {
+    setShowFormAction: Dispatch<SetStateAction<boolean>>;
+    editMode?: boolean;
+    serviceToEdit?: Service;
+}
+
+export default function ProfileServiceForm({
+                                               setShowFormAction,
+                                               editMode = false,
+                                               serviceToEdit
+                                           }: ProfileServiceFormProps) {
     const [eventType, setEventType] = useState("Online");
     const [submitting, setSubmitting] = useState(false);
     const [updateSuccess, setUpdateSuccess] = useState(false);
@@ -71,9 +102,37 @@ export default function ProfileServiceForm({ setShowFormAction }: { setShowFormA
             is_offline_available: false,
             keywords: [],
             location_link: "",
-            // maxParticipants: 1,
         },
     });
+
+    // Initialize form with service data for edit mode
+    useEffect(() => {
+        if (editMode && serviceToEdit) {
+            // Determine event type based on available flags
+            let type = "Online";
+            if (serviceToEdit.is_online_available && serviceToEdit.is_offline_available) {
+                type = "Both";
+            } else if (serviceToEdit.is_offline_available) {
+                type = "Offline";
+            }
+            setEventType(type);
+
+            // Populate form fields
+            form.reset({
+                name: serviceToEdit.name,
+                short_description: serviceToEdit.short_description,
+                long_description: serviceToEdit.long_description,
+                duration: serviceToEdit.duration,
+                online_pricing: serviceToEdit.online_pricing,
+                offline_pricing: serviceToEdit.offline_pricing,
+                currency: serviceToEdit.currency,
+                is_online_available: serviceToEdit.is_online_available ?? true,
+                is_offline_available: serviceToEdit.is_offline_available,
+                keywords: serviceToEdit?.keywords && Array.isArray(serviceToEdit.keywords) ? serviceToEdit.keywords : [''],
+                location_link: serviceToEdit.location_link || "",
+            });
+        }
+    }, [editMode, serviceToEdit, form]);
 
     const handleCurrencyChange = (value: string) => {
         const selectedCurrency = currencies.find(c => c.code === value);
@@ -103,24 +162,28 @@ export default function ProfileServiceForm({ setShowFormAction }: { setShowFormA
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
         try {
             setSubmitting(true);
-
-
             const session = await getSession();
 
-            // Submit to API
             if (session?.accessToken) {
-                const result = await createService(data, session.accessToken);
+                let result;
+
+                if (editMode && serviceToEdit) {
+                    // Update existing service
+                    result = await updateService(serviceToEdit._id, data, session.accessToken);
+                } else {
+                    // Create new service
+                    result = await createService(data, session.accessToken);
+                }
+
                 if(result.success) {
                     setUpdateSuccess(true);
                     setTimeout(() => {setUpdateSuccess(false)}, 3000);
-                    setShowFormAction(false);
+                    setTimeout(() => {setShowFormAction(false)}, 3500);
                 }
             }
-            // You can add success notification or redirect here
         } catch (error) {
             console.error("Error submitting form:", error);
-            // You can add error notification here
-        }finally {
+        } finally {
             setSubmitting(false);
         }
     };
@@ -131,7 +194,9 @@ export default function ProfileServiceForm({ setShowFormAction }: { setShowFormA
                 <div className="py-8 px-4">
                     {updateSuccess && (
                         <Alert className="mt-4 bg-green-50 text-green-700 border-green-200">
-                            <AlertDescription>Service created successfully!</AlertDescription>
+                            <AlertDescription>
+                                {editMode ? "Service updated successfully!" : "Service created successfully!"}
+                            </AlertDescription>
                         </Alert>
                     )}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
@@ -288,27 +353,29 @@ export default function ProfileServiceForm({ setShowFormAction }: { setShowFormA
                                 <FormMessage />
                             </FormItem>
                         )} />
-
-                        {/* Maximum Participants */}
-                        {/*<FormField control={form.control} name="maxParticipants" render={({ field }) => (*/}
-                        {/*    <FormItem className="w-full">*/}
-                        {/*        <FormLabel>Maximum Participants <span className="text-red-600">*</span></FormLabel>*/}
-                        {/*        <FormControl><Input className="py-4 px-5 h-11 md:h-14" type="number" placeholder="10" {...field} /></FormControl>*/}
-                        {/*        <FormMessage />*/}
-                        {/*    </FormItem>*/}
-                        {/*)} />*/}
                     </div>
 
-                    {/* Submit Button */}
-                    <div className="flex justify-end">
-                        <Button disabled={submitting} type="submit" className="mt-6 text-white font-bold">
-
+                    {/* Submit & Cancel Buttons */}
+                    <div className="flex justify-end gap-3 mt-6">
+                        <Button
+                            type="button"
+                            onClick={() => setShowFormAction(false)}
+                            variant="outline"
+                            className="font-bold"
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            disabled={submitting}
+                            type="submit"
+                            className="text-white font-bold"
+                        >
                             {submitting ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Creating...
+                                    {editMode ? "Updating..." : "Creating..."}
                                 </>
-                            ) : "Create Service"}
+                            ) : (editMode ? "Update Service" : "Create Service")}
                         </Button>
                     </div>
                 </div>

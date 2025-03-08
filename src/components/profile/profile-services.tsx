@@ -7,7 +7,7 @@ import ProfileServiceForm from './profile-service-from';
 import { getMyEvents, getMyServices, User} from "@/services/api";
 import { SocialMediaLink } from "@/components/profile/profile-information-form";
 import { getSession } from "next-auth/react";
-import { Clock3, Loader, Loader2 } from "lucide-react";
+import { Clock3, Loader, Loader2, Pencil } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useRouter } from "next/navigation";
 import Dot from "@/components/dot";
@@ -44,9 +44,15 @@ interface EventType {
     description: string;
     price: number;
     image: string;
-    type: string;
+    type: "online" | "offline";
     start_date: string;
     location: string;
+    duration?: number;
+    currency?: {
+        code: string;
+        symbol: string
+    };
+    is_active?: boolean;
     created_at: string;
     updated_at: string;
     __v: number;
@@ -98,6 +104,8 @@ export default function ProfileServices() {
     const [isPending, startTransition] = useTransition();
     const [selectedId, setSelectedId] = useState("");
     const [showForm, setShowForm] = useState(false);
+    const [editMode, setEditMode] = useState(false);
+    const [selectedItemToEdit, setSelectedItemToEdit] = useState<Service | EventType | null>(null);
 
     // Handle booking click with proper type safety
     const handleClick = (id: string) => {
@@ -176,7 +184,7 @@ export default function ProfileServices() {
                 setEvents(res.data);
             }
         }
-         finally {
+        finally {
             setCategoryLoading(false);
         }
     };
@@ -192,6 +200,8 @@ export default function ProfileServices() {
 
         // Reset states when category changes
         setShowForm(false);
+        setEditMode(false);
+        setSelectedItemToEdit(null);
 
         // Fetch data based on current category
         if (category === "1:1 Call") {
@@ -204,7 +214,30 @@ export default function ProfileServices() {
 
     // Handle Add button click
     const handleAddClick = () => {
+        setEditMode(false);
+        setSelectedItemToEdit(null);
         setShowForm(true);
+    };
+
+    // Handle Edit button click
+    const handleEditClick = (item: Service | EventType) => {
+        setEditMode(true);
+        setSelectedItemToEdit(item);
+        setShowForm(true);
+    };
+
+    // Handle closing the form
+    const handleCloseForm = () => {
+        setShowForm(false);
+        setEditMode(false);
+        setSelectedItemToEdit(null);
+
+        // Refresh data after form is closed
+        if (category === "1:1 Call") {
+            fetchServices();
+        } else if (category === "Events") {
+            fetchEvents();
+        }
     };
 
     // Render loading state
@@ -308,36 +341,54 @@ export default function ProfileServices() {
                                         <span className="text-[#52c627]">Free</span>
                                     )}
 
-                                    <Button
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            handleClick(data._id);
-                                        }}
-                                        disabled={true}
-                                        className={cn(
-                                            "font-roboto text-sm/normal font-semibold capitalize py-[9px] px-[16px] leading-normal rounded-[8px] h-fit text-white shadow-none"
-                                        )}
-                                    >
-                                        {isPending && selectedId === data._id ? (
-                                            <>
-                                                <Loader className="h-5 w-5 animate-spin" />
-                                                <span>Loading...</span>
-                                            </>
-                                        ) : (
-                                            "Book Session"
-                                        )}
-                                    </Button>
+                                    <div className="flex gap-2">
+                                        <Button
+                                            onClick={() => handleEditClick(data)}
+                                            className="bg-amber-500 hover:bg-amber-600 font-roboto text-sm/normal font-semibold capitalize py-[9px] px-[16px] leading-normal rounded-[8px] h-fit text-white shadow-none"
+                                        >
+                                            <Pencil className="h-4 w-4 mr-1" />
+                                            Edit
+                                        </Button>
+
+                                        <Button
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleClick(data._id);
+                                            }}
+                                            disabled={true}
+                                            className={cn(
+                                                "font-roboto text-sm/normal font-semibold capitalize py-[9px] px-[16px] leading-normal rounded-[8px] h-fit text-white shadow-none"
+                                            )}
+                                        >
+                                            {isPending && selectedId === data._id ? (
+                                                <>
+                                                    <Loader className="h-5 w-5 animate-spin" />
+                                                    <span>Loading...</span>
+                                                </>
+                                            ) : (
+                                                "Book Session"
+                                            )}
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
                         ))
                     }
                 </div>
             )
-        } else if (category === "Events" && events.length > 0) {
+        } else if (category === "Events" && events.length > 0 && !showForm) {
             return (
                 <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-5">
                     {events.map((event) => (
-                        <EventCard key={event._id} event={event} />
+                        <div key={event._id} className="relative">
+                            <Button
+                                onClick={() => handleEditClick(event)}
+                                className="absolute top-2 right-2 z-10 bg-amber-500 hover:bg-amber-600 rounded-full p-2 h-8 w-8"
+                            >
+                                <Pencil className="h-4 w-4 text-white" />
+                            </Button>
+                            <EventCard event={event} />
+                        </div>
                     ))}
                 </div>
             );
@@ -390,8 +441,20 @@ export default function ProfileServices() {
                 </div>
             )}
 
-            {/* Show form only when Add button is clicked */}
-            {showForm && category === "1:1 Call" ? <ProfileServiceForm setShowFormAction={setShowForm} /> : showForm && category === "Events" ? <ProfileEventsForm setShowFormAction={setShowForm} /> : ""}
+            {/* Show form with edit mode based on selected category */}
+            {showForm && category === "1:1 Call" ? (
+                <ProfileServiceForm
+                    setShowFormAction={handleCloseForm}
+                    editMode={editMode}
+                    serviceToEdit={editMode ? selectedItemToEdit as Service : undefined}
+                />
+            ) : showForm && category === "Events" ? (
+                <ProfileEventsForm
+                    setShowFormAction={handleCloseForm}
+                    editMode={editMode}
+                    eventToEdit={editMode ? selectedItemToEdit as EventType : undefined}
+                />
+            ) : ""}
         </div>
     );
 }
