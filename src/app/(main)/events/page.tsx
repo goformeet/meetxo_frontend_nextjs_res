@@ -4,6 +4,8 @@ import { getAllEvents } from "@/services/api";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
+
 
 
 type EventType = {
@@ -65,9 +67,11 @@ export default async function Page() {
         <h1 className="text-lg/5 md:text-[22px]/[28px] font-bold">
           Discover, Connect, and Experience Events That Inspire and Excite!
         </h1>
-        <button className="flex items-center gap-2 text-gray-600 hover:text-black   px-3 py-1  transition duration-300">
-          Create Event <ArrowUpRight size={18} />
-        </button>
+         <Link href="/login">
+          <button className="flex items-center gap-2 text-gray-600 hover:text-black   px-3 py-1  transition duration-300">
+            Create Event <ArrowUpRight size={18} />
+          </button>
+        </Link>
       </div>
           
         <div className="mt-4 md:mt-6 flex py-[1px] px-3.5 md:px-6 items-center rounded-[38px] border border-[#F1F2F4]">
