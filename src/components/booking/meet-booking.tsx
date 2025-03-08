@@ -447,7 +447,7 @@ export default function MeetBooking() {
         </div> */}
 
 
-                <nav className="pt-6 pb-2 text-lg md:text-[18px]/7">
+         <nav className="pt-6 pb-2 text-lg md:text-[18px]/7">
           <ul className="flex gap-1.5 items-center">
             <li>
               <Link href="/" className="text-gray-500 hover:text-black">
@@ -460,11 +460,20 @@ export default function MeetBooking() {
                 Explore Experts
               </Link>
             </li>
+
             <span>/</span>
-            <li className="text-black font-medium">{expert.name}</li>
+            <li>
+              <Link
+                href={`/${username}`}
+                className="text-gray-500 hover:text-black"
+              >
+                {expert.name}
+              </Link>
+            </li>
+            <span>/</span>
+            <li className="text-black font-medium">Booking</li>
           </ul>
         </nav>
-
         <div>
           <div className="my-5 flex flex-col lg:flex-row gap-10 ">
             <div className="rounded-[16px] border border-[#E3E6EA] overflow-hidden lg:w-3/5">
