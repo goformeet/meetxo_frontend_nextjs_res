@@ -35,7 +35,7 @@ const FormSchema = z.object({
     socialLinks: z
         .array(
             z.object({
-                icon: z.string().min(1, { message: "Select a platform." }),
+                platform: z.string().min(1, { message: "Select a platform." }),
                 url: z.string({ message: "Enter a valid URL." }),
             })
         )
@@ -128,7 +128,7 @@ export default function ProfileInformationComponent() {
                 profession_sub_category_id: data.profession,
                 about_me: data.about || '',
                 social_media_links: data.socialLinks?.map(link => ({
-                    platform: link.icon,
+                    platform: link.platform,
                     url: link.url
                 })),
             };
@@ -298,7 +298,7 @@ export default function ProfileInformationComponent() {
             // Set social links
             if (user.social_media_links && user.social_media_links.length > 0) {
                 const formattedLinks = user.social_media_links.map(link => ({
-                    icon: link.platform.toLowerCase(),
+                    platform: link.platform,
                     url: link.url
                 }));
                 form.setValue("socialLinks", formattedLinks);
@@ -368,7 +368,7 @@ export default function ProfileInformationComponent() {
                                 </AvatarFallback>
                             )}
                         </Avatar>
-                        {user && <ProfileImageSection  user={user} setUpdateSuccess={setUpdateSuccess} setUser={setUser} />}
+                        {user && <ProfileImageSection user={user} setUpdateSuccess={setUpdateSuccess} setUser={setUser} />}
                     </div>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
                         <FormField
@@ -494,7 +494,7 @@ export default function ProfileInformationComponent() {
                                 <div key={field.id} className="flex flex-col lg:flex-row items-end gap-4 mt-4">
                                     <FormField
                                         control={form.control}
-                                        name={`socialLinks.${index}.icon`}
+                                        name={`socialLinks.${index}.platform`}
                                         render={({ field }) => (
                                             <FormItem className="w-full">
                                                 <FormLabel>Platform</FormLabel>
@@ -590,7 +590,7 @@ export default function ProfileInformationComponent() {
                                 type="button"
                                 variant="link"
                                 className="mt-4"
-                                onClick={() => append({ icon: "", url: "" })}
+                                onClick={() => append({ platform: "", url: "" })}
                             >
                                 + Add More
                             </Button>

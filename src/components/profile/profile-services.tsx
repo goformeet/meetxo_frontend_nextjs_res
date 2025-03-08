@@ -4,16 +4,26 @@ import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
 import EmptyServices from '../empty-services';
 import ProfileServiceForm from './profile-service-from';
-import { getMyEvents, getMyServices, User} from "@/services/api";
+import { getMyEvents, getMyServices, User, deleteService, deleteEvent } from "@/services/api";
 import { SocialMediaLink } from "@/components/profile/profile-information-form";
 import { getSession } from "next-auth/react";
-import { Clock3, Loader, Loader2, Pencil } from "lucide-react";
+import { Clock3, Loader, Loader2, Pencil, Trash2 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useRouter } from "next/navigation";
 import Dot from "@/components/dot";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import EventCard from "@/components/event-card";
 import ProfileEventsForm from "@/components/profile/profile-events-form";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
+import { toast } from "sonner"
+import Image from "next/image";
 
 // Move types to separate interfaces for better organization
 interface Service {
@@ -107,6 +117,11 @@ export default function ProfileServices() {
     const [editMode, setEditMode] = useState(false);
     const [selectedItemToEdit, setSelectedItemToEdit] = useState<Service | EventType | null>(null);
 
+    // Delete confirmation modal state
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [itemToDelete, setItemToDelete] = useState<{id: string, type: "service" | "event", name: string} | null>(null);
+    const [deleteLoading, setDeleteLoading] = useState(false);
+
     // Handle booking click with proper type safety
     const handleClick = (id: string) => {
         if (!user?.name) return;
@@ -115,6 +130,64 @@ export default function ProfileServices() {
         startTransition(() => {
             router.push(`${user.name}/booking?id=${id}`);
         });
+    };
+
+    // Handle delete button click
+    const handleDeleteClick = (item: Service | EventType) => {
+        // Determine if it's a service or event by checking properties
+        const isService = 'name' in item;
+
+        setItemToDelete({
+            id: item._id,
+            type: isService ? "service" : "event",
+            name: isService ? (item as Service).name : (item as EventType).title
+        });
+
+        setDeleteModalOpen(true);
+    };
+
+    // Handle confirmation of deletion
+    const handleConfirmDelete = async () => {
+        if (!itemToDelete) return;
+
+        setDeleteLoading(true);
+
+        try {
+            const session = await getSession();
+            if (!session?.accessToken) {
+                router.push('/login');
+                return;
+            }
+
+            const token = session.accessToken;
+
+            if (itemToDelete.type === "service") {
+                const response = await deleteService(itemToDelete.id, token);
+                if (response.success) {
+                    // Remove the deleted service from state
+                    setServices(services.filter(service => service._id !== itemToDelete.id));
+                    toast.success("Service deleted successfully")
+                } else {
+                    throw new Error(response.message || "Failed to delete service");
+                }
+            } else {
+                const response = await deleteEvent(itemToDelete.id, token);
+                if (response.success) {
+                    // Remove the deleted event from state
+                    setEvents(events.filter(event => event._id !== itemToDelete.id));
+                    toast.success("Event deleted successfully");
+                } else {
+                    throw new Error(response.message || "Failed to delete event");
+                }
+            }
+        } catch (error) {
+            console.error("Error deleting item:", error);
+            toast.error(error instanceof Error ? error.message : "An error occurred")
+        } finally {
+            setDeleteLoading(false);
+            setDeleteModalOpen(false);
+            setItemToDelete(null);
+        }
     };
 
     // Fetch user profile data
@@ -343,6 +416,14 @@ export default function ProfileServices() {
 
                                     <div className="flex gap-2">
                                         <Button
+                                            onClick={() => handleDeleteClick(data)}
+                                            className="bg-red-500 hover:bg-red-600 font-roboto text-sm/normal font-semibold capitalize py-[9px] px-[16px] leading-normal rounded-[8px] h-fit text-white shadow-none"
+                                        >
+                                            <Trash2 className="h-4 w-4 mr-1" />
+                                            Delete
+                                        </Button>
+
+                                        <Button
                                             onClick={() => handleEditClick(data)}
                                             className="bg-amber-500 hover:bg-amber-600 font-roboto text-sm/normal font-semibold capitalize py-[9px] px-[16px] leading-normal rounded-[8px] h-fit text-white shadow-none"
                                         >
@@ -381,15 +462,38 @@ export default function ProfileServices() {
                 <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-5">
                     {events.map((event) => (
                         <div key={event._id} className="relative">
-                            <Button
-                                onClick={() => handleEditClick(event)}
-                                className="absolute top-2 right-2 z-10 bg-amber-500 hover:bg-amber-600 rounded-full p-2 h-8 w-8"
-                            >
-                                <Pencil className="h-4 w-4 text-white" />
-                            </Button>
+                            <div className="absolute top-2 right-2 z-10 flex gap-1">
+                                <Button
+                                    onClick={() => handleDeleteClick(event)}
+                                    className="bg-red-500 hover:bg-red-600 rounded-full p-2 h-8 w-8"
+                                >
+                                    <Trash2 className="h-4 w-4 text-white" />
+                                </Button>
+                                <Button
+                                    onClick={() => handleEditClick(event)}
+                                    className="bg-amber-500 hover:bg-amber-600 rounded-full p-2 h-8 w-8"
+                                >
+                                    <Pencil className="h-4 w-4 text-white" />
+                                </Button>
+                            </div>
                             <EventCard event={event} />
                         </div>
                     ))}
+                </div>
+            );
+        } else if (category === "Digital Product") {
+            return (
+                <div className="flex flex-col items-center">
+                    <Image
+                        src="/images/assets-cuate.png"
+                        alt="Coming Soon"
+                        width={329}
+                        height={307}
+                    />
+                    <p className="text-lg font-bold text-center">Coming soon!</p>
+                    <p className="text-sm text-center">
+                        Get ready for exclusive expert-led digital products
+                    </p>
                 </div>
             );
         }
@@ -424,13 +528,12 @@ export default function ProfileServices() {
 
             {/* Show EmptyServices only if there's no data and form is not showing */}
             {(category === "1:1 Call" && services.length === 0 ||
-                    category === "Events" && events.length === 0 ||
-                    category === "Digital Product") && !categoryLoading &&
+                    category === "Events" && events.length === 0 ) && !categoryLoading &&
                 !showForm && <EmptyServices />
             }
 
             {/* Add button - show only if form is not visible */}
-            {!showForm && (
+            {!showForm && category !== "Digital Product" && (
                 <div className="flex justify-center mt-5">
                     <Button
                         className="text-white py-3 px-10 h-fit"
@@ -440,6 +543,7 @@ export default function ProfileServices() {
                     </Button>
                 </div>
             )}
+
 
             {/* Show form with edit mode based on selected category */}
             {showForm && category === "1:1 Call" ? (
@@ -455,6 +559,45 @@ export default function ProfileServices() {
                     eventToEdit={editMode ? selectedItemToEdit as EventType : undefined}
                 />
             ) : ""}
+
+            {/* Delete Confirmation Modal */}
+            <Dialog open={deleteModalOpen} onOpenChange={setDeleteModalOpen}>
+                <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                        <DialogTitle>Confirm Deletion</DialogTitle>
+                        <DialogDescription>
+                            Are you sure you want to delete{" "}
+                            <span className="font-semibold">{itemToDelete?.name}</span>?
+                            This action cannot be undone.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter className="sm:justify-between">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => setDeleteModalOpen(false)}
+                            disabled={deleteLoading}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="destructive"
+                            onClick={handleConfirmDelete}
+                            disabled={deleteLoading}
+                        >
+                            {deleteLoading ? (
+                                <>
+                                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                                    Deleting...
+                                </>
+                            ) : (
+                                "Delete"
+                            )}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }
