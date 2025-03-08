@@ -11,6 +11,10 @@ const nextConfig = {
       { protocol: "https", hostname: "www.goformeet.co" },
       { protocol: "https", hostname: "www.maacgp.com" },
       { protocol: "https", hostname: "cdn-icons-png.flaticon.com" },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com"
+      }
     ],
   },
 };
