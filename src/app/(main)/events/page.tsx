@@ -3,6 +3,8 @@ import { Input } from "@/components/ui/input";
 import { getAllEvents } from "@/services/api";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { ArrowUpRight } from "lucide-react";
+
 
 type EventType = {
     _id: string;
