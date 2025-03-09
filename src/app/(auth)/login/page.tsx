@@ -8,11 +8,12 @@ import { OtpForm } from '@/components/auth/otpForm';
 import DetailsForm from '@/components/auth/detailsForm';
 import SucessPopup from '@/components/auth/successPopup';
 import Link from 'next/link';
-import {sendOtp, setUpProfile, User} from '@/services/api';
+import {sendOtp, setUpProfile, User, validateUsername} from '@/services/api';
 import { collectAuthData } from '@/app/utils/collectAuthData';
 import { AuthData } from '@/types/authTypes';
 import axios from 'axios';
 import { normalizeUsername } from "@/lib/utils";
+import {toast} from "sonner";
 
 
 const Page = () => {
@@ -86,6 +87,7 @@ const Page = () => {
     const handleDetailsSubmit =async (detals: {
       name: string;
       email: string;
+      username?: string;
     }) => {
       // setDetails(detals);
       try {
@@ -95,15 +97,23 @@ const Page = () => {
         if (!session || !session.accessToken) {
           throw new Error("User session not found or accessToken missing");
         }
-        const res = await setUpProfile(detals, session.accessToken);
-
-        if (res.success) {
-            if (res.success) {
-                router.push(`/profile/${normalizeUsername(res.profile.username || "user")}/?item=personal-information`);
+        if(detals.username){
+            const response = await validateUsername({user_name: detals.username});
+            if(response.success) {
+                const res = await setUpProfile(detals, session.accessToken);
+                if (res.success) {
+                    if (res.success) {
+                        router.push(`/profile/${normalizeUsername(res.profile.username || "user")}/?item=personal-information`);
+                    }
+                } else {
+                    alert(res.message);
+                }
+            }else {
+                toast.error(response.message);
             }
-        } else {
-          alert(res.message);
+
         }
+
         
       } catch (error) {
         console.error(error);
