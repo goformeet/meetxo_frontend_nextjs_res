@@ -40,7 +40,7 @@ export default function LoginModal({
       case "otp":
         return <OtpForm loading={loading} handleSubmit={handleOtpSubmit} />;
       case "details":
-        return <DetailsForm handleSubmit={handleDetailsSubmit} />;
+        return <DetailsForm handleSubmit={handleDetailsSubmit} modal={true} />;
       default:
         return <PhoneForm loading={loading}  handleSubmit={handlePhoneSubmit} />;
     }
