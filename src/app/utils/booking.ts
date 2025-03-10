@@ -59,6 +59,8 @@ export const convertToISOString = (date: string, time: string) => {
   }
 
   const utcDate = new Date(Date.UTC(year, month - 1, day, hours, minutes, 0));
+    console.log(utcDate);
+
 
   return utcDate.toISOString();
 };
