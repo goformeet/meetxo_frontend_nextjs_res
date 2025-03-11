@@ -18,6 +18,8 @@ type Professional= {
   min_session_price: string;
   average_rating: number;
   about_me: string;
+      is_verified: boolean;
+
   username:string
   profession_id: {
     title: string;
