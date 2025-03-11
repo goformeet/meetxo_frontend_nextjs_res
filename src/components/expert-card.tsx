@@ -18,6 +18,7 @@ export default function ExpertCard({
     about_me: string;
     _id: string;
     username:string;
+    is_verified: boolean;
     profession_sub_category_id?: {
       title: string;
     }
