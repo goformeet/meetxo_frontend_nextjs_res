@@ -2,7 +2,7 @@
 import React, { useTransition } from 'react'
 import { AspectRatio } from './ui/aspect-ratio'
 import Image from 'next/image'
-import {  Star } from 'lucide-react'
+import {  Star , BadgeCheck } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
