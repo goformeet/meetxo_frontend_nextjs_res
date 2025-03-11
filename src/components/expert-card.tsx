@@ -72,18 +72,27 @@ export default function ExpertCard({
           </div>
         )}
       </div>
-      <p className="text-sm font-bold">{prof.name}</p>
+{/*       <p className="text-sm font-bold">{prof.name}</p> */}
+
+          <p className="text-sm font-bold flex items-center pt-1">
+        <span>{prof.name}</span>
+        {prof.is_verified ? (
+          <BadgeCheck className="w-5 h-5 text-blue-500 pl-1" />
+        ) : (
+          ""
+        )}
+      </p>
       <p className="text-xs text-muted-foreground">
         {prof.profession_sub_category_id?.title}
       </p>
       <div className="flex justify-between items-center">
-        <p className="text-xs font-semibold">
+{/*         <p className="text-xs font-semibold">
           {prof.min_session_price ? (
             `$ ${prof.min_session_price}`
           ) : (
             <span className="text-[#52c627]">Free</span>
           )}
-        </p>
+        </p> */}
         {prof?.average_rating ? (
           <div className="flex items-center gap-0.5">
             <Star className="h-4 w-auto fill-[#FBBC05] text-[#FBBC05]" />
