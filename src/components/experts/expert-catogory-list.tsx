@@ -12,6 +12,8 @@ type Professional = {
   average_rating: number;
   about_me: string;
   username: string;
+      is_verified: boolean;
+
   profession_id: {
     title: string;
   };
