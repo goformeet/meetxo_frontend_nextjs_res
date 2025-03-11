@@ -1,5 +1,5 @@
 "useClient"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
@@ -26,6 +26,9 @@ export default function HomeBanner() {
         handleClick();
       }
     };
+    useEffect(()=>{
+localStorage.removeItem("expert_search_from_home");
+    },[])
   return (
     <section className="px-4 md:px-7 lg:px-10 bg-[url('/images/home-banner-bg.png')] bg-cover bg-center">
       <div className="py-28 flex flex-col justify-center items-center">

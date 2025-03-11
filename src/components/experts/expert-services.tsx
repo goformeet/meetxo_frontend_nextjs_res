@@ -109,7 +109,7 @@ const getEvents= async()=>{
 
 localStorage.setItem("meet_service_id", id);
      startTransition(() => {
-        router.push(`${username}/booking?n=${replaceSpacesWithUnderscore(name)}`)
+        router.push(`${username}/booking/${replaceSpacesWithUnderscore(name)}`)
      });
    };
 
