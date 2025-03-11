@@ -184,8 +184,17 @@ export default function Explore() {
   useEffect(() => {
     const searchFromHome =
       localStorage.getItem("expert_search_from_home") ?? "";
+      if(searchFromHome){
+ setSearchValue(searchFromHome);
+      }else{
+          setFilters([]);
+          setSub_profession("");
+          filterItemsFun("is_top_expert");
+          setProfession(true);
+          getProfessionals();
+      }
 
-    setSearchValue(searchFromHome);
+   
   }, []);
   return (
     // max-w-[calc(100%-105px)] shoduld be added here when side bar is there

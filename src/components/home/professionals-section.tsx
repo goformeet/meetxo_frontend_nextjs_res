@@ -90,8 +90,8 @@ export default function ProfessionalsSection() {
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
   
-     const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-       e.preventDefault();
+     const handleClick = () => {
+       
   
        startTransition(() => {
          router.push(`/experts`); 
@@ -189,22 +189,23 @@ export default function ProfessionalsSection() {
           <Button
             disabled={isPending}
             className="text-white text-sm md:text-lg/[150%] font-semibold py-3 md:py-[18px] px-4 md:px-7 rounded md:rounded-[14px] h-fit"
+            onClick={(e)=>{
+              e.preventDefault()
+              handleClick()
+            }}
           >
-            <Link onClick={handleClick} href={"/experts"}>
+            {/* <Link href={"/experts"}> */}
               {" "}
               {isPending ? (
-             
-                
-                  <Loader className="h-5 w-5 animate-spin" />
-               
+                <Loader className="h-5 w-5 animate-spin" /> 
               ) : (
                 "Explore Experts"
               )}
-            </Link>
+            {/* </Link> */}
           </Button>
         </div>
 
-{/*       <div className="flex justify-center mt-8 md:mt-16">
+        {/*       <div className="flex justify-center mt-8 md:mt-16">
           <Button
             disabled={isPending}
             onClick={handleClick}
@@ -219,7 +220,6 @@ export default function ProfessionalsSection() {
             )}
           </Button>
         </div> */}
-        
       </div>
     </section>
   );
