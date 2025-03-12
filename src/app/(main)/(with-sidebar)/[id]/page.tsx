@@ -22,40 +22,40 @@ interface ApiSocialMediaLink {
 //   secretAccessKey: process.env.EAWS_SECRET_ACCESS_KEY,
 //   region: process.env.EAWS_REGION,
 // });
-// const socialMediaIcons = [
-//   {
-//     name: "Linkedin",
-//     icon: "https://cdn-icons-png.flaticon.com/512/174/174857.png",
-//   },
-//   {
-//     name: "Instagram",
-//     icon: "https://cdn-icons-png.flaticon.com/512/2111/2111463.png",
-//   },
-//   {
-//     name: "Facebook",
-//     icon: "https://cdn-icons-png.flaticon.com/512/5968/5968764.png",
-//   },
-//   {
-//     name: "X",
-//     icon: "https://cdn-icons-png.flaticon.com/512/5968/5968830.png",
-//   },
-//   {
-//     name: "Youtube",
-//     icon: "https://cdn-icons-png.flaticon.com/512/1384/1384060.png",
-//   },
-//   {
-//     name: "Github",
-//     icon: "https://cdn-icons-png.flaticon.com/512/733/733609.png",
-//   },
-//   {
-//     name: "Behance",
-//     icon: "https://cdn-icons-png.flaticon.com/512/145/145799.png",
-//   },
-//   {
-//     name: "Tiktok",
-//     icon: "https://cdn-icons-png.flaticon.com/512/3046/3046124.png",
-//   },
-// ];
+const socialMediaIcons = [
+  {
+    name: "Linkedin",
+    icon: "https://cdn-icons-png.flaticon.com/512/174/174857.png",
+  },
+  {
+    name: "Instagram",
+    icon: "https://cdn-icons-png.flaticon.com/512/2111/2111463.png",
+  },
+  {
+    name: "Facebook",
+    icon: "https://cdn-icons-png.flaticon.com/512/5968/5968764.png",
+  },
+  {
+    name: "X",
+    icon: "https://cdn-icons-png.flaticon.com/512/5968/5968830.png",
+  },
+  {
+    name: "Youtube",
+    icon: "https://cdn-icons-png.flaticon.com/512/1384/1384060.png",
+  },
+  {
+    name: "Github",
+    icon: "https://cdn-icons-png.flaticon.com/512/733/733609.png",
+  },
+  {
+    name: "Behance",
+    icon: "https://cdn-icons-png.flaticon.com/512/145/145799.png",
+  },
+  {
+    name: "Tiktok",
+    icon: "https://cdn-icons-png.flaticon.com/512/3046/3046124.png",
+  },
+];
 // async function uploadToS3(buffer: Buffer, key: string): Promise<string> {
 //   const params = {
 //     Bucket: process.env.EAWS_S3_BUCKET_NAME!,
@@ -116,7 +116,7 @@ interface ApiSocialMediaLink {
 //   return canvas.toBuffer("image/png");
 // }
 
-// type Params = Promise<{ id: string }>
+type Params = Promise<{ id: string }>
 
 
 // export async function generateMetadata({ params }: {params: Params}): Promise<Metadata> {
