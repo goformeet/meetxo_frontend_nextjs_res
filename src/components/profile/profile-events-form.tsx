@@ -63,7 +63,7 @@ const FormSchema = z.object({
     title: z.string().min(6, { message: "Title must be at least 6 characters." }),
     description: z.string().min(6, { message: "Description must be at least 6 characters." }),
     duration: z.coerce.number().positive("Duration must be a positive number"),
-    price: z.coerce.number().positive("Price must be a positive number"),
+    price: z.coerce.number().min(0, "Price must be 0 or a positive number"),
     currency: z.object({
         code: z.string({ required_error: "Currency code is required" }),
         symbol: z.string({ required_error: "Currency symbol is required" })
