@@ -3,7 +3,7 @@ import MeetBooking from "@/components/booking/meet-booking";
 
 
 
-type Params = Promise<{ id: string }>
+// type Params = Promise<{ id: string }>
 
 
 
