@@ -18,9 +18,9 @@ interface ApiSocialMediaLink {
 
 
 const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION,
+  accessKeyId: process.env.EAWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.EAWS_SECRET_ACCESS_KEY,
+  region: process.env.EAWS_REGION,
 });
 const socialMediaIcons = [
   {
@@ -58,7 +58,7 @@ const socialMediaIcons = [
 ];
 async function uploadToS3(buffer: Buffer, key: string): Promise<string> {
   const params = {
-    Bucket: process.env.AWS_S3_BUCKET_NAME!,
+    Bucket: process.env.EAWS_S3_BUCKET_NAME!,
     Key: key,
     Body: buffer,
     ContentType: "image/png",
@@ -66,13 +66,13 @@ async function uploadToS3(buffer: Buffer, key: string): Promise<string> {
   };
 
   await s3.upload(params).promise();
-  return `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+  return `https://${process.env.EAWS_S3_BUCKET_NAME}.s3.${process.env.EAWS_REGION}.amazonaws.com/${key}`;
 }
 
 async function checkIfImageExists(key: string): Promise<boolean> {
   try {
     await s3
-      .headObject({ Bucket: process.env.AWS_S3_BUCKET_NAME!, Key: key })
+      .headObject({ Bucket: process.env.EAWS_S3_BUCKET_NAME!, Key: key })
       .promise();
     return true;
   } catch {
@@ -132,7 +132,7 @@ export async function generateMetadata({ params }: {params: Params}): Promise<Me
 
   const expert = res.hosts.hosts[0];
   const ogKey = `og_images/${expert.username}.png`;
-  let ogImageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${ogKey}`;
+  let ogImageUrl = `https://${process.env.EAWS_S3_BUCKET_NAME}.s3.${process.env.EAWS_REGION}.amazonaws.com/${ogKey}`;
 
   if (!(await checkIfImageExists(ogKey))) {
     const buffer = await generateOgImage(expert);
