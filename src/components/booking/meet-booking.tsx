@@ -32,6 +32,7 @@ import { collectAuthData } from "@/app/utils/collectAuthData";
 import LoginModal from "@/components/auth/login-modal";
 import SucessPopup from "@/components/auth/successPopup";
 import { Loader } from "lucide-react";
+import {getFallbackLetters} from "@/lib/utils";
 type ServiceType = {
   _id: string;
   user_id: string;
@@ -489,7 +490,7 @@ export default function MeetBooking() {
                       className="w-full h-full object-cover object-center"
                     />
                     <AvatarFallback className="bg-[#E3E6EA] dark:bg-muted-foreground">
-                      CN
+                      {getFallbackLetters(expert.name)}
                     </AvatarFallback>
                   </Avatar>
                   <div>
