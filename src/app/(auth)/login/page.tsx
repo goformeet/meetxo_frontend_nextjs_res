@@ -12,7 +12,7 @@ import {sendOtp, setUpProfile, User, validateUsername} from '@/services/api';
 import { collectAuthData } from '@/app/utils/collectAuthData';
 import { AuthData } from '@/types/authTypes';
 import axios from 'axios';
-// import { normalizeUsername } from "@/lib/utils";
+import { normalizeUsername } from "@/lib/utils";
 import {toast} from "sonner";
 
 
@@ -65,8 +65,8 @@ const Page = () => {
           } else {
               const response = await User(session?.accessToken || '');
               if (response.success) {
-                  router.push(`/profile/${(response.profile.username || "user")}/?item=personal-information`);
-                                    // router.push(`/profile/${normalizeUsername(response.profile.username || "user")}/?item=personal-information`);
+
+                                    router.push(`/profile/${normalizeUsername(response.profile.username || "user")}/?item=personal-information`);
 
               }
           }
@@ -105,8 +105,8 @@ const Page = () => {
                 const res = await setUpProfile(detals, session.accessToken);
                 if (res.success) {
                     if (res.success) {
-                        router.push(`/profile/${(res.profile.username || "user")}/?item=personal-information`);
-                        // router.push(`/profile/${normalizeUsername(res.profile.username || "user")}/?item=personal-information`);
+
+                        router.push(`/profile/${normalizeUsername(res.profile.username || "user")}/?item=personal-information`);
                         
                     }
                 } else {
