@@ -3,9 +3,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Hosts } from "@/services/api";
 import { Skeleton } from "@/components/ui/skeleton";
-// import { Metadata } from "next";
-// import { createCanvas, loadImage } from "canvas";
-// import AWS from "aws-sdk";
+import { Metadata } from "next";
+import { createCanvas, loadImage } from "canvas";
+import AWS from "aws-sdk";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -17,11 +17,11 @@ interface ApiSocialMediaLink {
 }
 
 
-// const s3 = new AWS.S3({
-//   accessKeyId: process.env.EAWS_ACCESS_KEY_ID,
-//   secretAccessKey: process.env.EAWS_SECRET_ACCESS_KEY,
-//   region: process.env.EAWS_REGION,
-// });
+const s3 = new AWS.S3({
+  accessKeyId: process.env.EAWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.EAWS_SECRET_ACCESS_KEY,
+  region: process.env.EAWS_REGION,
+});
 const socialMediaIcons = [
   {
     name: "Linkedin",
@@ -56,105 +56,105 @@ const socialMediaIcons = [
     icon: "https://cdn-icons-png.flaticon.com/512/3046/3046124.png",
   },
 ];
-// async function uploadToS3(buffer: Buffer, key: string): Promise<string> {
-//   const params = {
-//     Bucket: process.env.EAWS_S3_BUCKET_NAME!,
-//     Key: key,
-//     Body: buffer,
-//     ContentType: "image/png",
-//     ACL: "public-read",
-//   };
+async function uploadToS3(buffer: Buffer, key: string): Promise<string> {
+  const params = {
+    Bucket: process.env.EAWS_S3_BUCKET_NAME!,
+    Key: key,
+    Body: buffer,
+    ContentType: "image/png",
+    ACL: "public-read",
+  };
 
-//   await s3.upload(params).promise();
-//   return `https://${process.env.EAWS_S3_BUCKET_NAME}.s3.${process.env.EAWS_REGION}.amazonaws.com/${key}`;
-// }
+  await s3.upload(params).promise();
+  return `https://${process.env.EAWS_S3_BUCKET_NAME}.s3.${process.env.EAWS_REGION}.amazonaws.com/${key}`;
+}
 
-// async function checkIfImageExists(key: string): Promise<boolean> {
-//   try {
-//     await s3
-//       .headObject({ Bucket: process.env.EAWS_S3_BUCKET_NAME!, Key: key })
-//       .promise();
-//     return true;
-//   } catch {
-//     return false;
-//   }
-// }
+async function checkIfImageExists(key: string): Promise<boolean> {
+  try {
+    await s3
+      .headObject({ Bucket: process.env.EAWS_S3_BUCKET_NAME!, Key: key })
+      .promise();
+    return true;
+  } catch {
+    return false;
+  }
+}
 
-// type Expert = {
-//   profile_image: string;
-//   username: string;
-// }
+type Expert = {
+  profile_image: string;
+  username: string;
+}
 
-// async function generateOgImage(expert: Expert): Promise<Buffer> {
-//   const width = 1200;
-//   const height = 627;
-//   const canvas = createCanvas(width, height);
-//   const ctx = canvas.getContext("2d");
+async function generateOgImage(expert: Expert): Promise<Buffer> {
+  const width = 1200;
+  const height = 627;
+  const canvas = createCanvas(width, height);
+  const ctx = canvas.getContext("2d");
 
-//   const baseImage = await loadImage(
-//     "https://res.cloudinary.com/djocenrah/image/upload/v1740234119/og_profile_s4prh0.png"
-//   );
-//   ctx.drawImage(baseImage, 0, 0, width, height);
+  const baseImage = await loadImage(
+    "https://res.cloudinary.com/djocenrah/image/upload/v1740234119/og_profile_s4prh0.png"
+  );
+  ctx.drawImage(baseImage, 0, 0, width, height);
 
-//   const profileImage = await loadImage(expert.profile_image);
-//   const centerX = 265;
-//   const centerY = 315;
-//   const radius = 165;
+  const profileImage = await loadImage(expert.profile_image);
+  const centerX = 265;
+  const centerY = 315;
+  const radius = 165;
 
-//   ctx.save();
-//   ctx.beginPath();
-//   ctx.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
-//   ctx.closePath();
-//   ctx.clip();
-//   ctx.drawImage(profileImage, centerX - radius, centerY - radius, radius * 2, radius * 2);
-//   ctx.restore();
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
+  ctx.closePath();
+  ctx.clip();
+  ctx.drawImage(profileImage, centerX - radius, centerY - radius, radius * 2, radius * 2);
+  ctx.restore();
 
-//   ctx.font = "35px Arial";
-//   ctx.fillStyle = "white";
-//   ctx.fillText(expert.username, 357, 590.5);
+  ctx.font = "35px Arial";
+  ctx.fillStyle = "white";
+  ctx.fillText(expert.username, 357, 590.5);
 
-//   return canvas.toBuffer("image/png");
-// }
+  return canvas.toBuffer("image/png");
+}
 
 type Params = Promise<{ id: string }>
 
 
-// export async function generateMetadata({ params }: {params: Params}): Promise<Metadata> {
-//   const id = decodeURIComponent((await params).id);
-//   const res = await Hosts({ user_name: id });
+export async function generateMetadata({ params }: {params: Params}): Promise<Metadata> {
+  const id = decodeURIComponent((await params).id);
+  const res = await Hosts({ user_name: id });
 
-//   if (!res.success || !res.hosts.hosts[0]) {
-//     return {
-//       title: "Expert Not Found",
-//       description: "The requested expert could not be found.",
-//     };
-//   }
+  if (!res.success || !res.hosts.hosts[0]) {
+    return {
+      title: "Expert Not Found",
+      description: "The requested expert could not be found.",
+    };
+  }
 
-//   const expert = res.hosts.hosts[0];
-//   const ogKey = `og_images/${expert.username}.png`;
-//   let ogImageUrl = `https://${process.env.EAWS_S3_BUCKET_NAME}.s3.${process.env.EAWS_REGION}.amazonaws.com/${ogKey}`;
+  const expert = res.hosts.hosts[0];
+  const ogKey = `og_images/${expert.username}.png`;
+  let ogImageUrl = `https://${process.env.EAWS_S3_BUCKET_NAME}.s3.${process.env.EAWS_REGION}.amazonaws.com/${ogKey}`;
 
-//   if (!(await checkIfImageExists(ogKey))) {
-//     const buffer = await generateOgImage(expert);
-//     ogImageUrl = await uploadToS3(buffer, ogKey);
-//   }
+  if (!(await checkIfImageExists(ogKey))) {
+    const buffer = await generateOgImage(expert);
+    ogImageUrl = await uploadToS3(buffer, ogKey);
+  }
 
-//   return {
-//     title: `Schedule and meet with ${expert.name} on meetxo.ai`,
-//     description: `Check out ${expert.name}, a top ${expert.profession_id?.title} expert on MeetXO. Book a session now!`,
-//     metadataBase: new URL("https://meetxo.ai"),
-//     openGraph: {
-//       title: `Schedule and meet with ${expert.name} on meetxo.ai`,
-//       description: `Check out ${expert.name, expert.username}, a top ${expert.profession_id?.title} expert on MeetXO. Book a session now!`,
-//       images: [{
-//         url: ogImageUrl,
-//         width: 1200,
-//         height: 627,
-//         alt: `${expert.name}'s Profile Picture`,
-//       }],
-//     },
-//   };
-// }
+  return {
+    title: `Schedule and meet with ${expert.name} on meetxo.ai`,
+    description: `Check out ${expert.name}, a top ${expert.profession_id?.title} expert on MeetXO. Book a session now!`,
+    metadataBase: new URL("https://meetxo.ai"),
+    openGraph: {
+      title: `Schedule and meet with ${expert.name} on meetxo.ai`,
+      description: `Check out ${expert.name, expert.username}, a top ${expert.profession_id?.title} expert on MeetXO. Book a session now!`,
+      images: [{
+        url: ogImageUrl,
+        width: 1200,
+        height: 627,
+        alt: `${expert.name}'s Profile Picture`,
+      }],
+    },
+  };
+}
 
 export default async function Page({ params }: {params: Params}) {
   const id = decodeURIComponent((await params).id);
