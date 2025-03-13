@@ -57,7 +57,7 @@ export const handlePayment = async (
 ) => {
   setIsProcessing(true);
 
-const multiplier = currencyMultipliers[currency.toUpperCase()] || 100;
+const multiplier = currencyMultipliers[currency] || 100;
 const Amount = Number(service.online_pricing) * multiplier;
 
   try {
