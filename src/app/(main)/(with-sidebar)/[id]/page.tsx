@@ -5,7 +5,7 @@ import { Hosts } from "@/services/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Metadata } from "next";
 // import { createCanvas, loadImage } from "canvas";
-import AWS from "aws-sdk";
+// import AWS from "aws-sdk";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import Link from "next/link";
