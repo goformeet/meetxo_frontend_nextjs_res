@@ -17,11 +17,11 @@ interface ApiSocialMediaLink {
 }
 
 
-const s3 = new AWS.S3({
-  accessKeyId: process.env.EAWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.EAWS_SECRET_ACCESS_KEY,
-  region: process.env.EAWS_REGION,
-});
+// const s3 = new AWS.S3({
+//   accessKeyId: process.env.EAWS_ACCESS_KEY_ID,
+//   secretAccessKey: process.env.EAWS_SECRET_ACCESS_KEY,
+//   region: process.env.EAWS_REGION,
+// });
 const socialMediaIcons = [
   {
     name: "Linkedin",
@@ -80,10 +80,10 @@ const socialMediaIcons = [
 //   }
 // }
 
-type Expert = {
-  profile_image: string;
-  username: string;
-}
+// type Expert = {
+//   profile_image: string;
+//   username: string;
+// }
 
 // async function generateOgImage(expert: Expert): Promise<Buffer> {
 //   const width = 1200;
@@ -132,7 +132,7 @@ export async function generateMetadata({ params }: {params: Params}): Promise<Me
 
   const expert = res.hosts.hosts[0];
   const ogKey = `og_images/${expert.username}.png`;
-  let ogImageUrl = `https://${process.env.EAWS_S3_BUCKET_NAME}.s3.${process.env.EAWS_REGION}.amazonaws.com/${ogKey}`;
+  const ogImageUrl = `https://${process.env.EAWS_S3_BUCKET_NAME}.s3.${process.env.EAWS_REGION}.amazonaws.com/${ogKey}`;
 
   // if (!(await checkIfImageExists(ogKey))) {
   //   const buffer = await generateOgImage(expert);
