@@ -12,6 +12,11 @@ export const normalizeUsername = (name: string): string => {
 export const getFallbackLetters = (name: string): string => {
   const parts = name.trim().split(/\s+/);
   return parts.length > 1 
-    ? (parts[0][0] + parts[1][0]).toUpperCase()
-    : parts[0][0].toUpperCase();
+    ? (parts[0][0] + parts[1][0])
+    : parts[0][0];
+
+
+    // return parts.length > 1 
+    // ? (parts[0][0] + parts[1][0]).toUpperCase()
+    // : parts[0][0].toUpperCase();
 };
